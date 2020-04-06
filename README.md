@@ -1,35 +1,93 @@
-<img src="https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png" style="margin: 0;">
+# UX
+## User stories:
+- I would like tips when choosing a new software
+- I want to know what kind of software other people are using for a specific use case
+- I have tried different software and would like to share my experiences
 
-Welcome USER_NAME,
+## Strategy
+A formum-type web page where users can post a goal/use case what they want to achieve with software. Other users can write answers and rate the given answer.
+Scope
+Besides posting a goal, users can select the preferred platform/OS, and state if they are willing to pay for software. The users have to enter a date as a deadline, in order to keep the forum up to date and relevant to current needs.
+Other users can add an answer, and/or rate other answers with a thumbs up/down system. The answers are sorted by popularity (according to the thumbs).
+The users can search for a topic, and sort the list according to creation date ascending or descending. In addition, there are filter options:
+- Platform
+- pay/free
+- Answers (yes/no)
+The page is fully responsive to work on a desktop or mobile
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. You can safely delete this README.md file, or change it for your own project.
+## Structure
+One central page (home page) with a list of the topics. The page displays max 30 topics at a time (pagination). The list is displayed as Accordion or Collapsible (Materialize)
+Database-structure:
+2 Collections:
+### 1. topics
+Goal (unique)			text
+Publish date			date
+OS_Windows			bool
+OS_Mac				bool
+OS_Linux				bool
+OS_iOS				bool
+OS_Android			bool
+OS_Other				bool
+free					bool
+paid					bool
+answers				number
+expirydate			date
 
-## Gitpod Reminders
+### 2. answers
+Topic
+Answer text
+Name
+Rating positive
+Rating negative
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+Cookie: To save filters, and to check if people rated a comment (prevent repeated waiting for the same comment)
 
-`python3 -m http.server`
+## Skeleton
+- wireframe
 
-A blue button should appear to click: *Make Public*,
+## Surface
+⦁	Minimalistic design
 
-Another blue button should appear to click: *Open Browser*.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+# Features
 
-A blue button should appear to click: *Make Public*,
+### Current Features
+⦁	Adding a topic
+⦁	Adding comments to a topic
+⦁	rating comments
+⦁	deadline of topics (delete topics after a certain time)
 
-Another blue button should appear to click: *Open Browser*.
+### Planned Features
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the backend lessons.
 
-## Updates Since The Instructional Video
+# Technologies used
+⦁	HTML
+⦁	CSS
+⦁	JavaScript
+⦁	Python
+⦁	Materialize
+⦁	(jQuery 3.4.1 (jQuery.com) to access DOM elements quicker, and react to user input)
+⦁	Google Fonts (fonts.google.com) for 2 fonts
+⦁	GitPod (gitpod.io) IDE
+⦁	GitHub (github.com) for sharing
+⦁	Git (for version control)
+⦁	MongoDB
+⦁	Heroku
 
-We continually tweak and adjust this template to help give you the best experience. Here are the updates since the original video was made:
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+# Testing
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+# Deployment
 
---------
+## Create a local repository
 
-Happy coding!
+## Deployment of project
+
+
+## Credits
+
+### Media
+The photos used are from pixabay.com.
+
+### Code
+Besides the Code Institute Walkthrough projects, I often consulted stackoverflow.com and w3schools.com for tips.
