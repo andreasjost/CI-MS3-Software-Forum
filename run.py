@@ -18,8 +18,14 @@ mongo = PyMongo(app)
 
 
 @app.route('/')
-def hello():
-    return 'Bonjour'
+@app.route('/get_topics')
+def get_topics():
+    return render_template("topics.html", topics=mongo.db.topics.find())
+
+
+@app.route('/add_topic')
+def add_task():
+    return render_template('addtopic.html')
 
 
 if __name__ == '__main__':
