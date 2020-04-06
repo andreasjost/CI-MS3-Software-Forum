@@ -1,4 +1,29 @@
 body {
-    background-color: green;
+    background-color: yellow;
     font-family: 'Catamaran', sans-serif;
+}
+
+/* --------------------------------------------------- headers */
+
+h1 {
+    font-weight: 600;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.row {
+    margin-bottom: 0;
+}
+
+.collapsible-header {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.collapsible-body {
+    padding: 0.5rem;
+}
+
+.btn {
+    border-radius: 10px;
 }
