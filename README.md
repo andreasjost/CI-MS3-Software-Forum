@@ -37,8 +37,10 @@ expirydate			date
 Topic
 Answer text
 Name
+Link
 Rating positive
 Rating negative
+Creation date (perhaps for future use)
 
 Cookie: To save filters, and to check if people rated a comment (prevent repeated waiting for the same comment)
 
