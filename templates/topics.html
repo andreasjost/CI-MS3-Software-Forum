@@ -8,13 +8,13 @@
 <!-- table header -->
 <div class="row">
 
-	<div class="col s6">
-		Goal
+	<div class="col s5">
+		Title
 	</div>
 	<div class="col s2">
 		Date published
 	</div>
-	<div class="col s1">
+	<div class="col s2">
 		Platform
 	</div>
 	<div class="col s1">
@@ -35,14 +35,32 @@
 		<li>
 			<div class="collapsible-header">
 
-				<div class="col s6">
-					{{topic.goal}}
+				<div class="col s5">
+					{{topic.title}}
 				</div>
 				<div class="col s2">
 					Date published
 				</div>
-				<div class="col s1">
-					Platform
+				<div class="col s2">
+                    {% if topic.os_windows %}
+                        <i class="fab fa-windows"></i>
+                    {% endif %}
+                    {% if topic.os_mac %}
+                        <i class="fab fa-apple"></i>
+                    {% endif %}
+                    {% if topic.os_linux %}
+                        <i class="fab fa-linux"></i>
+                    {% endif %}
+                    {% if topic.os_android %}
+                        <i class="material-icons">android</i>
+                    {% endif %}
+                    {% if topic.os_iOS %}
+                        iOS
+                    {% endif %}
+                    {% if topic.os_other %}
+                        other
+                    {% endif %}
+
 				</div>
 				<div class="col s1">
 					Cost
@@ -57,9 +75,18 @@
 
 			</div>
 			<div class="collapsible-body">
+                <div class="row">
+                    <div class="col s11">
+                        {{topic.details}}
+                    </div>
+                    <div class="col s1">
+                        <i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i>
 
+                    </div>
+                </div>
+                <hr>
 				{% for answer in answers %}
-				{% if answer.topic == topic.goal %}
+				{% if answer.topic == topic.title %}
 				<div class="row">
 					<div class="col s10">
 						{{answer.text}}
@@ -68,11 +95,11 @@
 					</div>
 
 						<div class="col s1">
-							<i class="material-icons">thumb_up</i>
+							<i class="fas fa-thumbs-up"></i>
 							{{answer.rating_pos}}
 						</div>
 						<div class="col s1">
-							<i class="material-icons">thumb_down</i>
+							<i class="fas fa-thumbs-down"></i>
 							{{answer.rating_neg}}
 						</div>
 					</div>
@@ -90,11 +117,6 @@
 		</li>
 		{% endfor %}
 	</ul>
-</div>
-
-<div class="row">
-	<button class="btn" name="action"><i class="material-icons">add</i>               
-                    </button>
 </div>
 
 {% endblock %}
