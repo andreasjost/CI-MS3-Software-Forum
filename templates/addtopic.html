@@ -23,33 +23,33 @@
             </div>
 			<div class="col s12 m6">
 				<label>
-                    <input type="checkbox" class="filled-in" name="os_windows" value="true"/>
+                    <input type="checkbox" class="filled-in" name="os" value="Windows"/>
                     <span><i class="fab fa-windows"></i> Windows</span>
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" class="filled-in" name="os_macos" value="true"/>
+                    <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
                     <span><i class="fab fa-apple"></i> MacOS</span>
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" class="filled-in" name="os_linux" value="true"/>
+                    <input type="checkbox" class="filled-in" name="os" value="Linux"/>
                     <span><i class="fab fa-linux"></i> Linux</span>
                 </label>
 			</div>
             <div class="col s12 m6">
                 <label>
-                    <input type="checkbox" class="filled-in" name="os_android" value="true"/>
-                    <span><i class="material-icons">phone_android</i> Android</span>
+                    <input type="checkbox" class="filled-in" name="os" value="Android"/>
+                    <span><i class="material-icons">android</i> Android</span>
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" class="filled-in" name="os_ios" value="true"/>
+                    <input type="checkbox" class="filled-in" name="os" value="iOS"/>
                     <span><i class="material-icons">phone_iphone</i> iOS</span>
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" class="filled-in" name="os_other" value="true"/>
+                    <input type="checkbox" class="filled-in" name="os" value="Other"/>
                     <span><i class="material-icons">computer</i> Other</span>
                 </label>
 				
@@ -61,16 +61,20 @@
                 Are you looking for a free or paid app? Select one, or both options:
             </div>
 			<div class="col s12">
-				<label>
-                    <input type="checkbox" class="filled-in" name="free" value="true"/>
-                    <span><i class="material-icons">money_off</i> Free</span>
+                <label>
+                    <input type="radio" name="cost" value="Any"/>
+                    <span>All</span>
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" class="filled-in" name="paid" value="true"/>
-                    <span><i class="material-icons">attach_money</i> Paid</span>
+                    <input type="radio" name="cost" value="Free"/>
+                    <span>Free</span>
                 </label>
                 <br>
+                <label>
+                    <input type="radio" name="cost" value="Paid"/>
+                    <span>Paid</span>
+                </label>
 			</div>
         </div>
 

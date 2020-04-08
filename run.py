@@ -32,9 +32,24 @@ def add_topic():
 
 @app.route('/insert_topic', methods=['POST'])
 def insert_topic():
+    received_dict = request.form.to_dict()
+    received_dict.update({'os': request.form.getlist('os')})
     topics = mongo.db.topics
-    topics.insert_one(request.form.to_dict())
-    print(request.form.to_dict())
+    topics.insert_one(received_dict)
+    return redirect(url_for('get_topics'))
+
+
+@app.route('/edit_topic/<topic_id>')
+def edit_topic(topic_id):
+    the_task =  mongo.db.topics.find_one({"_id": ObjectId(topic_id)})
+    all_categories =  mongo.db.categories.find()
+    return render_template('edittopic.html', task=the_task,
+                           categories=all_categories)
+
+
+@app.route('/delete_topic/<topic_id>')
+def delete_topic(topic_id):
+    mongo.db.topics.remove({'_id': ObjectId(topic_id)})
     return redirect(url_for('get_topics'))
 
 

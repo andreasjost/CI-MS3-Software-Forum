@@ -42,31 +42,19 @@
 					Date published
 				</div>
 				<div class="col s2">
-                    {% if topic.os_windows %}
-                        <i class="fab fa-windows"></i>
-                    {% endif %}
-                    {% if topic.os_mac %}
-                        <i class="fab fa-apple"></i>
-                    {% endif %}
-                    {% if topic.os_linux %}
-                        <i class="fab fa-linux"></i>
-                    {% endif %}
-                    {% if topic.os_android %}
-                        <i class="material-icons">android</i>
-                    {% endif %}
-                    {% if topic.os_iOS %}
-                        iOS
-                    {% endif %}
-                    {% if topic.os_other %}
-                        other
-                    {% endif %}
+                    {% for getos in topic.os %}
+                        {{ getos }}
+                        {% if not loop.last %}
+                            , 
+                        {% endif %}
+                    {% endfor %}
 
 				</div>
 				<div class="col s1">
-					Cost
+					{{topic.cost}}
 				</div>
 				<div class="col s1">
-					{{topic.answers}}
+					{{ topic.answers }}
 				</div>
 				<div class="col s1">
 					<i class="material-icons">expand_more</i>
@@ -80,8 +68,8 @@
                         {{topic.details}}
                     </div>
                     <div class="col s1">
-                        <i class="fas fa-edit"></i> <i class="fas fa-trash-alt"></i>
-
+                        <a href="{{url_for('delete_topic', topic_id=topic._id)}}"><i class="fas fa-trash-alt"></i></a>
+                        <a href="{{url_for('edit_topic', topic_id=topic._id)}}"><i class="fas fa-edit"></i></a>
                     </div>
                 </div>
                 <hr>
