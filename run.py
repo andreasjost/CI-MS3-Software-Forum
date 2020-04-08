@@ -41,10 +41,22 @@ def insert_topic():
 
 @app.route('/edit_topic/<topic_id>')
 def edit_topic(topic_id):
-    the_task =  mongo.db.topics.find_one({"_id": ObjectId(topic_id)})
-    all_categories =  mongo.db.categories.find()
-    return render_template('edittopic.html', task=the_task,
-                           categories=all_categories)
+    active_topic = mongo.db.topics.find_one({"_id": ObjectId(topic_id)})
+    return render_template('edittopic.html', topic=active_topic)
+
+
+@app.route('/update_topic/<topic_id>', methods=["POST"])
+def update_topic(topic_id):
+    topics = mongo.db.topics
+    topics.update({'_id': ObjectId(topic_id)},
+    {
+        'title': request.form.get('title'),
+        'details': request.form.get('details'),
+        'os': request.form.getlist('os'),
+        'cost': request.form.get('cost'),
+        'is_urgent': request.form.get('is_urgent')
+    })
+    return redirect(url_for('get_topics'))
 
 
 @app.route('/delete_topic/<topic_id>')
