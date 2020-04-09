@@ -5,7 +5,9 @@ body {
 
 /* --------------------------------------------------- box special */
 
-
+.right-align {
+    text-align: right;
+}
 
 /* --------------------------------------------------- headers */
 
@@ -35,4 +37,22 @@ h4 {
 
 .btn {
     border-radius: 10px;
+}
+
+/* --------------------------------------------------- topics */
+
+#comment-form {
+    display: none;
+    height: 0px;
+    background-color: lightblue;
+}
+
+#cancel-comment {
+    display: none;
+    float: left;
+}
+
+#submit-comment {
+    display: none;
+    float: right;
 }
