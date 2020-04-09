@@ -65,6 +65,15 @@ def delete_topic(topic_id):
     return redirect(url_for('get_topics'))
 
 
+@app.route('/insert_comment/<topic_title>', methods=['POST'])
+def insert_comment(topic_title):
+    received_dict = request.form.to_dict()
+    received_dict.update({'topic_title': topic_title})
+    comments = mongo.db.answers
+    comments.insert_one(received_dict)
+    return redirect(url_for('get_topics'))
+
+
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
         port=int(os.environ.get('PORT')),
