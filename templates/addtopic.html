@@ -2,67 +2,74 @@
 
 {% extends 'base.html'%}
 {% block content %}
+<h2>Add new topic</h2>
 
 <div class="row">
 	<form action="{{ url_for('insert_topic') }}" method="POST" class="col s12">
 		<div class="row">
 			<div class="input-field col s12">
-                <input id="title" type="text" class="validate" name="title">
-                <label for="title">Title</label>	
+				<input id="title" type="text" class="validate" name="title">
+				<label for="title">Title</label>
 			</div>
 		</div>
-        <div class="row">
+		<div class="row">
 			<div class="input-field col s12">
-                <input id="description" type="text" class="validate" name="details">
-                <label for="description">Detail description what you want to achieve</label>	
+				<input id="description" type="text" class="validate" name="details">
+				<label for="description">Detail description what you want to achieve</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="author" type="text" class="validate" name="author">
+				<label for="author">your name</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col s12 m6">
-                <h4>Select one or more platforms</h4>
+				<h4>Select one or more platforms</h4>
 				<label>
                     <input type="checkbox" class="filled-in" name="os" value="Windows"/>
                     <span><i class="fab fa-windows"></i> Windows</span>
                 </label>
-                <br>
-                <label>
+				<br>
+				<label>
                     <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
                     <span><i class="fab fa-apple"></i> MacOS</span>
                 </label>
-                <br>
-                <label>
+				<br>
+				<label>
                     <input type="checkbox" class="filled-in" name="os" value="Linux"/>
                     <span><i class="fab fa-linux"></i> Linux</span>
                 </label>
-                <br>
-                <label>
+				<br>
+				<label>
                     <input type="checkbox" class="filled-in" name="os" value="Android"/>
                     <span><i class="material-icons">android</i> Android</span>
                 </label>
-                <br>
-                <label>
+				<br>
+				<label>
                     <input type="checkbox" class="filled-in" name="os" value="iOS"/>
                     <span><i class="material-icons">phone_iphone</i> iOS</span>
                 </label>
-                <br>
-                <label>
+				<br>
+				<label>
                     <input type="checkbox" class="filled-in" name="os" value="Other"/>
                     <span><i class="material-icons">computer</i> Other</span>
                 </label>
 			</div>
-            <div class="col s12 m6">
-                <h4>Purchase or subscription costs </h4>
-                <label>
-                    <input type="radio" name="cost" value="Any" checked/>
-                    <span>All</span>
+			<div class="col s12 m6">
+				<h4>Purchase or subscription costs </h4>
+				<label>
+                    <input type="radio" name="cost" value="Any" checked>
+                    <span>Any</span>
                 </label>
-                <br>
-                <label>
+				<br>
+				<label>
                     <input type="radio" name="cost" value="Free"/>
                     <span>Free</span>
                 </label>
-                <br>
-                <label>
+				<br>
+				<label>
                     <input type="radio" name="cost" value="Paid"/>
                     <span>Paid</span>
                 </label>

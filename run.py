@@ -52,6 +52,7 @@ def update_topic(topic_id):
     {
         'title': request.form.get('title'),
         'details': request.form.get('details'),
+        'author': request.form.get('author'),
         'os': request.form.getlist('os'),
         'cost': request.form.get('cost'),
         'is_urgent': request.form.get('is_urgent')
