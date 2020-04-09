@@ -33,7 +33,6 @@
 		{% for topic in topics %}
 		<li>
 			<div class="collapsible-header">
-
 				<div class="col s5">
 					<p>{{ topic.title }}</p>
                     <p class="right-align">{{ topic.author }}</p>
@@ -43,10 +42,10 @@
 				</div>
 				<div class="col s2">
 					{% for getos in topic.os %}
-					{{ getos }}
-					{% if not loop.last %}
-					,
-					{% endif %}
+					    {{ getos }}
+					    {% if not loop.last %}
+					        ,
+					    {% endif %}
 					{% endfor %}
 				</div>
 				<div class="col s1">
@@ -70,37 +69,39 @@
 					</div>
 				</div>
 				<hr>
-				{% for answer in answers %}
-				{% if answer.topic_title == topic.title %}
-				<div class="row">
-					<div class="col s10">
-						<p>{{ answer.comment_text }}</p>
-						<p class="right-align">{{ answer.comment_name }}</p>
-					</div>
 
-					<div class="col s1">
-						<i class="fas fa-thumbs-up"></i>
-						{{answer.rating_pos}}
-					</div>
-					<div class="col s1">
-						<i class="fas fa-thumbs-down"></i>
-						{{answer.rating_neg}}
-					</div>
-				</div>
-				<hr>
-				{% endif %}
+                <!-- Display the answer(s) to the corresponding topic -->
+				{% for answer in answers %}
+				    {% if answer.topic_title == topic.title %}
+				        <div class="row">
+					    <div class="col s10">
+						    <p>{{ answer.comment_text }}</p>
+						    <p class="right-align">{{ answer.comment_name }}</p>
+					    </div>
+					    <div class="col s1">
+						    <i class="fas fa-thumbs-up"></i>
+						    {{ answer.rating_pos }}
+					    </div>
+					    <div class="col s1">
+						    <i class="fas fa-thumbs-down"></i>
+						    {{ answer.rating_neg }}
+					    </div>
+				    </div>
+				    <hr>
+				    {% endif %}
 				{% endfor %}
 
+                <!-- Input form for comments/answers -->
                 <form action="{{ url_for('insert_comment', topic_title=topic.title) }}" method="POST">
 					<div class="comment-form">
 						<div class="row">
 							<div class="input-field col s12">
-								<input id="comment_text" type="text" class="validate" name="comment_text">
-								<label for="comment_text">Write your comment here</label>
+                                Write your comment here
+								<input type="text" class="validate" name="comment_text">
 							</div>
 							<div class="input-field col s12">
-								<input id="comment_name" type="text" class="validate" name="comment_name">
-								<label for="comment_name">Your name (will be displayed below the comment)</label>
+                                Your name (will be displayed below the comment)
+								<input type="text" class="validate" name="comment_name">
 							</div>
 						</div>
 					</div>

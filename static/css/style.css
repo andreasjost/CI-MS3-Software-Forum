@@ -41,18 +41,18 @@ h4 {
 
 /* --------------------------------------------------- topics */
 
-#comment-form {
+.comment-form {
     display: none;
     height: 0px;
     background-color: lightblue;
 }
 
-#cancel-comment {
+.cancel-comment {
     display: none;
     float: left;
 }
 
-#submit-comment {
+.submit-comment {
     display: none;
     float: right;
 }

@@ -54,8 +54,7 @@ def update_topic(topic_id):
         'details': request.form.get('details'),
         'author': request.form.get('author'),
         'os': request.form.getlist('os'),
-        'cost': request.form.get('cost'),
-        'is_urgent': request.form.get('is_urgent')
+        'cost': request.form.get('cost')
     })
     return redirect(url_for('get_topics'))
 

@@ -20,27 +20,21 @@ One central page (home page) with a list of the topics. The page displays max 30
 Database-structure:
 2 Collections:
 ### 1. topics
-Goal (unique)			text
-Publish date			date
-OS_Windows			bool
-OS_Mac				bool
-OS_Linux				bool
-OS_iOS				bool
-OS_Android			bool
-OS_Other				bool
-free					bool
-paid					bool
-answers				number
-expirydate			date
+- Title (unique) --> string
+- details --> string
+- author --> string
+- Publish date --> date
+- OS --> array (min. 1, max all, from this items: Windows, MacOS, Linux, iOS, Android, Other)
+- cost --> string (Any, Free, Paid)
+- answers --> number
 
 ### 2. answers
-Topic
-Answer text
-Name
-Link
-Rating positive
-Rating negative
-Creation date (perhaps for future use)
+- Topic or topic _id
+- Answer -- text
+- Name -- text
+- Rating positive -- number
+- Rating negative -- number
+- Creation date (perhaps for future use)
 
 Cookie: To save filters, and to check if people rated a comment (prevent repeated waiting for the same comment)
 
@@ -67,9 +61,12 @@ Cookie: To save filters, and to check if people rated a comment (prevent repeate
 ⦁	CSS
 ⦁	JavaScript
 ⦁	Python
+- pymongo
+- flask
 ⦁	Materialize
 ⦁	(jQuery 3.4.1 (jQuery.com) to access DOM elements quicker, and react to user input)
 ⦁	Google Fonts (fonts.google.com) for 2 fonts
+- fontawesome
 ⦁	GitPod (gitpod.io) IDE
 ⦁	GitHub (github.com) for sharing
 ⦁	Git (for version control)
