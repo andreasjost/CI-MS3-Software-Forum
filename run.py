@@ -48,8 +48,7 @@ def edit_topic(topic_id):
 @app.route('/update_topic/<topic_id>', methods=["POST"])
 def update_topic(topic_id):
     topics = mongo.db.topics
-    topics.update({'_id': ObjectId(topic_id)},
-    {
+    topics.update({'_id': ObjectId(topic_id)}, {
         'title': request.form.get('title'),
         'details': request.form.get('details'),
         'author': request.form.get('author'),
@@ -68,17 +67,31 @@ def delete_topic(topic_id):
 @app.route('/insert_comment/<topic_id>', methods=['POST'])
 def insert_comment(topic_id):
     topics = mongo.db.topics
-    one_object = {'comment_text': request.form.get('comment_text'),
-    'comment_author': request.form.get('comment_author'),
-    'comment_text': request.form.get('comment_text'),
-    'comment_pos': 0,
-    'comment_neg': 0}
-    topics.update({'_id': ObjectId(topic_id)},
-        {'$push': {'comments': one_object}})
+    one_object = {
+        'comment_text': request.form.get('comment_text'),
+        'comment_author': request.form.get('comment_author'),
+        'comment_pos': 0,
+        'comment_neg': 0
+    }
+    topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
+    return redirect(url_for('get_topics'))
+
+
+@app.route('/rate_pos/<topic_id>/<int:index>')
+def rate_pos(topic_id, index):
+    print(topic_id, index)
+    
+    return redirect(url_for('get_topics'))
+
+
+@app.route('/rate_neg/<topic_id>/<int:index>')
+def rate_neg(topic_id, index):
+    print(topic_id, index)
+    
     return redirect(url_for('get_topics'))
 
 
 if __name__ == '__main__':
-    app.run(host = os.environ.get('IP'),
-        port = int(os.environ.get('PORT')),
+    app.run(host=os.environ.get('IP'),
+        port=int(os.environ.get('PORT')),
         debug=True)

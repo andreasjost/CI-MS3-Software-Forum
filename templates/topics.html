@@ -79,11 +79,11 @@
 						    <p class="right-align">{{ object.comment_author }}</p>
 					    </div>
 					    <div class="col s1">
-						    <i class="fas fa-thumbs-up"></i>
+                            <a href="{{ url_for('rate_pos', topic_id=topic._id, index=loop.index) }}"><i class="fas fa-thumbs-up"></i></a>
 						    {{ object.comment_pos }}
 					    </div>
 					    <div class="col s1">
-						    <i class="fas fa-thumbs-down"></i>
+                        <a href="{{ url_for('rate_neg', topic_id=topic._id, index=loop.index) }}"><i class="fas fa-thumbs-down"></i></a>
 						    {{ object.comment_neg }}
 					    </div>
 				    </div>
