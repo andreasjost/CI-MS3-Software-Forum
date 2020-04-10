@@ -65,16 +65,20 @@ def delete_topic(topic_id):
     return redirect(url_for('get_topics'))
 
 
-@app.route('/insert_comment/<topic_title>', methods=['POST'])
-def insert_comment(topic_title):
-    received_dict = request.form.to_dict()
-    received_dict.update({'topic_title': topic_title})
-    comments = mongo.db.answers
-    comments.insert_one(received_dict)
+@app.route('/insert_comment/<topic_id>', methods=['POST'])
+def insert_comment(topic_id):
+    topics = mongo.db.topics
+    one_object = {'comment_text': request.form.get('comment_text'),
+    'comment_author': request.form.get('comment_author'),
+    'comment_text': request.form.get('comment_text'),
+    'comment_pos': 0,
+    'comment_neg': 0}
+    topics.update({'_id': ObjectId(topic_id)},
+        {'$push': {'comments': one_object}})
     return redirect(url_for('get_topics'))
 
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-        port=int(os.environ.get('PORT')),
+    app.run(host = os.environ.get('IP'),
+        port = int(os.environ.get('PORT')),
         debug=True)
