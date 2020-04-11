@@ -21,8 +21,7 @@ mongo = PyMongo(app)
 @app.route('/get_topics')
 def get_topics():
     return render_template("topics.html",
-        topics=mongo.db.topics.find(),
-        answers=mongo.db.answers.find())
+        topics=mongo.db.topics.find())
 
 
 @app.route('/add_topic')
@@ -79,14 +78,39 @@ def insert_comment(topic_id):
 
 @app.route('/rate_pos/<topic_id>/<int:index>')
 def rate_pos(topic_id, index):
-    print(topic_id, index)
-    
+    topics = mongo.db.topics
+    topic = topics.find_one({'_id': ObjectId(topic_id)})
+    comment = topic['comments'][index-1]
+    thumbs_up = comment['comment_pos']
+    thumbs_down = comment['comment_neg']
+
+    thumbs_up += 1
+
+    pos_field = 'comments.' + str(index-1) + '.comment_pos'
+    pop_field = 'comments.' + str(index-1) + '.popularity'
+    topics.update_one({'_id': ObjectId(topic_id)}, {
+        '$set': {pos_field: thumbs_up, pop_field: thumbs_up - thumbs_down}
+    })
+
+
     return redirect(url_for('get_topics'))
 
 
 @app.route('/rate_neg/<topic_id>/<int:index>')
 def rate_neg(topic_id, index):
-    print(topic_id, index)
+    topics = mongo.db.topics
+    topic = topics.find_one({'_id': ObjectId(topic_id)})
+    comment = topic['comments'][index-1]
+    thumbs_up = comment['comment_pos']
+    thumbs_down = comment['comment_neg']
+
+    thumbs_down += 1
+
+    neg_field = 'comments.' + str(index-1) + '.comment_neg'
+    pop_field = 'comments.' + str(index-1) + '.popularity'
+    topics.update_one({'_id': ObjectId(topic_id)}, {
+        '$set': {neg_field: thumbs_down, pop_field: thumbs_up - thumbs_down}
+    })
     
     return redirect(url_for('get_topics'))
 
