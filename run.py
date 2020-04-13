@@ -19,9 +19,10 @@ mongo = PyMongo(app)
 
 @app.route('/')
 @app.route('/get_topics')
-def get_topics():
+def get_topics():  
     return render_template("topics.html",
         topics=mongo.db.topics.find())
+    
 
 
 @app.route('/add_topic')
@@ -70,7 +71,8 @@ def insert_comment(topic_id):
         'comment_text': request.form.get('comment_text'),
         'comment_author': request.form.get('comment_author'),
         'comment_pos': 0,
-        'comment_neg': 0
+        'comment_neg': 0,
+        'popularity': 0
     }
     topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
     return redirect(url_for('get_topics'))
@@ -78,41 +80,35 @@ def insert_comment(topic_id):
 
 @app.route('/rate_pos/<topic_id>/<int:index>')
 def rate_pos(topic_id, index):
-    topics = mongo.db.topics
-    topic = topics.find_one({'_id': ObjectId(topic_id)})
-    comment = topic['comments'][index-1]
-    thumbs_up = comment['comment_pos']
-    thumbs_down = comment['comment_neg']
-
-    thumbs_up += 1
-
-    pos_field = 'comments.' + str(index-1) + '.comment_pos'
-    pop_field = 'comments.' + str(index-1) + '.popularity'
-    topics.update_one({'_id': ObjectId(topic_id)}, {
-        '$set': {pos_field: thumbs_up, pop_field: thumbs_up - thumbs_down}
-    })
-
-
+    comment_rating(topic_id, index, 1, 0)
     return redirect(url_for('get_topics'))
 
 
 @app.route('/rate_neg/<topic_id>/<int:index>')
 def rate_neg(topic_id, index):
+    comment_rating(topic_id, index, 0, 1)
+    return redirect(url_for('get_topics'))
+
+
+def comment_rating(topic_id, index, positive, negative):
     topics = mongo.db.topics
     topic = topics.find_one({'_id': ObjectId(topic_id)})
-    comment = topic['comments'][index-1]
-    thumbs_up = comment['comment_pos']
-    thumbs_down = comment['comment_neg']
-
-    thumbs_down += 1
-
-    neg_field = 'comments.' + str(index-1) + '.comment_neg'
-    pop_field = 'comments.' + str(index-1) + '.popularity'
+    all_comments = topic['comments']
+    thumbs_up = all_comments[index-1]['comment_pos']
+    thumbs_down = all_comments[index-1]['comment_neg']
+    thumbs_up += positive
+    thumbs_down += negative
+    all_comments[index-1]['comment_pos'] = thumbs_up
+    all_comments[index-1]['comment_neg'] = thumbs_down
+    all_comments[index-1]['popularity'] = thumbs_up - thumbs_down
+    all_comments.sort(reverse=True, key=get_key)
     topics.update_one({'_id': ObjectId(topic_id)}, {
-        '$set': {neg_field: thumbs_down, pop_field: thumbs_up - thumbs_down}
+        '$set': {'comments': all_comments}
     })
-    
-    return redirect(url_for('get_topics'))
+
+
+def get_key(e):
+    return e['popularity']
 
 
 if __name__ == '__main__':
