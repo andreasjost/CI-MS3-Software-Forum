@@ -18,60 +18,65 @@ The page is fully responsive to work on a desktop or mobile
 ## Structure
 One central page (home page) with a list of the topics. The page displays max 30 topics at a time (pagination). The list is displayed as Accordion or Collapsible (Materialize)
 Database-structure:
-2 Collections:
-### 1. topics
-- Title (unique) --> string
-- details --> string
-- author --> string
-- Publish date --> date
-- OS --> array (min. 1, max all, from this items: Windows, MacOS, Linux, iOS, Android, Other)
-- cost --> string (Any, Free, Paid)
-- answers --> number
 
-### 2. answers
-- Topic or topic _id
-- Answer -- text
-- Name -- text
-- Rating positive -- number
-- Rating negative -- number
-- Creation date (perhaps for future use)
+### MongoDB collection
+- Title (unique): string
+- details: string
+- author: string
+- Publish date: date (timestamp when creating)
+- OS: array (min. 1, max all, from this items: Windows, MacOS, Linux, iOS, Android, Other)
+- cost: string (Any, Free, Paid)
+- comments: array, adding a new object when creating a new comment containing the following keys:
+    - comment_text: string
+    - comment_author: string
+    - comment_pos: int (number of thumbs-up)
+    - comment_neg: int (number of thumbs-down)
+    - popularity: int (thumbs-up minus thumbs-down: Used to sort comments according to popularity)
 
 Cookie: To save filters, and to check if people rated a comment (prevent repeated waiting for the same comment)
 
 ## Skeleton
-- wireframe
+(wireframe)
 
 ## Surface
-⦁	Minimalistic design
+(Minimalistic design)
 
 
 # Features
 
 ### Current Features
-⦁	Adding a topic
-⦁	Adding comments to a topic
-⦁	rating comments
-⦁	deadline of topics (delete topics after a certain time)
+- Adding, edditing and deleting a topic
+- sorting topics accoring to:
+    - date (ascending and descending)
+    - Platform
+    - cost
+    - Answered / unanswered
+- Searching for a topic according to the title
+- Fulltext search of title, details and comments
+- Adding comments to a topic
+- rating comments
+    - automatically sorting comments according to their popularity
+
 
 ### Planned Features
-
+- User authentication
 
 # Technologies used
-⦁	HTML
-⦁	CSS
-⦁	JavaScript
-⦁	Python
+- HTML
+- CSS
+- JavaScript
+- Python
 - pymongo
 - flask
-⦁	Materialize
-⦁	(jQuery 3.4.1 (jQuery.com) to access DOM elements quicker, and react to user input)
-⦁	Google Fonts (fonts.google.com) for 2 fonts
+- Materialize
+- (jQuery 3.4.1 (jQuery.com) to access DOM elements quicker, and react to user input)
+- Google Fonts (fonts.google.com) for 2 fonts
 - fontawesome
-⦁	GitPod (gitpod.io) IDE
-⦁	GitHub (github.com) for sharing
-⦁	Git (for version control)
-⦁	MongoDB
-⦁	Heroku
+- GitPod (gitpod.io) IDE
+- GitHub (github.com) for sharing
+- Git (for version control)
+- MongoDB
+- Heroku
 
 
 # Testing
@@ -89,4 +94,7 @@ Cookie: To save filters, and to check if people rated a comment (prevent repeate
 The photos used are from pixabay.com.
 
 ### Code
-Besides the Code Institute Walkthrough projects, I often consulted stackoverflow.com and w3schools.com for tips.
+Besides the Code Institute Walkthrough projects, I often consulted the following sites:
+- stackoverflow.com (for many general issues)
+- w3schools.com (mainly to refresh python syntax)
+- mongodb documentation, mainly: https://docs.mongodb.com/manual/tutorial/query-array-of-documents/ in order to work with arrays
