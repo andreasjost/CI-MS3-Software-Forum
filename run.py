@@ -1,4 +1,5 @@
 import os
+import datetime
 from flask import Flask, render_template, redirect, request, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -20,9 +21,7 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/get_topics')
 def get_topics():  
-    return render_template("topics.html",
-        topics=mongo.db.topics.find())
-    
+    return render_template("topics.html", topics=mongo.db.topics.find())
 
 
 @app.route('/add_topic')
@@ -34,6 +33,7 @@ def add_topic():
 def insert_topic():
     received_dict = request.form.to_dict()
     received_dict.update({'os': request.form.getlist('os')})
+    received_dict['publish_date'] = datetime.datetime.utcnow()
     topics = mongo.db.topics
     topics.insert_one(received_dict)
     return redirect(url_for('get_topics'))

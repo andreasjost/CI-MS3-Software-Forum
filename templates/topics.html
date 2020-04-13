@@ -38,7 +38,7 @@
                     <p class="right-align">{{ topic.author }}</p>
 				</div>
 				<div class="col s2">
-					Date published
+                    {{ topic.publish_date.strftime('%d-%m-%Y') }}
 				</div>
 				<div class="col s2">
 					{% for getos in topic.os %}
@@ -52,7 +52,7 @@
 					{{topic.cost}}
 				</div>
 				<div class="col s1">
-					{{ topic.answers }}
+					{{ topic.comments|length }}
 				</div>
 				<div class="col s1">
 					<i class="material-icons">expand_more</i>
@@ -134,17 +134,6 @@
         $(".cancel-comment, .submit-comment").hide();
         $(".add-comment").show();
     });
-    $('.collapsible').click(function() {
-        
-        
-
-
-
-
-
-
-    });
-
 
 </script>
 
