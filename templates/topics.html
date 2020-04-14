@@ -39,6 +39,7 @@
 				</div>
 				<div class="col s2">
                     {{ topic.publish_date.strftime('%d-%m-%Y') }}
+					
 				</div>
 				<div class="col s2">
 					{% for getos in topic.os %}
@@ -79,12 +80,12 @@
 						    <p class="right-align">{{ object.comment_author }}</p>
 					    </div>
 					    <div class="col s1">
-                            <a href="{{ url_for('rate_pos', topic_id=topic._id, index=loop.index) }}"><i class="fas fa-thumbs-up"></i></a>
-						    {{ object.comment_pos }}
+                            <button class="btn thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></button>
+                            <p>{{ object.comment_pos }}</p>
 					    </div>
 					    <div class="col s1">
-                        <a href="{{ url_for('rate_neg', topic_id=topic._id, index=loop.index) }}"><i class="fas fa-thumbs-down"></i></a>
-						    {{ object.comment_neg }}
+                            <button class="btn thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></button>
+                            <p>{{ object.comment_neg }}</p>
 					    </div>
 				    </div>
                     <hr>
@@ -123,6 +124,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
+$(document).ready(function() {
 	// Add commenting functionality
     $(".add-comment").click(function(){
         $(".comment-form").animate({height: "200px"});
@@ -135,6 +137,39 @@
         $(".add-comment").show();
     });
 
+    // Add rating functionality (thumbs up/down)
+    $(".thumb-up").on('click', function(){
+        urlTemplate = "{{ url_for('rate_pos', topic_id='v1', index='v2') }}";
+        urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
+        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index')); 
+        thumbsCountDisplay = $(this).next();
+        
+        req = $.ajax(baseUrl)
+
+        req.done(function(data){
+            let result = JSON.parse(req.responseText)
+            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
+        });
+
+    });
+     $(".thumb-down").on('click', function(){
+        urlTemplate = "{{ url_for('rate_neg', topic_id='v1', index='v2') }}";
+        urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
+        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index')); 
+        thumbsCountDisplay = $(this).next();
+        
+        req = $.ajax(baseUrl)
+
+        req.done(function(data){
+            let result = JSON.parse(req.responseText)
+            
+            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
+        })
+        
+    });
+
+
+})
 </script>
 
 {% endblock %}

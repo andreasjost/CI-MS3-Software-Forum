@@ -1,6 +1,6 @@
 import os
 import datetime
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, jsonify
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -78,16 +78,15 @@ def insert_comment(topic_id):
     return redirect(url_for('get_topics'))
 
 
-@app.route('/rate_pos/<topic_id>/<int:index>')
+@app.route('/rate_pos/<topic_id>/<index>')
 def rate_pos(topic_id, index):
-    comment_rating(topic_id, index, 1, 0)
-    return redirect(url_for('get_topics'))
+    thumbs_number = comment_rating(topic_id, int(index), 1, 0)
+    return jsonify({'totalThumbs': thumbs_number})
 
-
-@app.route('/rate_neg/<topic_id>/<int:index>')
+@app.route('/rate_neg/<topic_id>/<index>')
 def rate_neg(topic_id, index):
-    comment_rating(topic_id, index, 0, 1)
-    return redirect(url_for('get_topics'))
+    thumbs_number = comment_rating(topic_id, int(index), 0, 1)
+    return jsonify({'totalThumbs': thumbs_number})
 
 
 def comment_rating(topic_id, index, positive, negative):
@@ -105,6 +104,10 @@ def comment_rating(topic_id, index, positive, negative):
     topics.update_one({'_id': ObjectId(topic_id)}, {
         '$set': {'comments': all_comments}
     })
+    if positive == 1:
+        return thumbs_up
+    else:
+        return thumbs_down
 
 
 def get_key(e):
