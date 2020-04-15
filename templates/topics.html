@@ -6,27 +6,72 @@
 <h1>Choose the best software for your purpose</h1>
 
 <!-- table header -->
-<div class="row">
-
-	<div class="col s5">
-		Title
+<form action="{{ url_for('filter_topics') }}" method="POST" id="filterform">
+	<div class="row">
+		<div class="col s5">
+			<p>Title</p>
+			<div class="input-field">
+				<input placeholder="Search" type="search" class="validate">
+            </div>
+				<div id="search-options">
+					<label>
+                <input type="checkbox" class="filled-in" name="search-where" value="titles"/>
+                <span>Titles</span>
+            </label>
+					<label>
+                <input type="checkbox" class="filled-in" name="search-where" value="details"/>
+                <span>Details</span>
+            </label>
+					<label>
+                <input type="checkbox" class="filled-in" name="search-where" value="comments"/>
+                <span>Comments</span>
+            </label>
+				</div>
+			</div>
+			<div class="col s2">
+				<p>Date published</p>
+				<div class="input-field">
+					<select>
+                <option value="asc" selected>Ascending</option>
+                <option value="dsc">Descending</option>
+            </select>
+				</div>
+			</div>
+			<div class="col s2">
+				<p>Platform</p>
+				<div class="input-field">
+					<select multiple id="testest">
+                <option value="Windows" selected>Windows</option>
+                <option value="MacOS" selected>MacOS</option>
+                <option value="Linux" selected>Linux</option>
+                <option value="Android" selected>Android</option>
+                <option value="iOS" selected>iOS</option>
+                <option value="Other" selected>Other</option>
+            </select>
+				</div>
+			</div>
+			<div class="col s1">
+				<p>Cost</p>
+				<div class="input-field">
+					<select name="costfilter" onchange="this.form.submit()">
+                        <option value="Any" selected>Any</option>
+                        <option value="Free">Free</option>
+                        <option value="Paid">Paid</option>
+                    </select>
+				</div>
+			</div>
+			<div class="col s2">
+				<p>Answers</p>
+				<div class="input-field">
+					<select>
+                        <option value="All" selected>All</option>
+                        <option value="Answered">Answered</option>
+                        <option value="Unanswered">Unanswered</option>
+                    </select>
+			</div>
+		</div>
 	</div>
-	<div class="col s2">
-		Date published
-	</div>
-	<div class="col s2">
-		Platform
-	</div>
-	<div class="col s1">
-		Cost
-	</div>
-	<div class="col s1">
-		Answers
-	</div>
-	<div class="col s1">
-		chev+del
-	</div>
-</div>
+</form>
 
 <div class="row">
 	<ul class="collapsible" data-collapsible="accordion">
@@ -35,18 +80,18 @@
 			<div class="collapsible-header">
 				<div class="col s5">
 					<p>{{ topic.title }}</p>
-                    <p class="right-align">{{ topic.author }}</p>
+					<p class="right-align">{{ topic.author }}</p>
 				</div>
 				<div class="col s2">
-                    {{ topic.publish_date.strftime('%d-%m-%Y') }}
-					
+					{{ topic.publish_date.strftime('%d-%m-%Y') }}
+
 				</div>
 				<div class="col s2">
 					{% for getos in topic.os %}
-					    {{ getos }}
-					    {% if not loop.last %}
-					        ,
-					    {% endif %}
+					{{ getos }}
+					{% if not loop.last %}
+					,
+					{% endif %}
 					{% endfor %}
 				</div>
 				<div class="col s1">
@@ -72,47 +117,47 @@
 				</div>
 				<hr>
 
-                <!-- Display the answer(s) -->
-                {% for object in topic.comments %}
-                	<div class="row">
-					    <div class="col s10">
-						    <p>{{ object.comment_text }}</p>
-						    <p class="right-align">{{ object.comment_author }}</p>
-					    </div>
-					    <div class="col s1">
-                            <button class="btn thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></button>
-                            <p>{{ object.comment_pos }}</p>
-					    </div>
-					    <div class="col s1">
-                            <button class="btn thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></button>
-                            <p>{{ object.comment_neg }}</p>
-					    </div>
-				    </div>
-                    <hr>
-                {% endfor %}
+				<!-- Display the answer(s) -->
+				{% for object in topic.comments %}
+				<div class="row">
+					<div class="col s10">
+						<p>{{ object.comment_text }}</p>
+						<p class="right-align">{{ object.comment_author }}</p>
+					</div>
+					<div class="col s1">
+						<button class="btn thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></button>
+						<p>{{ object.comment_pos }}</p>
+					</div>
+					<div class="col s1">
+						<button class="btn thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></button>
+						<p>{{ object.comment_neg }}</p>
+					</div>
+				</div>
+				<hr>
+				{% endfor %}
 
-                <!-- Input form for comments/answers -->
-                <form action="{{ url_for('insert_comment', topic_id=topic._id) }}" method="POST">
+				<!-- Input form for comments/answers -->
+				<form action="{{ url_for('insert_comment', topic_id=topic._id) }}" method="POST">
 					<div class="comment-form">
 						<div class="row">
 							<div class="input-field col s12">
-                                Write your comment here
+								Write your comment here
 								<input type="text" class="validate" name="comment_text">
 							</div>
-							<div class="input-field col s12">
-                                Your name (will be displayed below the comment)
-								<input type="text" class="validate" name="comment_author">
+								<div class="input-field col s12">
+									Your name (will be displayed below the comment)
+									<input type="text" class="validate" name="comment_author">
 							</div>
-						</div>
-					</div>
-					<div class="row">
-                        <button class="btn cancel-comment" type="button">Cancel              
+								</div>
+							</div>
+							<div class="row">
+								<button class="btn cancel-comment" type="button">Cancel              
                         </button>
-						<button class="btn submit-comment" name="action">Submit             
+								<button class="btn submit-comment" name="action">Submit             
                         </button>
-						<button class="btn add-comment" type="button">New comment              
+								<button class="btn add-comment" type="button">New comment              
                         </button>
-					</div>
+							</div>
 				</form>
 			</div>
 
@@ -123,8 +168,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
-
-$(document).ready(function() {
+	$(document).ready(function() {
+    $('select').formSelect();
 	// Add commenting functionality
     $(".add-comment").click(function(){
         $(".comment-form").animate({height: "200px"});
@@ -143,30 +188,27 @@ $(document).ready(function() {
         urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
         baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index')); 
         thumbsCountDisplay = $(this).next();
-        
         req = $.ajax(baseUrl)
-
         req.done(function(data){
             let result = JSON.parse(req.responseText)
             $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
         });
 
     });
-     $(".thumb-down").on('click', function(){
+    $(".thumb-down").on('click', function(){
         urlTemplate = "{{ url_for('rate_neg', topic_id='v1', index='v2') }}";
         urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
         baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index')); 
         thumbsCountDisplay = $(this).next();
-        
         req = $.ajax(baseUrl)
-
         req.done(function(data){
             let result = JSON.parse(req.responseText)
             
             $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
         })
-        
     });
+
+ 
 
 
 })
