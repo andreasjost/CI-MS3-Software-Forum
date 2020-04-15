@@ -24,6 +24,19 @@ def get_topics():
     return render_template("topics.html", topics=mongo.db.topics.find())
 
 
+@app.route('/filter_topics', methods=['POST'])
+def filter_topics():
+    
+
+    received_dict = request.form.to_dict()
+    print(received_dict['costfilter'])
+
+    search_result = mongo.db.topics.find({"cost": received_dict['costfilter']})
+
+
+    return render_template("topics.html", topics=search_result)
+
+
 @app.route('/add_topic')
 def add_topic():
     return render_template('addtopic.html')
