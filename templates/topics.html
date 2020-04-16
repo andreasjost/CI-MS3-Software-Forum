@@ -3,33 +3,35 @@
 {% extends 'base.html'%}
 {% block content %}
 
-<h1>Choose the best software for your purpose</h1>
+<h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
+<div class="row">
+<div class="input-field search-field col s12 m6">
+	<input placeholder="Search" type="search" class="validate">
+</div>
+<div id="search-options" class="col s12 m6">
+	<label>
+        <input type="checkbox" class="filled-in" name="search-where" value="titles" checked/>
+        <span>Titles</span>
+    </label>
+	<label>
+        <input type="checkbox" class="filled-in" name="search-where" value="details" checked/>
+        <span>Details</span>
+        </label>
+	<label>
+        <input type="checkbox" class="filled-in" name="search-where" value="comments" checked/>
+        <span>Comments</span>
+    </label>
+</div>
+</div>
 
-<!-- table header -->
-<form action="{{ url_for('filter_topics') }}" method="POST" id="filterform">
-	<div class="row">
-		<div class="col s5">
-			<p>Title</p>
-			<div class="input-field">
-				<input placeholder="Search" type="search" class="validate">
-            </div>
-				<div id="search-options">
-					<label>
-                <input type="checkbox" class="filled-in" name="search-where" value="titles"/>
-                <span>Titles</span>
-            </label>
-					<label>
-                <input type="checkbox" class="filled-in" name="search-where" value="details"/>
-                <span>Details</span>
-            </label>
-					<label>
-                <input type="checkbox" class="filled-in" name="search-where" value="comments"/>
-                <span>Comments</span>
-            </label>
-				</div>
+	<!-- table header: CAN MAYBE GO TO BASE.HTML LATER -->
+	<form action="{{ url_for('filter_topics') }}" method="POST" id="filterform">
+		<div class="row">
+			<div class="col s5">
+				<h4>Title</h4>
 			</div>
 			<div class="col s2">
-				<p>Date published</p>
+				<h4>Date published</h4>
 				<div class="input-field">
 					<select>
                 <option value="asc" selected>Ascending</option>
@@ -38,7 +40,7 @@
 				</div>
 			</div>
 			<div class="col s2">
-				<p>Platform</p>
+				<h4>Platform</h4>
 				<div class="input-field">
 					<select multiple id="testest">
                 <option value="Windows" selected>Windows</option>
@@ -51,7 +53,7 @@
 				</div>
 			</div>
 			<div class="col s1">
-				<p>Cost</p>
+				<h4>Cost</h4>
 				<div class="input-field">
 					<select name="costfilter" onchange="this.form.submit()">
                         <option value="Any" selected>Any</option>
@@ -61,114 +63,115 @@
 				</div>
 			</div>
 			<div class="col s2">
-				<p>Answers</p>
+				<h4>Answers</h4>
 				<div class="input-field">
-					<select>
+					<select name="answersfilter" onchange="this.form.submit()">
                         <option value="All" selected>All</option>
                         <option value="Answered">Answered</option>
                         <option value="Unanswered">Unanswered</option>
                     </select>
+				</div>
 			</div>
 		</div>
-	</div>
-</form>
+	</form>
 
-<div class="row">
-	<ul class="collapsible" data-collapsible="accordion">
-		{% for topic in topics %}
-		<li>
-			<div class="collapsible-header">
-				<div class="col s5">
-					<p>{{ topic.title }}</p>
-					<p class="right-align">{{ topic.author }}</p>
-				</div>
-				<div class="col s2">
-					{{ topic.publish_date.strftime('%d-%m-%Y') }}
+	<div class="row">
+		<ul class="collapsible" data-collapsible="accordion">
+			{% for topic in topics %}
+			<li>
+				<div class="collapsible-header">
+					<div class="col s5">
+						<p>{{ topic.title }}</p>
+						<p class="right-align">{{ topic.author }}</p>
+					</div>
+					<div class="col s2">
+						{{ topic.publish_date.strftime('%d-%m-%Y') }}
+
+					</div>
+					<div class="col s2">
+						{% for getos in topic.os %}
+						{{ getos }}
+						{% if not loop.last %}
+						,
+						{% endif %}
+						{% endfor %}
+					</div>
+					<div class="col s1">
+						{{topic.cost}}
+					</div>
+					<div class="col s1">
+						{{ topic.comments|length }}
+					</div>
+					<div class="col s1">
+						<i class="material-icons">expand_more</i>
+					</div>
 
 				</div>
-				<div class="col s2">
-					{% for getos in topic.os %}
-					{{ getos }}
-					{% if not loop.last %}
-					,
-					{% endif %}
+				<div class="collapsible-body">
+					<div class="row">
+						<div class="col s11">
+							{{topic.details}}
+						</div>
+						<div class="col s1">
+							<a
+								href="{{ url_for('delete_topic', topic_id=topic._id) }}"><i class="fas fa-trash-alt"></i></a>
+							<a href="{{ url_for('edit_topic', topic_id=topic._id) }}"><i class="fas fa-edit"></i></a>
+						</div>
+					</div>
+					<hr>
+
+					<!-- Display the answer(s) -->
+					{% for object in topic.comments %}
+					<div class="row">
+						<div class="col s10">
+							<p>{{ object.comment_text }}</p>
+							<p class="right-align">{{ object.comment_author }}</p>
+						</div>
+						<div class="col s1">
+							<button class="btn thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></button>
+							<p>{{ object.comment_pos }}</p>
+						</div>
+						<div class="col s1">
+							<button class="btn thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></button>
+							<p>{{ object.comment_neg }}</p>
+						</div>
+					</div>
+					<hr>
 					{% endfor %}
-				</div>
-				<div class="col s1">
-					{{topic.cost}}
-				</div>
-				<div class="col s1">
-					{{ topic.comments|length }}
-				</div>
-				<div class="col s1">
-					<i class="material-icons">expand_more</i>
-				</div>
 
-			</div>
-			<div class="collapsible-body">
-				<div class="row">
-					<div class="col s11">
-						{{topic.details}}
-					</div>
-					<div class="col s1">
-						<a href="{{ url_for('delete_topic', topic_id=topic._id) }}"><i class="fas fa-trash-alt"></i></a>
-						<a href="{{ url_for('edit_topic', topic_id=topic._id) }}"><i class="fas fa-edit"></i></a>
-					</div>
-				</div>
-				<hr>
-
-				<!-- Display the answer(s) -->
-				{% for object in topic.comments %}
-				<div class="row">
-					<div class="col s10">
-						<p>{{ object.comment_text }}</p>
-						<p class="right-align">{{ object.comment_author }}</p>
-					</div>
-					<div class="col s1">
-						<button class="btn thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></button>
-						<p>{{ object.comment_pos }}</p>
-					</div>
-					<div class="col s1">
-						<button class="btn thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></button>
-						<p>{{ object.comment_neg }}</p>
-					</div>
-				</div>
-				<hr>
-				{% endfor %}
-
-				<!-- Input form for comments/answers -->
-				<form action="{{ url_for('insert_comment', topic_id=topic._id) }}" method="POST">
-					<div class="comment-form">
-						<div class="row">
-							<div class="input-field col s12">
-								Write your comment here
-								<input type="text" class="validate" name="comment_text">
-							</div>
-								<div class="input-field col s12">
-									Your name (will be displayed below the comment)
-									<input type="text" class="validate" name="comment_author">
-							</div>
-								</div>
-							</div>
+					<!-- Input form for comments/answers -->
+					<form action="{{ url_for('insert_comment', topic_id=topic._id) }}" method="POST">
+						<div class="comment-form">
 							<div class="row">
-								<button class="btn cancel-comment" type="button">Cancel              
-                        </button>
-								<button class="btn submit-comment" name="action">Submit             
-                        </button>
-								<button class="btn add-comment" type="button">New comment              
-                        </button>
+								<div class="input-field col s12">
+									Write your comment here
+									<input type="text" class="validate" name="comment_text">
 							</div>
-				</form>
-			</div>
+									<div class="input-field col s12">
+										Your name (will be displayed below the comment)
+										<input type="text" class="validate" name="comment_author">
+							</div>
+									</div>
+								</div>
+								<div class="row">
+									<button class="btn cancel-comment" type="button">Cancel              
+                        </button>
+									<button class="btn submit-comment" name="action">Submit             
+                        </button>
+									<button class="btn add-comment" type="button">New comment              
+                        </button>
+								</div>
+					</form>
+				</div>
 
-		</li>
-		{% endfor %}
-	</ul>
-</div>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
     $('select').formSelect();
 	// Add commenting functionality
     $(".add-comment").click(function(){
@@ -212,6 +215,6 @@
 
 
 })
-</script>
+	</script>
 
-{% endblock %}
+	{% endblock %}

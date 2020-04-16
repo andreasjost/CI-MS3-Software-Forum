@@ -1,6 +1,12 @@
 body {
-    background-color: yellow;
-    font-family: 'Blinker', sans-serif;
+    /*
+    background-image: url("/static/images/bg-winter.jpg");
+    */
+    background-image: linear-gradient(to bottom right, white, aqua, black);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Mukta', sans-serif;
+    height: 100vh;
 }
 
 /* --------------------------------------------------- box special */
@@ -12,14 +18,19 @@ body {
 /* --------------------------------------------------- headers */
 
 h1 {
+    font-family: 'Blinker', sans-serif;
     font-weight: 600;
     font-size: 2.5rem;
     text-align: center;
+    color: black;
 }
 
 h4 {
-    font-size: 1.5rem;
+    font-family: 'Blinker', sans-serif;
+    font-size: 1.1rem;
     font-weight: 600;
+    margin: 0;
+    border-bottom: 0.5px solid #222;
 }
 
 .row {
@@ -39,7 +50,58 @@ h4 {
     border-radius: 10px;
 }
 
+/* --------------------------------------------------- header */
+nav {
+    background-color: #000;
+}
+
+.navbar-button {
+    background-color: red;
+    margin: 13px;
+    font-family: 'Blinker', sans-serif;
+    font-weight: 600;
+
+}
+
+.brand-logo {
+    font-family: 'Blinker', sans-serif;
+    margin-left: 15px;
+}
+
+.search-field {
+    margin-top: 0;
+}
+
+#search-options {
+    margin-top: 10px;
+}
+
 /* --------------------------------------------------- topics */
+
+.select-wrapper input.select-dropdown {
+    border: none;
+    font-size: 1rem;
+    height: 1.2rem;
+}
+
+input[type=search]:not(.browser-default) {
+    border: 1px solid #aaa;
+    border-radius: 15px;
+    padding-left: 10px;
+    font-size: 1rem;
+    height: 2.5rem;
+    background-color: white;
+}
+
+
+[type="checkbox"]+span:not(.lever) { 
+    padding-left: 23px;
+    padding-right: 10px;
+}
+
+label {
+    color: #000;
+}
 
 .comment-form {
     display: none;
