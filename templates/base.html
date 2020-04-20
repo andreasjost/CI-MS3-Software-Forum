@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 	<link href="https://fonts.googleapis.com/css2?family=Blinker:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;600&display=swap" rel="stylesheet"> 
 	<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
 	<title>SoftPursuit</title>
 </head>
@@ -16,17 +17,24 @@
 			
 			<div class="nav-wrapper">
 				<a href="{{url_for('get_topics')}}" class="brand-logo">SoftPursuit</a>
-				<a class="btn-floating btn-large halfway-fab waves-effect waves-light teal"
+
+                <a class="btn navbar-button right"
 					href="{{url_for('add_topic')}}">
-					<i class="material-icons">add</i>
+					New topic
 				</a>
+                <ul class="right hide-on-med-and-down">
+        <li class="active"><a href="#search-section">Search</a></li>
+        <li><a href="#topics-section">Forum</a></li>
+      </ul>
+
+				
 			</div>
 		</nav>
 
 	</header>
-	<div class="container">
+	
 		{% block content %} {% endblock %}
-	</div>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script type="text/javascript">

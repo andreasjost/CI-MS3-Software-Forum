@@ -1,18 +1,16 @@
 body {
-    /*
-    background-image: url("/static/images/bg-winter.jpg");
-    */
-    background-image: linear-gradient(to bottom right, white, aqua, black);
-    background-repeat: no-repeat;
-    background-size: cover;
     font-family: 'Mukta', sans-serif;
-    height: 100vh;
 }
 
 /* --------------------------------------------------- box special */
 
 .right-align {
     text-align: right;
+}
+
+section {
+    border-top: 75px solid transparent;
+    margin-top: -75px;
 }
 
 /* --------------------------------------------------- headers */
@@ -53,6 +51,8 @@ h4 {
 /* --------------------------------------------------- header */
 nav {
     background-color: #000;
+    position: fixed;
+    top: 0px;
 }
 
 .navbar-button {
@@ -76,7 +76,22 @@ nav {
     margin-top: 10px;
 }
 
-/* --------------------------------------------------- topics */
+/* --------------------------------------------------- search section */
+#search-section {
+    background-image: url("/static/images/bg-winter.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+
+
+/* --------------------------------------------------- topics section */
+
+#topics-section {
+    background-image: url("/static/images/bg-winter.jpg");
+    background-image: linear-gradient(to bottom right, white, aqua, black);
+}
 
 .select-wrapper input.select-dropdown {
     border: none;

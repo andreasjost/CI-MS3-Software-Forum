@@ -2,8 +2,9 @@
 
 {% extends 'base.html'%}
 {% block content %}
-
+<section id="search-section">
 <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
+{{ saved_filters }}
 <div class="row">
 <div class="input-field search-field col s12 m6">
 	<input placeholder="Search" type="search" class="validate">
@@ -23,8 +24,9 @@
     </label>
 </div>
 </div>
-
-	<!-- table header: CAN MAYBE GO TO BASE.HTML LATER -->
+</section>
+<section id="topics-section" class="container">
+	<!-- table header -->
 	<form action="{{ url_for('filter_topics') }}" method="POST" id="filterform">
 		<div class="row">
 			<div class="col s5">
@@ -75,6 +77,7 @@
 		</div>
 	</form>
 
+    <!-- creating the table with the topics -->
 	<div class="row">
 		<ul class="collapsible" data-collapsible="accordion">
 			{% for topic in topics %}
@@ -168,6 +171,8 @@
 			{% endfor %}
 		</ul>
 	</div>
+</section>
+  
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript">
