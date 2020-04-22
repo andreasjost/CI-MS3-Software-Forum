@@ -1,6 +1,7 @@
 import os
 import datetime
-from flask import Flask, render_template, redirect, request, url_for, jsonify
+# import json
+from flask import Flask, render_template, redirect, request, url_for, jsonify, make_response
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -18,23 +19,52 @@ app.config["MONGO_DBNAME"] = 'software_forum'
 mongo = PyMongo(app)
 
 
+searchFilters = {"searchTerm": "",
+                 "searchScope": {"titles": True,
+                                 "Details": True,
+                                 "Comments": True},
+                 "dateOrder": "Ascending", 
+                 "platform": ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other'],
+                 "cost": ".*",
+                 "answers": "All"}
+
 @app.route('/')
 @app.route('/get_topics')
-def get_topics():  
+def get_topics():
     return render_template("topics.html", topics=mongo.db.topics.find())
 
 
-@app.route('/filter_topics', methods=['POST'])
-def filter_topics():
-    
-
-    received_dict = request.form.to_dict()
-    print(received_dict['costfilter'])
-
-    search_result = mongo.db.topics.find({"cost": received_dict['costfilter']})
+@app.route('/filter_topics_platform/<platform_filter>')
+def filter_topics_platform(platform_filter):
+    filter_list = platform_filter.split(",")
+    searchFilters["platform"] = filter_list
+    search_result = mongo.db.topics.find({"os": {"$in": searchFilters["platform"]}})
+    return render_template('topicstable.html', topics=search_result)
 
 
-    return render_template("topics.html", topics=search_result)
+@app.route('/filter_topics_cost/<cost_filter>')
+def filter_topics_cost(cost_filter):
+    if cost_filter == "All":
+        cost_filter = ".*"
+    searchFilters["cost"] = cost_filter
+    search_result = mongo.db.topics.find({"cost": {"$regex": searchFilters["cost"]}})
+    return render_template('topicstable.html', topics=search_result)
+
+
+@app.route('/filter_topics_answer/<answer_filter>')
+def filter_topics_answer(answer_filter):
+
+    if answer_filter == "Answered":
+        search_result = mongo.db.topics.find({"comments": {"$exists": True, "$ne": None}})
+
+    elif answer_filter == "Unanswered":
+        search_result = mongo.db.topics.find({"comments": {"$exists": False}})
+
+    else:
+        search_result = mongo.db.topics.find()
+
+    searchFilters["answers"] = answer_filter
+    return render_template('topicstable.html', topics=search_result)
 
 
 @app.route('/add_topic')
@@ -122,9 +152,15 @@ def comment_rating(topic_id, index, positive, negative):
     else:
         return thumbs_down
 
-
+"""
+This definition is used in the comment_rating definition in order to sort the comments
+according to the popularity
+"""
 def get_key(e):
     return e['popularity']
+
+
+
 
 
 if __name__ == '__main__':
