@@ -19,19 +19,42 @@ app.config["MONGO_DBNAME"] = 'software_forum'
 mongo = PyMongo(app)
 
 
-searchFilters = {"searchTerm": "",
-                 "searchScope": {"titles": True,
-                                 "Details": True,
-                                 "Comments": True},
-                 "dateOrder": "Ascending", 
+searchFilters = {"searchTitles": ".*",
+                 "SearchDetails": ".*",
+                 "SearchComments": ".*",
+                 "dateOrder": -1,
                  "platform": ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other'],
                  "cost": ".*",
                  "answers": "All"}
 
+
 @app.route('/')
 @app.route('/get_topics')
 def get_topics():
-    return render_template("topics.html", topics=mongo.db.topics.find())
+    return render_template("topics.html", topics=mongo.db.topics.find().sort('publish_date', -1))
+
+
+@app.route('/search_topics/<search_titles>/<search_details>/<search_comments>')
+def search_topics(search_titles, search_details, search_comments):
+    searchFilters["searchTitles"] = search_titles
+    searchFilters["searchDetails"] = search_details
+    searchFilters["searchComments"] = search_comments
+    search_result = mongo.db.topics.find({
+        "$or": [
+            {'title': {'$regex': searchFilters["searchTitles"], '$options': 'i'}},
+            {'details': {'$regex': searchFilters["searchDetails"], '$options': 'i'}},
+            {'comments': {'$regex': searchFilters["searchComments"], '$options': 'i'}}
+        ]
+    })
+    return render_template('topicstable.html', topics=search_result)
+
+
+
+@app.route('/sort_topics_date/<date_order>')
+def sort_topics_date(date_order):
+    searchFilters["dateOrder"] = int(date_order)
+    search_result = mongo.db.topics.find().sort('publish_date', searchFilters["dateOrder"])
+    return render_template('topicstable.html', topics=search_result)
 
 
 @app.route('/filter_topics_platform/<platform_filter>')

@@ -5,19 +5,19 @@
     <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
     <div class="row">
         <div class="input-field search-field col s12 m6">
-            <input placeholder="Search" type="search" class="validate">
+            <input placeholder="Search" type="search" class="validate" id="searchfield">
         </div>
         <div id="search-options" class="col s12 m6">
             <label>
-            <input type="checkbox" class="filled-in" name="search-where" value="titles" checked/>
+            <input type="checkbox" class="filled-in" id="searchInTitles" value="titles" checked/>
             <span>Titles</span>
             </label>
             <label>
-            <input type="checkbox" class="filled-in" name="search-where" value="details" checked/>
+            <input type="checkbox" class="filled-in" id="searchInDetails" value="details" checked/>
             <span>Details</span>
             </label>
             <label>
-            <input type="checkbox" class="filled-in" name="search-where" value="comments" checked/>
+            <input type="checkbox" class="filled-in" id="searchInComments" value="comments" checked/>
             <span>Comments</span>
             </label>
         </div>
@@ -33,9 +33,9 @@
             <div class="col s2">
                 <h4>Date published</h4>
                 <div class="input-field">
-                    <select>
-                        <option value="asc" selected>Ascending</option>
-                        <option value="dsc">Descending</option>
+                    <select id="sortdate">
+                        <option value="1" selected>Ascending</option>
+                        <option value="-1">Descending</option>
                     </select>
                 </div>
             </div>
@@ -203,9 +203,43 @@
           req = $.ajax(baseUrl)
           req.done(function(data){
               let result = JSON.parse(req.responseText)
-              
               $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
           })
+      });
+
+
+      $('#searchfield').on("input", function(){
+          searchFunction();
+      });
+
+      $('#searchInTitles', '#searchInDetails', '#searchInComments').click(function() {
+          searchFunction();
+      });
+
+
+      $('#sortdate').change(function() {
+          urlTemplate = "{{ url_for('sort_topics_date', date_order='v1') }}";
+          baseUrl = urlTemplate.replace(/v1/, $(this).find('option:selected').attr('value'));
+          req = $.ajax(baseUrl)
+          req.done(function(data){
+              $('#topics-table').html(data);
+          });
+    
+      });
+
+
+      $('#platformfilter').change(function() {
+          let items = [];
+          $(this).find('option:selected').each(function() {
+            item = ($(this).val());
+            items.push(item);
+          });
+          urlTemplate = "{{ url_for('filter_topics_platform', platform_filter='v1') }}";
+          baseUrl = urlTemplate.replace(/v1/, items);
+          req = $.ajax(baseUrl)
+          req.done(function(data){
+              $('#topics-table').html(data);
+          });
       });
     
       $('#costfilter').change(function() {
@@ -226,27 +260,35 @@
               $('#topics-table').html(data);
           });
       });
-
-      $('#platformfilter').change(function() {
-
-          let items = [];
-          $(this).find('option:selected').each(function() {
-            item = ($(this).val());
-            items.push(item);
-          });
-          
-
-          urlTemplate = "{{ url_for('filter_topics_platform', platform_filter='v1') }}";
-          baseUrl = urlTemplate.replace(/v1/, items);
-          req = $.ajax(baseUrl)
-          req.done(function(data){
-              $('#topics-table').html(data);
-          });
-      });
     
     
     
     })
+
+function searchFunction() {
+    keyword = $('#searchfield').val();
+    if (keyword.length < 1) {
+        keyword = ".*";
+    }
+    
+    urlTemplate0 = "{{ url_for('search_topics', search_titles='v1', search_details='v2', search_comments='v3') }}";
+    urlTemplate1 = urlTemplate0.replace(/v1/, getCategoryKeyword("#searchInTitles", keyword));
+    urlTemplate2 = urlTemplate1.replace(/v2/, getCategoryKeyword("#searchInDetails", keyword));
+    baseUrl = urlTemplate2.replace(/v3/, getCategoryKeyword("#searchInComments", keyword));
+
+    req = $.ajax(baseUrl)
+    req.done(function(data){
+        $('#topics-table').html(data);
+    });
+}
+
+function getCategoryKeyword(category, keyword){
+    if ($(category).is(':checked')) {
+        return keyword;
+    } else {
+        return ".*"
+    }
+}
     
 </script>
 {% endblock %}
