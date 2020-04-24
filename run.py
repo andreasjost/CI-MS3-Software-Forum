@@ -20,7 +20,7 @@ mongo = PyMongo(app)
 
 
 searchFilters = {"searchKeyword": ".*",
-                 "searchScope": ["titles", "Details", "Comments"],
+                 "searchScope": ["titles", "details", "comments.comment_text"],
                  "dateOrder": -1,
                  "platform": ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other'],
                  "cost": ".*",
