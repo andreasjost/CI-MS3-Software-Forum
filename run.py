@@ -19,9 +19,8 @@ app.config["MONGO_DBNAME"] = 'software_forum'
 mongo = PyMongo(app)
 
 
-searchFilters = {"searchTitles": ".*",
-                 "SearchDetails": ".*",
-                 "SearchComments": ".*",
+searchFilters = {"searchKeyword": ".*",
+                 "searchScope": ["titles", "Details", "Comments"],
                  "dateOrder": -1,
                  "platform": ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other'],
                  "cost": ".*",
@@ -34,18 +33,16 @@ def get_topics():
     return render_template("topics.html", topics=mongo.db.topics.find().sort('publish_date', -1))
 
 
-@app.route('/search_topics/<search_titles>/<search_details>/<search_comments>')
-def search_topics(search_titles, search_details, search_comments):
-    searchFilters["searchTitles"] = search_titles
-    searchFilters["searchDetails"] = search_details
-    searchFilters["searchComments"] = search_comments
-    search_result = mongo.db.topics.find({
-        "$or": [
-            {'title': {'$regex': searchFilters["searchTitles"], '$options': 'i'}},
-            {'details': {'$regex': searchFilters["searchDetails"], '$options': 'i'}},
-            {'comments': {'$regex': searchFilters["searchComments"], '$options': 'i'}}
-        ]
-    })
+@app.route('/search_topics/<search_keyword>/<search_scope>')
+def search_topics(search_keyword, search_scope):
+    searchFilters["searchKeyword"] = search_keyword
+    searchFilters["searchScope"] = search_scope.split(",")
+
+    searchInclude = []
+    for item in searchFilters["searchScope"]:
+        searchInclude.append({item: {'$regex': searchFilters["searchKeyword"], '$options': 'i'}})
+
+    search_result = mongo.db.topics.find({"$or": searchInclude})
     return render_template('topicstable.html', topics=search_result)
 
 
