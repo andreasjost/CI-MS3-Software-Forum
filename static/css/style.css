@@ -9,8 +9,12 @@ body {
 }
 
 section {
-    border-top: 75px solid transparent;
-    margin-top: -75px;
+    border-top: 64px solid transparent;
+    margin-top: -64px;
+}
+
+p {
+    margin: 0;
 }
 
 /* --------------------------------------------------- headers */
@@ -21,6 +25,7 @@ h1 {
     font-size: 2.5rem;
     text-align: center;
     color: black;
+    padding-top: 50px;
 }
 
 h4 {
@@ -33,15 +38,6 @@ h4 {
 
 .row {
     margin-bottom: 0;
-}
-
-.collapsible-header {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.collapsible-body {
-    padding: 0.5rem;
 }
 
 .btn {
@@ -76,12 +72,12 @@ nav {
     margin-top: 10px;
 }
 
-/* --------------------------------------------------- search section */
-#search-section {
+/* --------------------------------------------------- home section */
+#home-section {
     background-image: url("/static/images/bg-winter.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100vh;
+    height: 50vh;
 }
 
 
@@ -89,9 +85,14 @@ nav {
 /* --------------------------------------------------- topics section */
 
 #topics-section {
-    background-image: url("/static/images/bg-winter.jpg");
-    background-image: linear-gradient(to bottom right, white, aqua, black);
+    min-height: 100vh;
 }
+
+#topics-header {
+    padding-top: 15px;
+    background-color: #eee;
+}
+
 
 .select-wrapper input.select-dropdown {
     border: none;
@@ -114,8 +115,49 @@ input[type=search]:not(.browser-default) {
     padding-right: 10px;
 }
 
+.collapsible-header {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    border-bottom: 0;
+    border-top: 2px solid #999;
+}
+
+.collapsible-body {
+    padding: 0;
+}
+
 label {
     color: #000;
+}
+
+.topic-titles {
+    font-weight: 600;
+}
+
+.header-background {
+    background-image: linear-gradient(#fff, #ddd);
+    
+}
+
+.details-background {
+    background-image: linear-gradient(#ddd, #fff);
+}
+
+.comments-background {
+    background-color: #eee; 
+}
+
+.commentsform-background {
+    background-color: #fff;
+}
+
+.subtile-btn {
+    font-size: 1.5rem;
+    color: #222;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .comment-form {
@@ -132,4 +174,12 @@ label {
 .submit-comment {
     display: none;
     float: right;
+}
+
+.thumb-up, .thumb-down {
+    display: inline-block;
+}
+
+.thumbscount {
+    display: inline-block;
 }
