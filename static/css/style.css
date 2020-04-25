@@ -17,6 +17,14 @@ p {
     margin: 0;
 }
 
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
 /* --------------------------------------------------- headers */
 
 h1 {
@@ -36,12 +44,20 @@ h4 {
     border-bottom: 0.5px solid #222;
 }
 
+h5 {
+    font-family: 'Blinker', sans-serif;
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
 .row {
     margin-bottom: 0;
 }
 
 .btn {
     border-radius: 10px;
+  
 }
 
 /* --------------------------------------------------- header */
@@ -85,14 +101,25 @@ nav {
 /* --------------------------------------------------- topics section */
 
 #topics-section {
-    min-height: 100vh;
+    
+    
 }
 
 #topics-header {
     padding-top: 15px;
-    background-color: #eee;
+    background-image: radial-gradient(#808080, #808080, #fff, #808080);
+    min-height: 100vh;
 }
 
+#topics-section .btn {
+    background-color: #f60;
+    margin: 10px 0 10px 10px;
+    padding: 0 10px;
+}
+
+#topics-section .material-icons {
+    margin-right: 0;
+}
 
 .select-wrapper input.select-dropdown {
     border: none;
@@ -121,7 +148,7 @@ input[type=search]:not(.browser-default) {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
     border-bottom: 0;
-    border-top: 2px solid #999;
+    border-top: 2px solid #fff;
 }
 
 .collapsible-body {
@@ -132,38 +159,31 @@ label {
     color: #000;
 }
 
-.topic-titles {
-    font-weight: 600;
-}
-
 .header-background {
-    background-image: linear-gradient(#fff, #ddd);
+    background-color: #ddd;
     
 }
 
 .details-background {
-    background-image: linear-gradient(#ddd, #fff);
+    background-color: #ddd;
+}
+
+.topic-author {
+    margin-bottom: 10px;
 }
 
 .comments-background {
-    background-color: #eee; 
+    background-color: #ddd; 
 }
 
 .commentsform-background {
-    background-color: #fff;
-}
-
-.subtile-btn {
-    font-size: 1.5rem;
-    color: #222;
-    padding-left: 15px;
-    padding-right: 15px;
+    background-color: #ddd;
 }
 
 .comment-form {
     display: none;
     height: 0px;
-    background-color: lightblue;
+    background-color: #ddd;
 }
 
 .cancel-comment {
@@ -176,10 +196,22 @@ label {
     float: right;
 }
 
+.topic-action {
+    color: #fff;
+}
+
 .thumb-up, .thumb-down {
     display: inline-block;
 }
 
-.thumbscount {
-    display: inline-block;
+
+
+.comment-text {
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 5px;
+    box-shadow: 1px 1px 4px #aaa;
+    background-color: #eee;
 }
