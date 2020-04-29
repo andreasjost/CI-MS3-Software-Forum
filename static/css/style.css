@@ -25,6 +25,10 @@ p {
     float: right;
 }
 
+.row {
+    width: 100%;
+}
+
 /* --------------------------------------------------- headers */
 
 h1 {
@@ -85,12 +89,12 @@ nav {
 }
 
 #search-options {
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 /* --------------------------------------------------- home section */
 #home-section {
-    background-image: url("/static/images/bg-winter.jpg");
+    background-image: url("/static/images/bg-lighthouse.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     height: 50vh;
@@ -107,7 +111,7 @@ nav {
 
 #topics-header {
     padding-top: 15px;
-    background-image: radial-gradient(#808080, #808080, #fff, #808080);
+    background-image: radial-gradient(#fff, #fff, #9fbfdf);
     min-height: 100vh;
 }
 
@@ -125,14 +129,43 @@ nav {
     border: none;
     font-size: 1rem;
     height: 1.2rem;
+    
 }
+
+#search-options .select-wrapper input.select-dropdown {
+    margin-top: -5px;
+}
+
+.hide-selection input.select-dropdown {
+    color: transparent;
+
+}
+
+.replacement-label {
+    font-size: 1.1rem;
+    position: inherit;
+    top: 0;
+}
+
+.select-wrapper {
+    position: absolute;
+    top: 0;
+    
+}
+
+#search-options .select-wrapper {
+    position: relative;
+    top: -1rem;
+}
+
 
 input[type=search]:not(.browser-default) {
     border: 1px solid #aaa;
     border-radius: 15px;
     padding-left: 10px;
+    margin-top: 5px;
     font-size: 1rem;
-    height: 2.5rem;
+    height: 2.2rem;
     background-color: white;
 }
 
@@ -142,13 +175,17 @@ input[type=search]:not(.browser-default) {
     padding-right: 10px;
 }
 
+.select-wrapper .caret {
+    margin-top: -2px;
+}
+
 .collapsible-header {
     padding-left: 0;
     padding-right: 0;
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
     border-bottom: 0;
-    border-top: 2px solid #fff;
+    border-top: 1px solid #000;
 }
 
 .collapsible-body {
@@ -160,12 +197,12 @@ label {
 }
 
 .header-background {
-    background-color: #ddd;
+    background-color: #eee;
     
 }
 
 .details-background {
-    background-color: #ddd;
+    background-color: #eee;
 }
 
 .topic-author {
@@ -173,17 +210,17 @@ label {
 }
 
 .comments-background {
-    background-color: #ddd; 
+    background-color: #eee; 
 }
 
 .commentsform-background {
-    background-color: #ddd;
+    background-color: #eee;
 }
 
 .comment-form {
     display: none;
     height: 0px;
-    background-color: #ddd;
+    background-color: #eee;
 }
 
 .cancel-comment {
@@ -204,8 +241,6 @@ label {
     display: inline-block;
 }
 
-
-
 .comment-text {
     border: 1px solid #fff;
     border-radius: 10px;
@@ -213,5 +248,5 @@ label {
     padding-right: 5px;
     margin-bottom: 5px;
     box-shadow: 1px 1px 4px #aaa;
-    background-color: #eee;
+    background-color: #f7f7f7;
 }

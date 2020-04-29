@@ -2,30 +2,39 @@
 {% extends 'base.html'%}
 {% block content %}
 <section id="home-section">
-    <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
+    <div class="container">
+        <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
+        <div class="row">
+            <div class="input-field search-field col s8">
+                <input placeholder="Search" type="search" class="validate" id="searchfield">
+            </div>
+            <div id="search-options" class="col s4 hidden-options">
+                <div class="hide-selection">
+                    <div class="replacement-label">Search in</div>
+                    <select multiple id="search-scope">
+                        <option value="title" selected>Titles</option>
+                        <option value="details" selected>Details</option>
+                        <option value="comments.comment_text" selected>Comments</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <section id="topics-section">
     <div id="topics-header">
         <!-- table header -->
         <div class="container">
             <div class="row">
-                <div class="col s6">
-                    <h4>Title</h4>
-                    <div class="row">
-                        <div class="input-field search-field col s12 m6">
-                            <input placeholder="Search" type="search" class="validate" id="searchfield">
-                        </div>
-                        <div id="search-options" class="col s12 m6">
-                            <select multiple id="search-scope">
-                                <option value="title" selected>Titles</option>
-                                <option value="details" selected>Details</option>
-                                <option value="comments.comment_text" selected>Comments</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="col s12 l6">
+                    <h4>Topics</h4>
+                    <a class="btn"
+                        href="{{url_for('add_topic')}}">
+                    New topic
+                    </a>
                 </div>
-                <div class="col s2">
-                    <h4>Date published</h4>
+                <div class="col s4 l2">
+                    <h4>Published</h4>
                     <div class="input-field">
                         <select id="sortdate">
                             <option value="1" selected>Ascending</option>
@@ -33,9 +42,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="col s2">
+                <div class="col s4 l2 hidden-options">
                     <h4>Platform</h4>
-                    <div class="input-field">
+                    <div class="input-field hide-selection">
+                        <div class="replacement-label">Filter</div>
                         <select multiple id="platformfilter">
                             <option value="Windows" selected>Windows</option>
                             <option value="MacOS" selected>MacOS</option>
@@ -46,7 +56,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col s1">
+                <div class="col s2 l1">
                     <h4>Cost</h4>
                     <div class="input-field">
                         <select id="costfilter">
@@ -56,7 +66,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col s1">
+                <div class="col s2 l1">
                     <h4>Answers</h4>
                     <div class="input-field">
                         <select id="answersfilter">
@@ -68,68 +78,62 @@
                 </div>
             </div>
         </div>
-    
-    <!-- creating the table with the topics -->
-    <div id="topics-table" class="container">
-        <div class="row">
+        <!-- creating the table with the data from the database -->
+        <div id="topics-table" class="container">
             <ul class="collapsible" data-collapsible="accordion">
                 {% for topic in topics %}
                 <li>
                     <div class="collapsible-header header-background">
-                        <div class="col s6">
-                            <h5>{{ topic.title }}</h5>
-                        </div>
-                        <div class="col s2">
-                            {{ topic.publish_date.strftime('%d-%m-%Y') }}
-                        </div>
-                        <div class="col s2">
-                            {% for getos in topic.os %}
-                            {{ getos }}
-                            {% if not loop.last %}
-                            ,
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="col s1">
-                            {{ topic.cost }}
-                        </div>
-                        <div class="col s1">
-                            <div class="float-left">{{ topic.comments|length }}</div>
-                            <div class="float-right"><i class="material-icons">expand_more</i></div>
+                        <div class="row">
+                            <div class="col s12 l6">
+                                <h5>{{ topic.title }}</h5>
+                            </div>
+                            <div class="col s4 l2">
+                                {{ topic.publish_date.strftime('%d-%m-%Y') }}
+                            </div>
+                            <div class="col s4 l2">
+                                {% for getos in topic.os %}
+                                {{ getos }}
+                                {% if not loop.last %}
+                                ,
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="col s2 l1">
+                                {{ topic.cost }}
+                            </div>
+                            <div class="col s2 l1">
+                                <div class="float-left">{{ topic.comments|length }}</div>
+                                <div class="float-right"><i class="material-icons">expand_more</i></div>
+                            </div>
                         </div>
                     </div>
-
                     <!-- collapsible body -->
                     <div class="collapsible-body">
                         <div class="row details-background">
-                            
                             <div class="col s12">
                                 <p>{{ topic.details }}</p>
                                 <p class="right-align topic-author"><em>{{ topic.author }}</em></p>
                             </div>
                         </div>
-
-                        
                         <!-- Display the comment(s) -->
-                        
                         {% for object in topic.comments %}
                         <div class="row comments-background">
-                            <div class="col s10">
-                                <div class="comment-text">  
-                                <p> {{ object.comment_text }}</p>
-                                <p class="right-align"><em>{{ object.comment_author }}</em></p>
+                            <div class="col s8 m10">
+                                <div class="comment-text">
+                                    <p> {{ object.comment_text }}</p>
+                                    <p class="right-align"><em>{{ object.comment_author }}</em></p>
                                 </div>
                             </div>
-                            <div class="col s1">
+                            <div class="col s2 m1">
                                 <div class="thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></div>
                                 <p>{{ object.comment_pos }}</p>
                             </div>
-                            <div class="col s1">
+                            <div class="col s2 m1">
                                 <div class="thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></div>
                                 <p>{{ object.comment_neg }}</p>
                             </div>
                         </div>
-                        
                         {% endfor %}
                         <!-- Input form for comments/answers -->
                         <form action="{{ url_for('insert_comment', topic_id=topic._id) }}" method="POST" class="commentsform-background">
@@ -152,16 +156,12 @@
                                 </button>
                                 <button class="btn add-comment" type="button">New comment              
                                 </button>
-
-                            
                                 <button class="btn topic-options">
-                                    <a href="{{ url_for('delete_topic', topic_id=topic._id) }}" class="topic-action">Delete Topic</a>
+                                <a href="{{ url_for('delete_topic', topic_id=topic._id) }}" class="topic-action">Delete Topic</a>
                                 </button>
                                 <button class="btn topic-options">
-                                    <a href="{{ url_for('edit_topic', topic_id=topic._id) }}" class="topic-action">Edit Topic</a>
+                                <a href="{{ url_for('edit_topic', topic_id=topic._id) }}" class="topic-action">Edit Topic</a>
                                 </button>
-                            
-                        
                             </div>
                         </form>
                     </div>
@@ -169,7 +169,6 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>
     </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
