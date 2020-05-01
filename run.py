@@ -19,37 +19,49 @@ app.config["MONGO_DBNAME"] = 'software_forum'
 mongo = PyMongo(app)
 
 
-searchFilters = {"searchKeyword": ".*",
-                 "searchScope": ["titles", "details", "comments.comment_text"],
-                 "dateOrder": -1,
-                 "platform": ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other'],
-                 "cost": ".*",
-                 "answers": "All"}
+class SearchFilters:
+    searchKeyword = ".*"
+    searchScope = ["titles", "details", "comments.comment_text"]
+    dateOrder = -1
+    platform = ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other']
+    cost = ".*"
+    answers = "All"
+
+    def resetFilters(self):
+        self.searchKeyword = ".*"
+        self.searchScope = ["titles", "details", "comments.comment_text"]
+        self.dateOrder = -1
+        self.platform = ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other']
+        self.cost = ".*"
+        self.answers = "All"
+
+
+searchFilters = SearchFilters()
 
 
 @app.route('/')
 @app.route('/get_topics')
 def get_topics():
-    return render_template("topics.html", topics=mongo.db.topics.find().sort('publish_date', searchFilters["dateOrder"]))
+    return render_template("topics.html", topics=mongo.db.topics.find().sort('publish_date', searchFilters.dateOrder))
 
 
 @app.route('/search_topics/<search_keyword>/<search_scope>')
 def search_topics(search_keyword, search_scope):
-    searchFilters["searchKeyword"] = search_keyword
-    searchFilters["searchScope"] = search_scope.split(",")
+    searchFilters.searchKeyword = search_keyword
+    searchFilters.searchScope = search_scope.split(",")
     return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/sort_topics_date/<date_order>')
 def sort_topics_date(date_order):
-    searchFilters["dateOrder"] = int(date_order)
+    searchFilters.dateOrder = int(date_order)
     return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/filter_topics_platform/<platform_filter>')
 def filter_topics_platform(platform_filter):
     filter_list = platform_filter.split(",")
-    searchFilters["platform"] = filter_list
+    searchFilters.platform = filter_list
     return render_template('topicstable.html', topics=apply_filters())
 
 
@@ -57,14 +69,20 @@ def filter_topics_platform(platform_filter):
 def filter_topics_cost(cost_filter):
     if cost_filter == "All":
         cost_filter = ".*"
-    searchFilters["cost"] = cost_filter
+    searchFilters.cost = cost_filter
     return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/filter_topics_answer/<answer_filter>')
 def filter_topics_answer(answer_filter):
-    searchFilters["answers"] = answer_filter    
+    searchFilters.answers = answer_filter    
     return render_template('topicstable.html', topics=apply_filters())
+
+
+@app.route('/reset_filters')
+def reset_filters():
+    searchFilters.resetFilters()
+    return render_template('topics.html', topics=apply_filters())
 
 
 @app.route('/add_topic')
@@ -163,20 +181,20 @@ def get_key(e):
 
 def apply_filters():
     searchInclude = []
-    for item in searchFilters["searchScope"]:
-        searchInclude.append({item: {'$regex': searchFilters["searchKeyword"], '$options': 'i'}})
+    for item in searchFilters.searchScope:
+        searchInclude.append({item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
     allFilters = [
         {"$or": searchInclude},
-        {"os": {"$in": searchFilters["platform"]}},
-        {"cost": {"$regex": searchFilters["cost"]}}]
+        {"os": {"$in": searchFilters.platform}},
+        {"cost": {"$regex": searchFilters.cost}}]
 
-    if searchFilters["answers"] == "Answered":
+    if searchFilters.answers == "Answered":
         allFilters.append({"comments": {"$exists": True, "$ne": None}})
 
-    elif searchFilters["answers"] == "Unanswered":
+    elif searchFilters.answers == "Unanswered":
         allFilters.append({"comments": {"$exists": False}})
 
-    search_result = mongo.db.topics.find({"$and": allFilters}).sort('publish_date', searchFilters["dateOrder"])
+    search_result = mongo.db.topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
     return search_result
 
 
