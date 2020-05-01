@@ -30,36 +30,27 @@ searchFilters = {"searchKeyword": ".*",
 @app.route('/')
 @app.route('/get_topics')
 def get_topics():
-    return render_template("topics.html", topics=mongo.db.topics.find().sort('publish_date', -1))
+    return render_template("topics.html", topics=mongo.db.topics.find().sort('publish_date', searchFilters["dateOrder"]))
 
 
 @app.route('/search_topics/<search_keyword>/<search_scope>')
 def search_topics(search_keyword, search_scope):
     searchFilters["searchKeyword"] = search_keyword
     searchFilters["searchScope"] = search_scope.split(",")
-
-    searchInclude = []
-    for item in searchFilters["searchScope"]:
-        searchInclude.append({item: {'$regex': searchFilters["searchKeyword"], '$options': 'i'}})
-
-    search_result = mongo.db.topics.find({"$or": searchInclude})
-    return render_template('topicstable.html', topics=search_result)
-
+    return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/sort_topics_date/<date_order>')
 def sort_topics_date(date_order):
     searchFilters["dateOrder"] = int(date_order)
-    search_result = mongo.db.topics.find().sort('publish_date', searchFilters["dateOrder"])
-    return render_template('topicstable.html', topics=search_result)
+    return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/filter_topics_platform/<platform_filter>')
 def filter_topics_platform(platform_filter):
     filter_list = platform_filter.split(",")
     searchFilters["platform"] = filter_list
-    search_result = mongo.db.topics.find({"os": {"$in": searchFilters["platform"]}})
-    return render_template('topicstable.html', topics=search_result)
+    return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/filter_topics_cost/<cost_filter>')
@@ -67,24 +58,13 @@ def filter_topics_cost(cost_filter):
     if cost_filter == "All":
         cost_filter = ".*"
     searchFilters["cost"] = cost_filter
-    search_result = mongo.db.topics.find({"cost": {"$regex": searchFilters["cost"]}})
-    return render_template('topicstable.html', topics=search_result)
+    return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/filter_topics_answer/<answer_filter>')
 def filter_topics_answer(answer_filter):
-
-    if answer_filter == "Answered":
-        search_result = mongo.db.topics.find({"comments": {"$exists": True, "$ne": None}})
-
-    elif answer_filter == "Unanswered":
-        search_result = mongo.db.topics.find({"comments": {"$exists": False}})
-
-    else:
-        search_result = mongo.db.topics.find()
-
-    searchFilters["answers"] = answer_filter
-    return render_template('topicstable.html', topics=search_result)
+    searchFilters["answers"] = answer_filter    
+    return render_template('topicstable.html', topics=apply_filters())
 
 
 @app.route('/add_topic')
@@ -172,15 +152,32 @@ def comment_rating(topic_id, index, positive, negative):
     else:
         return thumbs_down
 
-"""
-This definition is used in the comment_rating definition in order to sort the comments
-according to the popularity
-"""
+
 def get_key(e):
+    """
+    used in the comment_rating definition in order to sort the comments
+    according to the popularity
+    """
     return e['popularity']
 
 
+def apply_filters():
+    searchInclude = []
+    for item in searchFilters["searchScope"]:
+        searchInclude.append({item: {'$regex': searchFilters["searchKeyword"], '$options': 'i'}})
+    allFilters = [
+        {"$or": searchInclude},
+        {"os": {"$in": searchFilters["platform"]}},
+        {"cost": {"$regex": searchFilters["cost"]}}]
 
+    if searchFilters["answers"] == "Answered":
+        allFilters.append({"comments": {"$exists": True, "$ne": None}})
+
+    elif searchFilters["answers"] == "Unanswered":
+        allFilters.append({"comments": {"$exists": False}})
+
+    search_result = mongo.db.topics.find({"$and": allFilters}).sort('publish_date', searchFilters["dateOrder"])
+    return search_result
 
 
 if __name__ == '__main__':
