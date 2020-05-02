@@ -42,7 +42,9 @@ searchFilters = SearchFilters()
 @app.route('/')
 @app.route('/get_topics')
 def get_topics():
-    return render_template("topics.html", topics=mongo.db.topics.find().sort('publish_date', searchFilters.dateOrder))
+    return render_template(
+        "topics.html", topics=mongo.db.topics.find().sort(
+            'publish_date', searchFilters.dateOrder))
 
 
 @app.route('/search_topics/<search_keyword>/<search_scope>')
@@ -109,12 +111,20 @@ def edit_topic(topic_id):
 @app.route('/update_topic/<topic_id>', methods=["POST"])
 def update_topic(topic_id):
     topics = mongo.db.topics
+    active_topic = topics.find_one({"_id": ObjectId(topic_id)}, {'publish_date': 1, 'comments': 1})
+    timestamp = active_topic['publish_date']
+    comments = active_topic['comments']
+    for item in comments:
+        comments[comments.index(item)]['expired'] = True
+
     topics.update({'_id': ObjectId(topic_id)}, {
         'title': request.form.get('title'),
         'details': request.form.get('details'),
         'author': request.form.get('author'),
         'os': request.form.getlist('os'),
-        'cost': request.form.get('cost')
+        'cost': request.form.get('cost'),
+        'publish_date': timestamp,
+        'comments': comments
     })
     return redirect(url_for('get_topics'))
 
@@ -133,7 +143,8 @@ def insert_comment(topic_id):
         'comment_author': request.form.get('comment_author'),
         'comment_pos': 0,
         'comment_neg': 0,
-        'popularity': 0
+        'popularity': 0,
+        'expired': False
     }
     topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
     return redirect(url_for('get_topics'))

@@ -40,7 +40,11 @@
                         <div class="row comments-background">
                             <div class="col s8 m10">
                                 <div class="comment-text">
-                                    <p> {{ object.comment_text }}</p>
+                                    {% if object.expired %}
+                                        <p><span class="em-red">Expired: </span>{{ object.comment_text }}</p>
+                                    {% else %}
+                                        <p>{{ object.comment_text }}</p>
+                                    {% endif %}
                                     <p class="right-align"><em>{{ object.comment_author }}</em></p>
                                 </div>
                             </div>
