@@ -40,6 +40,12 @@ h1 {
     padding-top: 50px;
 }
 
+h2 {
+    font-family: 'Blinker', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
 h4 {
     font-family: 'Blinker', sans-serif;
     font-size: 1.1rem;
@@ -94,15 +100,31 @@ nav {
 
 /* --------------------------------------------------- home section */
 #home-section {
-    background-image: url("/static/images/bg-lighthouse.jpg");
+    background-image: url("/static/images/bg-sky.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    height: 50vh;
+    
 }
 
-
-
 /* --------------------------------------------------- topics section */
+
+.hide-progress {
+    display: none;
+}
+
+#progress-wrapper {
+    width: 100%;
+    height: 5px;
+    position: relative;
+}
+
+#dbupdate-progress {
+    top: 0;
+    margin: 0;
+    height: 5px;
+    position: absolute;
+   
+}
 
 #topics-section {
     
@@ -111,8 +133,7 @@ nav {
 
 #topics-header {
     padding-top: 15px;
-    background-image: radial-gradient(#fff, #fff, #9fbfdf);
-    min-height: 100vh;
+    background-image: radial-gradient(#fff, #fff, #ddd);
 }
 
 #topics-section .btn {
@@ -249,4 +270,35 @@ label {
     margin-bottom: 5px;
     box-shadow: 1px 1px 4px #aaa;
     background-color: #f7f7f7;
+}
+
+.em-red {
+    color: #f00;
+}
+
+/*------------------------------------------------------- Footer    */
+
+footer {
+    width: 100%;
+    height: 45px;
+    padding-right: 15px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+}
+
+footer > p {
+    display: inline;
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 4px;
+    font-size: 18px;
+    color: #A69D91;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-top: 3px;
 }
