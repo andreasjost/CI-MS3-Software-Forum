@@ -16,23 +16,27 @@
 <body>
 	<header>
 		<nav class="nav-extended">
-			
 			<div class="nav-wrapper">
 				<a href="{{url_for('get_topics')}}" class="brand-logo">SoftPursuit</a>
-
                 <ul class="right hide-on-med-and-down">
-        <li class="active"><a href="#home-section">Search</a></li>
-        <li><a href="#topics-section">Forum</a></li>
-      </ul>
-
-				
+                    <li class="active"><a href="#home-section">Search</a></li>
+                    <li><a href="#topics-section">Forum</a></li>
+                </ul>
 			</div>
 		</nav>
-
 	</header>
+	{% block content %}{% endblock %}
+    <footer>
+        <p>&#169; 2020 Andreas Jost</p>
+        <a href="mailto:codefactory@gmx.ch">
+            <i class="far fa-envelope text-center social-icon"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/andreas-jost-1218a7107/" target="_blank">
+            <i class="fab fa-linkedin-in text-center social-icon"></i>
+        </a>
+    </footer>
 	
-		{% block content %}{% endblock %}
-	
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script type="text/javascript">
