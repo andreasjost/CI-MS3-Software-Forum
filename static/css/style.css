@@ -258,9 +258,14 @@ label {
     color: #fff;
 }
 
-.thumb-up, .thumb-down {
+.thumb-up, .thumb-down, .thumbs-field p {
     display: inline-block;
 }
+
+.thumb-up, .thumb-down {
+    margin-left: 20px;
+}
+
 
 .comment-text {
     border: 1px solid #fff;
@@ -268,8 +273,17 @@ label {
     padding-left: 5px;
     padding-right: 5px;
     margin-bottom: 5px;
+    margin-left: 10px;
     box-shadow: 1px 1px 4px #aaa;
     background-color: #f7f7f7;
+    display: inline-block;
+    width: 80%;
+}
+
+.thumbs-field {
+    display: inline-block;
+    width: 120px;
+    margin-bottom: 15px;
 }
 
 .em-red {

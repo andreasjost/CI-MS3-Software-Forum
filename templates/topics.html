@@ -5,7 +5,7 @@
     <div class="container">
         <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
         <h2>Create a new topic if you want tips for a certain task. Or use the search function to check if someone else has a similar request.
-        Write a comment if you can contribute to someones topic. If the topic has been edited after a comment was placed, the comment is marked "Expired:"</h2>
+        Write a comment if you can contribute to someones topic. If the topic has been edited after a comment was placed, the comment is marked expired.</h2>
         <div class="row">
             <div class="input-field search-field col s8">
                 <input placeholder="Search" type="search" class="validate" id="searchfield">
@@ -129,22 +129,18 @@
                         </div>
                         <!-- Display the comment(s) -->
 						{% for object in topic.comments %}
-                        <div class="row comments-background">
-                            <div class="col s8 m10">
-                                <div class="comment-text">
-                                    {% if object.expired %}
-                                        <p><span class="em-red">Expired: </span>{{ object.comment_text }}</p>
-                                    {% else %}
-                                        <p>{{ object.comment_text }}</p>
-                                    {% endif %}
-                                    <p class="right-align"><em>{{ object.comment_author }}</em></p>
-                                </div>
+                        <div class="row comments-background float-left">
+                            <div class="comment-text">
+                                {% if object.expired %}
+                                    <p><span class="em-red">Expired: </span>{{ object.comment_text }}</p>
+                                {% else %}
+                                    <p>{{ object.comment_text }}</p>
+                                {% endif %}
+                                <p class="right-align"><em>{{ object.comment_author }}</em></p>
                             </div>
-                            <div class="col s2 m1">
+                            <div class="thumbs-field float-right">
                                 <div class="thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></div>
                                 <p>{{ object.comment_pos }}</p>
-                            </div>
-                            <div class="col s2 m1">
                                 <div class="thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></div>
                                 <p>{{ object.comment_neg }}</p>
                             </div>
@@ -205,6 +201,11 @@
       });
     
       // Add rating functionality (thumbs up/down)
+        $(".thumb-up, .thumb-down").hover(function(){
+            $(this).fadeOut(100);
+            $(this).fadeIn(100);
+        });
+
       $(".thumb-up").on('click', function(){
           urlTemplate = "{{ url_for('rate_pos', topic_id='v1', index='v2') }}";
           urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
