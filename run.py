@@ -1,9 +1,11 @@
 import os
 import datetime
-# import json
+import pymongo
+import math
 from flask import Flask, render_template, redirect, request, url_for, jsonify, make_response
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+
 
 from os import path
 
@@ -42,9 +44,41 @@ searchFilters = SearchFilters()
 @app.route('/')
 @app.route('/get_topics')
 def get_topics():
+    topic = mongo.db.topics
+    num_results = topic.find().count()
+
+    # Check if args for pagination already exist
+    if request.args:
+        # get args
+        limit = int(request.args['limit'])
+        offset = int(request.args['offset'])
+
+        # Prevent errors from manual user input in the URL
+        if offset < 0:
+            offset = 0
+
+        if offset > num_results:
+            offset = num_results
+
+    else:
+        limit = 5
+        offset = 0
+
+    starting_id = topic.find().sort('_id', pymongo.DESCENDING)
+    last_id = starting_id[offset]['_id']
+    topics = topic.find({'_id': {'$lte': last_id}}).sort('_id', pymongo.DESCENDING).limit(limit)
+    args = {
+        "p_limit": limit,
+        "p_offset": offset,
+        "num_results": num_results,
+        "num_pages": math.ceil(num_results / limit) + 1,
+        "active_page": offset / limit + 1,
+        "next_url": f"/get_topics?limit={str(limit)}&offset={str(offset + limit)}",
+        "prev_url": f"/get_topics?limit={str(limit)}&offset={str(offset - limit)}",
+    }
+
     return render_template(
-        "topics.html", topics=mongo.db.topics.find().sort(
-            'publish_date', searchFilters.dateOrder))
+        "topics.html", topics=topics, args=args)
 
 
 @app.route('/search_topics/<search_keyword>/<search_scope>')
@@ -194,6 +228,7 @@ def apply_filters():
     searchInclude = []
     for item in searchFilters.searchScope:
         searchInclude.append({item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
+    
     allFilters = [
         {"$or": searchInclude},
         {"os": {"$in": searchFilters.platform}},
@@ -205,11 +240,13 @@ def apply_filters():
     elif searchFilters.answers == "Unanswered":
         allFilters.append({"comments": {"$exists": False}})
 
-    search_result = mongo.db.topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
+    #.limit is new
+    search_result = mongo.db.topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(11)
+
     return search_result
 
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
         port=int(os.environ.get('PORT')),
-        debug=False)
+        debug=True)

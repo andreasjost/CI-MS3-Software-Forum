@@ -40,10 +40,6 @@
                         href="{{url_for('add_topic')}}">
                     New topic
                     </a>
-                    <a class="btn"
-                        href="{{url_for('reset_filters')}}">
-                    Reset filters
-                    </a>
                 </div>
                 <div class="col s4 l2">
                     <h4>Published</h4>
@@ -193,7 +189,33 @@
                 </li>
                 {% endfor %}
             </ul>
-            Total result: {{ topics.count() }}
+            Displaying {{ args.p_limit }} of {{ args.num_results }} topics in total
+
+            <!-- pagination -->
+            {% if args.num_results > args.p_limit %}
+  <ul class="pagination">
+    {% if args.p_offset > 0 %}
+        <li class="waves-effect"><a href="{{args.prev_url}}"><i class="material-icons">chevron_left</i></a></li>
+    {% else %}
+        <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+    {% for page in range (1, args.num_pages) %}
+        {% if args.active_page == page %}
+            <li class="active"><a href="">{{ page }}</a></li>
+        {% else %}
+            <li class="waves-effect"><a href="#!">{{ page }}</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if args.p_offset + args.p_limit < args.num_results  %}
+        <li class="waves-effect"><a href="{{args.next_url}}"><i class="material-icons">chevron_right</i></a></li>
+    {% else %}
+        <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+
+  
+            
         </div>
     </div>
 </section>
