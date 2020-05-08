@@ -43,31 +43,47 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-    <!-- js function including url's (they don't work in external js file) -->
+    <!-- js function containing  url...  (they don't work in external js file) -->
     <script type="text/javascript">
-           function searchFunction() {
-            let keyword = $('#searchfield').val();
-            if (keyword.length < 1) {
-                keyword = ".*";
-            }
-       
-            let items = [];
-       $('#search-scope').find('option:selected').each(function() {
-           item = ($(this).val());
-           items.push(item);
-       });
-       
+        function commitSearch(keyword, items) {
        urlTemplate0 = "{{ url_for('search_topics', search_keyword='v1', search_scope='v2') }}";
        urlTemplate1 = urlTemplate0.replace(/v1/, keyword);
        baseUrl = urlTemplate1.replace(/v2/, items);
-       
-       req = $.ajax(baseUrl)
+       commitAjax(baseUrl);
+    }
+
+    $('#sortdate').change(function () {
+        $("#dbupdate-progress").removeClass("hide-progress");
+        urlTemplate = "{{ url_for('sort_topics_date', date_order='v1') }}";
+        baseUrl = urlTemplate.replace(/v1/, $(this).find('option:selected').attr('value'));
+        commitAjax(baseUrl);
+    });
+
+    function platformChosen(items) {
+        urlTemplate = "{{ url_for('filter_topics_platform', platform_filter='v1') }}";
+        baseUrl = urlTemplate.replace(/v1/, items);
+        commitAjax(baseUrl);
+    }
+
+    function costChosen(items) {
+        urlTemplate = "{{ url_for('filter_topics_cost', cost_filter='v1') }}";
+        baseUrl = urlTemplate.replace(/v1/, items);
+        commitAjax(baseUrl);
+    }
+
+    function answersChosen(items) {
+        urlTemplate = "{{ url_for('filter_topics_answer', answer_filter='v1') }}";
+        baseUrl = urlTemplate.replace(/v1/, items);
+        commitAjax(baseUrl);
+    }
+
+    function commitAjax(baseUrl) {
+        req = $.ajax(baseUrl)
        req.done(function(data){
            $("#dbupdate-progress").addClass("hide-progress");
            $('#topics-table').html(data);
        });
     }
-
 
 	</script>
 </body>
