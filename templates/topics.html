@@ -9,8 +9,9 @@
         Write a comment if you can contribute to someones topic. If the topic has been edited after a comment was
         placed, the comment is marked 'expired'.
     </h2>
+    <div class="filteroptions-wrapper">
     <div class="row">
-        <div class="col s12 m6>">
+        <div class="col s12 m6">
             Enter a search keyword:
         </div>
         <div class="input-field search-field col s12 m6">
@@ -31,7 +32,7 @@
     </div>
     <ul class="collapsible">
         <li>
-            <div class="collapsible-header"><i class="material-icons">filter_list</i>Click here to choose more
+            <div class="collapsible-header"><i class="fas fa-caret-down"></i>Click here to choose more
                 filters to sort and search your results
             </div>
             <div class="collapsible-body">
@@ -96,6 +97,17 @@
         </li>
     </ul>
     </div>
+    </div>
+    <!-- modal for defensive programming-->
+    <div id="noselection-modal" class="modal">
+    <div class="modal-content">
+      <h4>Alert</h4>
+      <p>Please select at least 1 option</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+</div>
 </section>
 <section id="topics-section">
     <div id="progress-wrapper">
@@ -252,148 +264,4 @@
     </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-         $('select').formSelect();
-         
-       // Add commenting functionality
-         $(".add-comment").click(function(){
-             $(".comment-form").animate({height: "200px"});
-             $(".cancel-comment, .submit-comment, .comment-form").show();
-             $(".add-comment, .topic-options").hide();
-         });
-         $(".cancel-comment").click(function(){
-             $(".comment-form").animate({height: "0px"}, function(){$(".comment-form").hide()});
-             $(".cancel-comment, .submit-comment").hide();
-             $(".add-comment, .topic-options").show();
-         });
-       
-         // Add rating functionality (thumbs up/down)
-         $(".thumb-up").on('click', function(){
-             urlTemplate = "{{ url_for('rate_pos', topic_id='v1', index='v2') }}";
-             urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
-             baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index')); 
-             thumbsCountDisplay = $(this).next();
-             req = $.ajax(baseUrl)
-             req.done(function(data){
-                 let result = JSON.parse(req.responseText)
-                 $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
-             });
-       
-         });
-         $(".thumb-down").on('click', function(){
-             urlTemplate = "{{ url_for('rate_neg', topic_id='v1', index='v2') }}";
-             urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
-             baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index')); 
-             thumbsCountDisplay = $(this).next();
-             req = $.ajax(baseUrl)
-             req.done(function(data){
-                 let result = JSON.parse(req.responseText)
-                 $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
-             })
-         });
-       
-       
-         $('#searchfield').on("input", function(){
-             $("#dbupdate-progress").removeClass("hide-progress");
-             delay.count();
-         });
-       
-         $('#search-scope').change(function() {
-             $("#dbupdate-progress").removeClass("hide-progress");
-             searchFunction();
-         });
-       
-       
-         $('#sortdate').change(function() {
-             $("#dbupdate-progress").removeClass("hide-progress");
-             urlTemplate = "{{ url_for('sort_topics_date', date_order='v1') }}";
-             baseUrl = urlTemplate.replace(/v1/, $(this).find('option:selected').attr('value'));
-             req = $.ajax(baseUrl)
-             req.done(function(data){
-                 $("#dbupdate-progress").addClass("hide-progress");
-                 $('#topics-table').html(data);
-             });
-       
-         });
-       
-       
-         $('#platformfilter').change(function() {
-             $("#dbupdate-progress").removeClass("hide-progress");
-             let items = [];
-             $(this).find('option:selected').each(function() {
-               item = ($(this).val());
-               items.push(item);
-             });
-             urlTemplate = "{{ url_for('filter_topics_platform', platform_filter='v1') }}";
-             baseUrl = urlTemplate.replace(/v1/, items);
-             req = $.ajax(baseUrl)
-             req.done(function(data){
-                 $("#dbupdate-progress").addClass("hide-progress");
-                 $('#topics-table').html(data);
-             });
-         });
-       
-         $('#costfilter').change(function() {
-             $("#dbupdate-progress").removeClass("hide-progress");
-             urlTemplate = "{{ url_for('filter_topics_cost', cost_filter='v1') }}";
-             baseUrl = urlTemplate.replace(/v1/, $(this).find('option:selected').attr('value'));
-             req = $.ajax(baseUrl)
-             req.done(function(data){
-                 $("#dbupdate-progress").addClass("hide-progress");
-                 $('#topics-table').html(data);
-             });
-       
-         });
-       
-         $('#answersfilter').change(function() {
-             $("#dbupdate-progress").removeClass("hide-progress");
-             urlTemplate = "{{ url_for('filter_topics_answer', answer_filter='v1') }}";
-             baseUrl = urlTemplate.replace(/v1/, $(this).find('option:selected').attr('value'));
-             req = $.ajax(baseUrl)
-             req.done(function(data){
-                 $("#dbupdate-progress").addClass("hide-progress");
-                 $('#topics-table').html(data);
-             });
-         });
-       
-       })
-       
-       function searchFunction() {
-       let keyword = $('#searchfield').val();
-       if (keyword.length < 1) {
-           keyword = ".*";
-       }
-       
-       let items = [];
-       $('#search-scope').find('option:selected').each(function() {
-           item = ($(this).val());
-           items.push(item);
-       });
-       
-       urlTemplate0 = "{{ url_for('search_topics', search_keyword='v1', search_scope='v2') }}";
-       urlTemplate1 = urlTemplate0.replace(/v1/, keyword);
-       baseUrl = urlTemplate1.replace(/v2/, items);
-       
-       req = $.ajax(baseUrl)
-       req.done(function(data){
-           $("#dbupdate-progress").addClass("hide-progress");
-           $('#topics-table').html(data);
-       });
-       }
-       
-       // set a short delay after every keystroke in the search field
-       let delay = {
-       timer: setTimeout(function () {
-           // 
-       }, 100),
-       count: function () {
-           clearTimeout(this.timer);
-           this.timer = setTimeout(function () {
-               searchFunction();
-           }, 500);
-       }
-       };
-       
-</script>
 {% endblock %}

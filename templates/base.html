@@ -8,8 +8,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 	<link href="https://fonts.googleapis.com/css2?family=Blinker:wght@300;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;600&display=swap" rel="stylesheet"> 
 	<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
+    
 	<title>SoftPursuit</title>
 </head>
 
@@ -21,6 +21,9 @@
                 <ul class="right hide-on-med-and-down">
                     <li class="active"><a href="#home-section">Search</a></li>
                     <li><a href="#topics-section">Forum</a></li>
+                    					<a class="btn" href="{{url_for('add_topic')}}">
+						New topic
+					</a>
                 </ul>
 			</div>
 		</nav>
@@ -36,16 +39,35 @@
         </a>
     </footer>
 	
-
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-            // initialization of Materialize Collapsible
-            $('.collapsible').collapsible();
-            
-        
-        });
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- js function including url's (they don't work in external js file) -->
+    <script type="text/javascript">
+           function searchFunction() {
+            let keyword = $('#searchfield').val();
+            if (keyword.length < 1) {
+                keyword = ".*";
+            }
+       
+            let items = [];
+       $('#search-scope').find('option:selected').each(function() {
+           item = ($(this).val());
+           items.push(item);
+       });
+       
+       urlTemplate0 = "{{ url_for('search_topics', search_keyword='v1', search_scope='v2') }}";
+       urlTemplate1 = urlTemplate0.replace(/v1/, keyword);
+       baseUrl = urlTemplate1.replace(/v2/, items);
+       
+       req = $.ajax(baseUrl)
+       req.done(function(data){
+           $("#dbupdate-progress").addClass("hide-progress");
+           $('#topics-table').html(data);
+       });
+    }
+
 
 	</script>
 </body>
