@@ -4,6 +4,7 @@ $(document).ready(function () {
     $('select').formSelect();
     $('.collapsible').collapsible();
     $('.modal').modal();
+    $('.sidenav').sidenav();
 
     // Add commenting functionality
     $(".add-comment").click(function () {
@@ -85,6 +86,11 @@ $(document).ready(function () {
     // Defensive programming: Checking the length of text entered
     $('textarea, input').on("input", function () {
         checkTextLength($(this))
+    });
+
+    $('.nav-link').on('click', function(event) {
+        $('.nav-link').removeClass('nav-highlight').addClass('nav-passiv');
+        $(this).removeClass('nav-passiv').addClass('nav-highlight');
     });
 
 })
