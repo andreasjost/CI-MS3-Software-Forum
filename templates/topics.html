@@ -4,21 +4,22 @@
 <section id="home-section">
     <div class="container">
     <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
-    <h2>Create a new topic if you want tips for a certain task. Or use the search function to check if someone else
+    <h3>Create a new topic if you want tips for a certain task. Or use the search function to check if someone else
         has a similar request.
         Write a comment if you can contribute to someones topic. If the topic has been edited after a comment was
         placed, the comment is marked 'expired'.
-    </h2>
+    </h3>
     <div class="filteroptions-wrapper">
     <div class="row">
+        <div class="col m6">
         <div class="col s12 m6">
             Enter a search keyword:
         </div>
         <div class="input-field search-field col s12 m6">
             <input placeholder="Search" type="search" class="validate" id="searchfield">
         </div>
-    </div>
-    <div class="row">
+        </div>
+        <div class="col m6">
         <div class="col s12 m6">
             Search scope
         </div>
@@ -28,6 +29,7 @@
                 <option value="details" selected>Details</option>
                 <option value="comments.comment_text" selected>Comments</option>
             </select>
+        </div>
         </div>
     </div>
     <ul class="collapsible">
@@ -108,8 +110,19 @@
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
     </div>
 </div>
+<div id="maxlength40-modal" class="modal">
+    <div class="modal-content">
+      <h4>Alert</h4>
+      <p>Don't enter more than 40 characters</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+</div>
 </section>
 <section id="topics-section">
+<div class="container">
+<h2>Topics</h2>
     <div id="progress-wrapper">
         <div class="progress hide-progress" id="dbupdate-progress">
             <div class="indeterminate"></div>
@@ -117,10 +130,10 @@
     </div>
     <div id="topics-header">
         <!-- table header -->
-        <div class="container">
+        
             <div class="row">
                 <div class="col s12 l6">
-                    <h4>Topics</h4>
+                    <h4>Title</h4>
                 </div>
                 <div class="col s4 l2">
                     <h4>Published</h4>
@@ -135,9 +148,9 @@
                     <h4>Answers</h4>
                 </div>
             </div>
-        </div>
+        
         <!-- creating the table with the data from the database -->
-        <div id="topics-table" class="container">
+        <div id="topics-table">
             <ul class="collapsible" data-collapsible="accordion">
                 {% for topic in topics %}
                 <li>
@@ -167,6 +180,11 @@
                     </div>
                     <!-- collapsible body -->
                     <div class="collapsible-body">
+                                            <div class="row">
+                            <div class="col s12">
+                                <h5>Details:</h5>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="comment-wrapper">
                                 <p>{{ topic.details }}</p>
@@ -214,12 +232,14 @@
                             <div class="comment-form">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        Write your comment here
-                                        <input type="text" class="validate" name="comment_text">
+                                        <i class="material-icons prefix">edit</i>
+                                        <textarea id="comment-input" class="materialize-textarea"></textarea>
+                                        <label for="comment-input">Write your comment here</label>
                                     </div>
                                     <div class="input-field col s12">
-                                        Your name (will be displayed below the comment)
-                                        <input type="text" class="validate" name="comment_author">
+                                        <i class="material-icons prefix">account_circle</i>
+				                        <input id="comment-author" type="text" class="validate" name="comment_author">
+				                        <label for="comment-author">Your name</label>
                                     </div>
                                 </div>
                             </div>
@@ -262,6 +282,109 @@
             {% endif %}
         </div>
     </div>
+    </div>
+</section>
+<section id="addtopic-section">
+<div class="container">
+    <h2 class="white-text">Add a new topic</h2>
+
+<div class="inputform-wrapper">
+<div class="row">
+	<form action="{{ url_for('insert_topic') }}" method="POST" class="col s12">
+		<div class="row">
+			<div class="input-field col s12 m6">
+            <i class="material-icons prefix">announcement</i>
+				<input id="title" type="text" class="validate" name="title">
+				<label for="title">topic title</label>
+			</div>
+		    <div class="input-field col s12 m6">
+                <i class="material-icons prefix">account_circle</i>
+				<input id="author" type="text" class="validate" name="author">
+				<label for="author">Your name</label>
+			</div>
+			
+		</div>
+		<div class="row">
+        <div class="input-field col s12">
+                <i class="material-icons prefix">edit</i>
+				
+                <textarea id="description" name="details"></textarea>
+				<label for="description">Detail description of what you want to achieve</label>
+			</div>
+			
+		</div>
+		<div class="row">
+			<div class="col s12 m6 platform-select">
+				<h4>Select one or more platforms</h4>
+                <div class="platform-select">
+				<label>
+                    <input type="checkbox" class="filled-in" name="os" value="Windows"/>
+                    <span><div class="platform-icons"><i class="fab fa-windows"></i></div>Windows</span>
+                </label>
+                </div>
+				<div class="platform-select">
+				<label>
+                    <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
+                    <span><div class="platform-icons"><span><i class="fab fa-apple"></i></div>MacOS</span>
+                </label>
+                </div>
+				<div class="platform-select">
+				<label>
+                    <input type="checkbox" class="filled-in" name="os" value="Linux"/>
+                    <span><div class="platform-icons"><span><i class="fab fa-linux"></i></div>Linux</span>
+                </label>
+                </div>
+				<div class="platform-select">
+				<label>
+                    <input type="checkbox" class="filled-in" name="os" value="Android"/>
+                    <span><div class="platform-icons"><i class="fab fa-android"></i></div>Android</span>
+                </label>
+                </div>
+				<div class="platform-select">
+				<label>
+                    <input type="checkbox" class="filled-in" name="os" value="iOS"/>
+                    <span><div class="platform-icons"><i class="fas fa-mobile-alt"></i></div>iOS</span>
+                </label>
+				</div>
+                <div class="platform-select">
+				<label>
+                    <input type="checkbox" class="filled-in" name="os" value="Other"/>
+                    <span><div class="platform-icons"><i class="fas fa-desktop"></i></div>Other</span>
+                </label>
+                </div>
+			</div>
+			<div class="col s12 m6">
+				<h4>Purchase or subscription costs </h4>
+                <div class="platform-select">
+				<label>
+                    <input type="radio" name="cost" value="Any" checked>
+                    <span>Any</span>
+                </label>
+                </div>
+				<div class="platform-select">
+				<label>
+                    <input type="radio" name="cost" value="Free"/>
+                    <span>Free</span>
+                </label>
+                </div>
+				<div class="platform-select">
+				<label>
+                    <input type="radio" name="cost" value="Paid"/>
+                    <span>Paid</span>
+                </label>
+                </div>
+			</div>
+		</div>
+
+		<div class="row">
+        <div class="save-btn-wrapper">
+			<button class="btn blue darken-2" type="submit" name="action"><i class="fas fa-file-download"></i>Save</button>
+            </div>
+		</div>
+	</form>
+    </div>
+</div>
+<div class="container">
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 {% endblock %}
