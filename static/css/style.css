@@ -4,10 +4,6 @@
     text-align: right;
 }
 
-section {
-    border-top: 64px solid transparent;
-    margin-top: -64px;
-}
 
 p {
     margin: 0;
@@ -25,6 +21,15 @@ p {
     width: 100%;
 }
 
+.white-text {
+    color: white;
+}
+
+section {
+    border-top: 64px solid transparent;
+    margin-top: -64px;
+}
+
 /* --------------------------------------------------- headers */
 
 h1 {
@@ -39,6 +44,13 @@ h1 {
 h2 {
     font-family: 'Blinker', sans-serif;
     font-weight: 600;
+    font-size: 2rem;
+    margin-top: 0;
+    padding-top: 15px;
+}
+
+h3 {
+    font-weight: 300;
     font-size: 1.5rem;
 }
 
@@ -46,8 +58,8 @@ h4 {
     font-family: 'Blinker', sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
-    margin: 0;
-    border-bottom: 0.5px solid #222;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 h5 {
@@ -60,9 +72,11 @@ h5 {
     margin-bottom: 0;
 }
 
+
 .btn {
     
-  
+    border-radius: 10px;
+    
 }
 
 /* --------------------------------------------------- header */
@@ -98,7 +112,25 @@ nav {
     background-image: url("/static/images/bg-sky.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    
+}
+
+#home-section .collapsible {
+    background-color: #fff;
+    border: 1px solid #fff;
+    margin-bottom: 0;
+}
+
+#home-section .collapsible li.active {
+    background-color: #eeeeee;
+}
+
+.filteroptions-wrapper {
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 3px solid #fff;
+    border-radius: 15px;
+    background-color: rgba(255,255,255,.4);
 }
 
 /* --------------------------------------------------- topics section */
@@ -122,19 +154,8 @@ nav {
 }
 
 #topics-section {
-    
-    
-}
-
-#topics-header {
-    padding-top: 15px;
     background-image: radial-gradient(#fff, #fff, #ddd);
-}
-
-#topics-section .btn {
-    background-color: #0066ff;
-    margin: 10px;
-    padding: 0 10px;
+    
 }
 
 #topics-section .material-icons {
@@ -152,10 +173,6 @@ nav {
     margin-top: -5px;
 }
 
-.hide-selection input.select-dropdown {
-    color: transparent;
-
-}
 
 .replacement-label {
     font-size: 1.1rem;
@@ -202,7 +219,7 @@ input[type=search]:not(.browser-default) {
     padding-bottom: 0.1rem;
     border-bottom: 0;
     border-top: 0.5px solid #aaa;
-    background-color: transparent;
+    background-color: #fff;
 }
 
 .collapsible-body {
@@ -273,7 +290,8 @@ label {
     border-radius: 0 0 10px 10px;
     box-shadow: 1px 1px 4px #aaa;
     background-color: #e6f0ff;
-    margin: 0 auto 5px auto;
+    margin: 0 10px 5px auto;
+    float: right;
     width: 250px;
 }
 
@@ -289,6 +307,48 @@ label {
 
 .collapsible li.active {
     background-color: #cce0ff;
+}
+
+.pagination {
+    margin: 5px auto 15px auto;
+    text-align: center;
+}
+
+/*------------------------------------------------------- new topic section    */
+
+#addtopic-section {
+    background-image: url("/static/images/bg-table.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.inputform-wrapper {
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 3px solid #333;
+    border-radius: 15px;
+    margin-bottom: 74px;
+    background-color: rgba(255,255,255,.8);
+}
+
+.save-btn-wrapper {
+    width: 100px;
+    margin: 10px auto 0 auto;
+}
+
+.save-btn-wrapper i {
+    margin-right: 10px;
+}
+
+.platform-icons {
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+}
+
+.platform-select {
+    padding-top: 10px;
+    
 }
 
 /*------------------------------------------------------- Footer    */
