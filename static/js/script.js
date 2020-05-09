@@ -44,17 +44,15 @@ $(document).ready(function () {
 
     // user input in the search field
     $('#searchfield').on("input", function () {
-        if ($(this).val().length > 40) {
-            $('#maxlength40-modal').modal('open');
-        } else {
-        $("#dbupdate-progress").removeClass("hide-progress");
-        delay.count();
+        if (checkTextLength($(this))) {
+            $("#dbupdate-progress").removeClass("hide-progress");
+            delay.count();
         }
     });
 
     // user selects the search scope (Title, Details, Comments)
     $('#search-scope').change(function () {
-if (checkSelection($(this))) {
+        if (checkSelection($(this))) {
             $("#dbupdate-progress").removeClass("hide-progress");
             searchFunction();
         }
@@ -82,6 +80,11 @@ if (checkSelection($(this))) {
     $('#answersfilter').change(function () {
         $("#dbupdate-progress").removeClass("hide-progress");
         answersChosen($(this).find('option:selected').attr('value'));
+    });
+
+    // Defensive programming: Checking the length of text entered
+    $('textarea, input').on("input", function () {
+        checkTextLength($(this))
     });
 
 })
@@ -114,9 +117,21 @@ function searchFunction() {
 }
 
 // Defensive programming: User must select at least one item if <select> is multiple
-function checkSelection(value) {
-    if (value.val().length === 0) {
+function checkSelection(element) {
+    if (element.val().length === 0) {
             $('#noselection-modal').modal('open');
+            return false;
+        } else {
+            return true;
+        }
+}
+
+// Defensive programming: User cannot enter more than 'maxlength'-digits
+function checkTextLength(element) {
+    if (element.val().length > element.attr('maxlength') - 1) {
+            limit = String(element.attr('maxlength'));
+            $('#character-limit').text(limit);
+            $('#maxlength40-modal').modal('open');
             return false;
         } else {
             return true;
