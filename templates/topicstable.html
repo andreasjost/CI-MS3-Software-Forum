@@ -30,13 +30,20 @@
         <!-- collapsible body -->
         <div class="collapsible-body">
             <div class="row">
+                <div class="col s12">
+                    <h5>Details:</h5>
+                </div>
+            </div>
+            <div class="row">
                 <div class="comment-wrapper">
                     <p>{{ topic.details }}</p>
                     <p class="right-align topic-author"><em>{{ topic.author }}</em></p>
                 </div>
                 <div class="topic-btn-wrapper">
-                    <a href="{{ url_for('delete_topic', topic_id=topic._id) }}" class="topic-action"><i class="material-icons">delete</i>Delete Topic</a>
-                    <a href="{{ url_for('edit_topic', topic_id=topic._id) }}" class="topic-action"><i class="material-icons">edit</i>Edit Topic</a>
+                    <a href="{{ url_for('delete_topic', topic_id=topic._id) }}"
+                        class="topic-action"><i class="material-icons">delete</i>Delete Topic</a>
+                    <a href="{{ url_for('edit_topic', topic_id=topic._id) }}"
+                        class="topic-action"><i class="material-icons">edit</i>Edit Topic</a>
                 </div>
             </div>
             <!-- Display the comment(s) -->
@@ -58,9 +65,13 @@
                     </div>
                 </div>
                 <div class="thumbs-field">
-                    <div class="thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-up"></i></div>
+                    <div class="thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
+                        <i class="fas fa-thumbs-up"></i>
+                    </div>
                     <p>{{ object.comment_pos }}</p>
-                    <div class="thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}"><i class="fas fa-thumbs-down"></i></div>
+                    <div class="thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
+                        <i class="fas fa-thumbs-down"></i>
+                    </div>
                     <p>{{ object.comment_neg }}</p>
                 </div>
             </div>
@@ -70,12 +81,14 @@
                 <div class="comment-form">
                     <div class="row">
                         <div class="input-field col s12">
-                            Write your comment here
-                            <input type="text" class="validate" name="comment_text">
+                            <i class="material-icons prefix">edit</i>
+                            <textarea class="comment-input materialize-textarea" maxlength="400"></textarea>
+                            <label for="comment-input">Write your comment here</label>
                         </div>
                         <div class="input-field col s12">
-                            Your name (will be displayed below the comment)
-                            <input type="text" class="validate" name="comment_author">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input type="text" class="comment-author" name="comment_author" maxlength="40">
+                            <label for="comment-author">Your name</label>
                         </div>
                     </div>
                 </div>
@@ -91,15 +104,13 @@
         </div>
     </li>
     {% else %}
-        
-            The filtered results contain more tha 10 items. Please specify your search to get less results.
-        
+    The filtered results contain more tha 10 items. Please specify your search to get less results.
     {% endif %}
     {% endfor %}
 </ul>
 Total results: {{ topics.count() }}
-                    <a class="btn"
-                        href="{{url_for('reset_filters')}}">
-                    Reset filters
-                    </a>
+<a class="btn"
+    href="{{url_for('reset_filters')}}">
+Reset filters
+</a>
 <script>$('.collapsible').collapsible();</script>
