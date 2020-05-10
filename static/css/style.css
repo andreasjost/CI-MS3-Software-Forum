@@ -1,4 +1,4 @@
-/* --------------------------------------------------- box special */
+/* --------------------------------------------------- box and color special */
 
 .right-align {
     text-align: right;
@@ -30,6 +30,65 @@ section {
     margin-top: -64px;
 }
 
+.placeholder-bottom-section {
+    height: 20px;
+}
+
+.select-wrapper input.select-dropdown {
+    font-size: 1rem;
+    height: 2rem;
+    border: 1px solid #fff;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+/* changing the color of Materialize elements */
+
+.select-wrapper input.select-dropdown:focus {
+    border: 1px solid #1976D2;
+}
+
+[type="checkbox"]:checked+span:not(.lever):before {
+    border-right-color: #1976D2;
+    border-bottom-color: #1976D2;
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    color: #1976D2;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after,
+[type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after,
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    background-color: #1976D2;
+    border-color: #1976D2;
+}
+
+.pagination li.active {
+    background-color: #1976D2;
+    border-radius: 50%;
+}
+
+input[type=text]:not(.browser-default) {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 0 5px 0 5px;
+    height: 2rem;
+    background-color: #fff;
+}
+
+textarea {
+    border: 1px solid #aaa;
+    padding: 5px 5px 5px 5px;
+    height: 3.5rem;
+    background-color: #fff;
+}
+
+.input[type=text]:focus {
+    border: 1px solid #1976D2;
+    color: #1976D2;
+}
+
 /* --------------------------------------------------- headers */
 
 h1 {
@@ -37,8 +96,8 @@ h1 {
     font-weight: 600;
     font-size: 2.5rem;
     text-align: center;
-    color: black;
-    padding-top: 50px;
+    color: #fff;
+    
 }
 
 h2 {
@@ -47,11 +106,13 @@ h2 {
     font-size: 2rem;
     margin-top: 0;
     padding-top: 15px;
+    text-align: center;
 }
 
 h3 {
     font-weight: 300;
     font-size: 1.5rem;
+    color: #fff;
 }
 
 h4 {
@@ -60,12 +121,20 @@ h4 {
     font-weight: 600;
     padding-top: 5px;
     padding-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 h5 {
     margin-top: 0.5rem;
     font-size: 1rem;
     font-weight: 600;
+}
+
+h6 {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 2px 5px 2px 5px;
 }
 
 .row {
@@ -82,8 +151,15 @@ h5 {
 /* --------------------------------------------------- header */
 nav {
     background-color: #000;
-    position: fixed;
     top: 0px;
+}
+
+.nav-passiv {
+    color: yellow;
+}
+
+.nav-highlight {
+    color: #1976D2;
 }
 
 .navbar-button {
@@ -99,17 +175,9 @@ nav {
     margin-left: 15px;
 }
 
-.search-field {
-    margin-top: 0;
-}
-
-#search-options {
-    margin-top: 12px;
-}
-
 /* --------------------------------------------------- home section */
 #home-section {
-    background-image: url("/static/images/bg-sky.jpg");
+    background-image: url("/static/images/bg-home.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -126,12 +194,21 @@ nav {
 
 .filteroptions-wrapper {
     padding-bottom: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border: 3px solid #fff;
+    border: 3px solid #333;
     border-radius: 15px;
-    background-color: rgba(255,255,255,.4);
+    background-color: rgba(255,255,255,0.8);
 }
+
+#searchfield {
+    margin: 0;
+}
+
+#home-section .collapsible {
+    margin-right: 15px;
+    margin-left: 15px;
+    border-radius: 0 0 5px 5px;
+}
+
 
 /* --------------------------------------------------- topics section */
 
@@ -153,7 +230,7 @@ nav {
    
 }
 
-#topics-section {
+.topics-background {
     background-image: radial-gradient(#fff, #fff, #ddd);
     
 }
@@ -162,24 +239,7 @@ nav {
     margin-right: 0;
 }
 
-.select-wrapper input.select-dropdown {
-    border: none;
-    font-size: 1rem;
-    height: 1.2rem;
-    
-}
-
-#search-options .select-wrapper input.select-dropdown {
-    margin-top: -5px;
-}
-
-
-.replacement-label {
-    font-size: 1.1rem;
-    position: inherit;
-    top: 0;
-}
-
+/*
 .select-wrapper {
     position: absolute;
     top: 0;
@@ -190,11 +250,12 @@ nav {
     position: relative;
     top: -1rem;
 }
+*/
 
 
 input[type=search]:not(.browser-default) {
     border: 1px solid #aaa;
-    border-radius: 15px;
+    border-radius: 5px;
     padding-left: 10px;
     margin-top: 5px;
     font-size: 1rem;
@@ -208,9 +269,11 @@ input[type=search]:not(.browser-default) {
     padding-right: 10px;
 }
 
+/*
 .select-wrapper .caret {
     margin-top: -2px;
 }
+*/
 
 .collapsible-header {
     padding-left: 0;
@@ -262,7 +325,7 @@ label {
     margin-left: 20px;
 }
 
-.comment-wrapper {
+.details-wrapper {
     border: 1px solid transparent;
     border-radius: 10px;
     box-shadow: 1px 1px 4px #aaa;
@@ -270,6 +333,10 @@ label {
     padding-left: 5px;
     padding-right: 5px;
     margin: 0 10px 0 10px;
+}
+
+.flat-corner {
+    border-radius: 10px 10px 0 10px;
 }
 
 .comment-text {
@@ -327,7 +394,7 @@ label {
     padding-right: 15px;
     border: 3px solid #333;
     border-radius: 15px;
-    margin-bottom: 74px;
+    margin-bottom: 15px;
     background-color: rgba(255,255,255,.8);
 }
 
