@@ -110,23 +110,23 @@
 </ul>
 
 
-Displaying {{ filterOptions.p_limit }} of {{ filterOptions.num_results }} topics in total
+Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics in total
 <!-- pagination -->
-{% if filterOptions.num_results > filterOptions.p_limit %}
+{% if paginationOpt.num_results > paginationOpt.p_limit %}
 <ul class="pagination">
-    {% if filterOptions.p_offset > 0 %}
+    {% if paginationOpt.p_offset > 0 %}
     <li><a href="javascript:pageDown();"><i class="material-icons">chevron_left</i></a></li>
     {% else %}
     <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
     {% endif %}
-    {% for page in range (1, filterOptions.num_pages) %}
-    {% if filterOptions.active_page == page %}
+    {% for page in range (1, paginationOpt.num_pages) %}
+    {% if paginationOpt.active_page == page %}
     <li class="active"><a href="#">{{ page }}</a></li>
     {% else %}
-    <li><a href="#!">{{ page }}</a></li>
+    <li><a href="javascript:pageRandom({{ page }});">{{ page }}</a></li>
     {% endif %}
     {% endfor %}
-    {% if filterOptions.p_offset + filterOptions.p_limit < filterOptions.num_results  %}
+    {% if paginationOpt.p_offset + paginationOpt.p_limit < paginationOpt.num_results  %}
     <li><a href="javascript:pageUp();"><i class="material-icons">chevron_right</i></a>
     </li>
     {% else %}
