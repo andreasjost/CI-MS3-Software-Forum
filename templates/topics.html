@@ -3,117 +3,118 @@
 {% block content %}
 <section id="home-section">
     <div class="container">
-    <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
-    <h3>Create a new topic if you want tips for a certain task. Or use the search function to check if someone else
-        has a similar request.
-        Write a comment if you can contribute to someones topic. If the topic has been edited after a comment was
-        placed, the comment is marked 'expired'.
-    </h3>
-    <div class="filteroptions-wrapper">
-        <div class="row">
-            <div class="col s12 m6">
-                <div class="row">
-                    <div class="col s12">
-                        <h6>Enter a search keyword:</h6>
+        <h1>We help you achieve your goal. Choose the right software for your purpose.</h1>
+        <h3>Create a new topic if you want tips for a certain task. Or use the search function to check if someone else
+            has a similar request.
+            Write a comment if you can contribute to someones topic. If the topic has been edited after a comment was
+            placed, the comment is marked 'expired'.
+        </h3>
+        <div class="filteroptions-wrapper">
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="row">
+                        <div class="col s12">
+                            <h6>Enter a search keyword:</h6>
+                        </div>
+                        <div class="col s12">
+                            <input placeholder="Search" type="search" class="validate" id="searchfield" maxlength="20">
+                        </div>
                     </div>
-                    <div class="col s12">
-                        <input placeholder="Search" type="search" class="validate" id="searchfield" maxlength="20">
+                </div>
+                <div class="col s12 m6">
+                    <div class="row">
+                        <div class="col s12">
+                            <h6>Search scope</h6>
+                        </div>
+                        <div class="col s12">
+                            <select multiple id="search-scope">
+                                <option value="title" selected>Titles</option>
+                                <option value="details" selected>Details</option>
+                                <option value="comments.comment_text" selected>Comments</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col s12 m6">
-                <div class="row">
-                    <div class="col s12">
-                        <h6>Search scope</h6>
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="fas fa-caret-down"></i>More search and sort options
                     </div>
-                    <div class="col s12">
-                        <select multiple id="search-scope">
-                            <option value="title" selected>Titles</option>
-                            <option value="details" selected>Details</option>
-                            <option value="comments.comment_text" selected>Comments</option>
-                        </select>
+                    <div class="collapsible-body">
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <h6>Sort publish date</h6>
+                                <select id="sortdate">
+                                    <option value="-1" selected>Descending</option>
+                                    <option value="1">Ascending</option>
+                                </select>
+                            </div>
+                            <div class="col s12 m6">
+                                <h6>Select your preferred platform</h6>
+                                <select multiple id="platformfilter">
+                                    <option value="Windows" selected>Windows</option>
+                                    <option value="MacOS" selected>MacOS</option>
+                                    <option value="Linux" selected>Linux</option>
+                                    <option value="Android" selected>Android</option>
+                                    <option value="iOS" selected>iOS</option>
+                                    <option value="Other" selected>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <h6>Price</h6>
+                                <select id="costfilter">
+                                    <option value="All" selected>All</option>
+                                    <option value="Free">Free</option>
+                                    <option value="Paid">Paid</option>
+                                </select>
+                            </div>
+                            <div class="col s12 m6">
+                                <h6>Commented</h6>
+                                <select id="answersfilter">
+                                    <option value="All" selected>All</option>
+                                    <option value="Answered">Answered</option>
+                                    <option value="Unanswered">Unanswered</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </li>
+            </ul>
+        </div>
+        <!-- modal for defensive programming-->
+        <div id="noselection-modal" class="modal">
+            <div class="modal-content">
+                <h4>Alert</h4>
+                <p>Please select at least 1 option</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
             </div>
         </div>
-        <ul class="collapsible">
-            <li>
-                <div class="collapsible-header"><i class="fas fa-caret-down"></i>More search and sort options
-                </div>
-                <div class="collapsible-body">
-                    <div class="row">
-                        <div class="col s12 m6">
-                            <h6>Sort publish date</h6>
-                            <select id="sortdate">
-                                <option value="-1" selected>Descending</option>
-                                <option value="1">Ascending</option>
-                            </select>
-                        </div>
-                        <div class="col s12 m6">
-                            <h6>Select your preferred platform</h6>
-                            <select multiple id="platformfilter">
-                                <option value="Windows" selected>Windows</option>
-                                <option value="MacOS" selected>MacOS</option>
-                                <option value="Linux" selected>Linux</option>
-                                <option value="Android" selected>Android</option>
-                                <option value="iOS" selected>iOS</option>
-                                <option value="Other" selected>Other</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 m6">
-                            <h6>Price</h6>
-                            <select id="costfilter">
-                                <option value="All" selected>All</option>
-                                <option value="Free">Free</option>
-                                <option value="Paid">Paid</option>
-                            </select>
-                        </div>
-                        <div class="col s12 m6">
-                            <h6>Commented</h6>
-                            <select id="answersfilter">
-                                <option value="All" selected>All</option>
-                                <option value="Answered">Answered</option>
-                                <option value="Unanswered">Unanswered</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <!-- modal for defensive programming-->
-    <div id="noselection-modal" class="modal">
-        <div class="modal-content">
-            <h4>Alert</h4>
-            <p>Please select at least 1 option</p>
+        <div id="maxlength40-modal" class="modal">
+            <div class="modal-content">
+                <h4>Alert</h4>
+                <p>You have reached the limit of maximum <span id="character-limit">x</span> characters</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+            </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+        <div class="placeholder-bottom-section">
         </div>
-    </div>
-    <div id="maxlength40-modal" class="modal">
-        <div class="modal-content">
-            <h4>Alert</h4>
-            <p>You have reached the limit of maximum <span id="character-limit">x</span> characters</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
-        </div>
-    </div>
-    <div class="placeholder-bottom-section">
     </div>
 </section>
 <section id="topics-section">
     <div class="topics-background">
+        <div id="progress-wrapper">
+            <div class="progress hide-progress" id="dbupdate-progress">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
         <div class="container">
             <h2>Topics</h2>
-            <div id="progress-wrapper">
-                <div class="progress hide-progress" id="dbupdate-progress">
-                    <div class="indeterminate"></div>
-                </div>
-            </div>
             <div id="topics-header">
                 <!-- table header -->
                 <div class="row">
@@ -135,9 +136,7 @@
                 </div>
                 <!-- creating the table with the data from the database -->
                 <div id="topics-table">
-                   
-
-                   
+                    <!-- the file topicstable.html is inserted here -->
                 </div>
             </div>
         </div>
@@ -145,119 +144,120 @@
 </section>
 <section id="addtopic-section">
     <div class="container">
-    <h2 class="white-text">Add a new topic</h2>
-    <div class="inputform-wrapper">
-        <div class="row">
-            <form action="{{ url_for('insert_topic') }}" method="POST" class="col s12">
-                <div class="row">
-                    <div class="col s12 m6">
-                        <label for="title">
-                            <h6>Topic title:</h6>
-                        </label>
-                        <input id="topic-title" type="text" name="title" maxlength="40">
-                    </div>
-                    <div class="col s12 m6">
-                        <label for="author">
-                            <h6>Your name:</h6>
-                        </label>
-                        <input id="topic-author" type="text" name="author" maxlength="40">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <label for="topic-description">
-                            <h6>Detail description of what you want to achieve</h6>
-                        </label>
-                        <textarea id="topic-description" name="details" maxlength="400"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m6 platform-select">
-                        <h4>Select one or more platforms</h4>
-                        <div class="platform-select">
-                            <label>
-                                <input type="checkbox" class="filled-in" name="os" value="Windows"/>
-                                <span>
-                                    <div class="platform-icons"><i class="fab fa-windows"></i></div>
-                                    Windows
-                                </span>
+        <h2 class="white-text">Add a new topic</h2>
+        <div class="inputform-wrapper">
+            <div class="row">
+                <form action="{{ url_for('insert_topic') }}" method="POST" class="col s12">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <label for="title">
+                                <h6>Topic title:</h6>
                             </label>
+                            <input id="topic-title" type="text" name="title" maxlength="40">
                         </div>
-                        <div class="platform-select">
-                            <label>
-                                <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
-                                <span>
-                                <div class="platform-icons"><span><i class="fab fa-apple"></i></div>
-                                MacOS</span>
+                        <div class="col s12 m6">
+                            <label for="author">
+                                <h6>Your name:</h6>
                             </label>
-                        </div>
-                        <div class="platform-select">
-                            <label>
-                                <input type="checkbox" class="filled-in" name="os" value="Linux"/>
-                                <span>
-                                <div class="platform-icons"><span><i class="fab fa-linux"></i></div>
-                                Linux</span>
-                            </label>
-                        </div>
-                        <div class="platform-select">
-                            <label>
-                                <input type="checkbox" class="filled-in" name="os" value="Android"/>
-                                <span>
-                                    <div class="platform-icons"><i class="fab fa-android"></i></div>
-                                    Android
-                                </span>
-                            </label>
-                        </div>
-                        <div class="platform-select">
-                            <label>
-                                <input type="checkbox" class="filled-in" name="os" value="iOS"/>
-                                <span>
-                                    <div class="platform-icons"><i class="fas fa-mobile-alt"></i></div>
-                                    iOS
-                                </span>
-                            </label>
-                        </div>
-                        <div class="platform-select">
-                            <label>
-                                <input type="checkbox" class="filled-in" name="os" value="Other"/>
-                                <span>
-                                    <div class="platform-icons"><i class="fas fa-desktop"></i></div>
-                                    Other
-                                </span>
-                            </label>
+                            <input id="topic-author" type="text" name="author" maxlength="40">
                         </div>
                     </div>
-                    <div class="col s12 m6">
-                        <h4>Purchase or subscription costs </h4>
-                        <div class="platform-select">
-                            <label>
-                            <input type="radio" name="cost" value="Any" checked>
-                            <span>Any</span>
+                    <div class="row">
+                        <div class="col s12">
+                            <label for="topic-description">
+                                <h6>Detail description of what you want to achieve</h6>
                             </label>
-                        </div>
-                        <div class="platform-select">
-                            <label>
-                            <input type="radio" name="cost" value="Free"/>
-                            <span>Free</span>
-                            </label>
-                        </div>
-                        <div class="platform-select">
-                            <label>
-                            <input type="radio" name="cost" value="Paid"/>
-                            <span>Paid</span>
-                            </label>
+                            <textarea id="topic-description" name="details" maxlength="400"></textarea>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="save-btn-wrapper">
-                        <button class="btn blue darken-2" type="submit" name="action"><i class="fas fa-file-download"></i>Save</button>
+                    <div class="row">
+                        <div class="col s12 m6 platform-select">
+                            <h4>Select one or more platforms</h4>
+                            <div class="platform-select">
+                                <label>
+                                    <input type="checkbox" class="filled-in" name="os" value="Windows"/>
+                                    <span>
+                                        <div class="platform-icons"><i class="fab fa-windows"></i></div>
+                                        Windows
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="platform-select">
+                                <label>
+                                    <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
+                                    <span>
+                                    <div class="platform-icons"><span><i class="fab fa-apple"></i></div>
+                                    MacOS</span>
+                                </label>
+                            </div>
+                            <div class="platform-select">
+                                <label>
+                                    <input type="checkbox" class="filled-in" name="os" value="Linux"/>
+                                    <span>
+                                    <div class="platform-icons"><span><i class="fab fa-linux"></i></div>
+                                    Linux</span>
+                                </label>
+                            </div>
+                            <div class="platform-select">
+                                <label>
+                                    <input type="checkbox" class="filled-in" name="os" value="Android"/>
+                                    <span>
+                                        <div class="platform-icons"><i class="fab fa-android"></i></div>
+                                        Android
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="platform-select">
+                                <label>
+                                    <input type="checkbox" class="filled-in" name="os" value="iOS"/>
+                                    <span>
+                                        <div class="platform-icons"><i class="fas fa-mobile-alt"></i></div>
+                                        iOS
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="platform-select">
+                                <label>
+                                    <input type="checkbox" class="filled-in" name="os" value="Other"/>
+                                    <span>
+                                        <div class="platform-icons"><i class="fas fa-desktop"></i></div>
+                                        Other
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <h4>Purchase or subscription costs </h4>
+                            <div class="platform-select">
+                                <label>
+                                <input type="radio" name="cost" value="Any" checked>
+                                <span>Any</span>
+                                </label>
+                            </div>
+                            <div class="platform-select">
+                                <label>
+                                <input type="radio" name="cost" value="Free"/>
+                                <span>Free</span>
+                                </label>
+                            </div>
+                            <div class="platform-select">
+                                <label>
+                                <input type="radio" name="cost" value="Paid"/>
+                                <span>Paid</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="row">
+                        <div class="save-btn-wrapper">
+                            <button class="btn blue darken-2" type="submit" name="action"><i class="fas fa-file-download"></i>Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="placeholder-bottom-section">
+        <div class="placeholder-bottom-section">
+        </div>
     </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

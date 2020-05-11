@@ -25,9 +25,9 @@
                 </nav>
             </div>
             <ul class="sidenav" id="mobile-menu">
-                <li><a class="nav-link nav-highlight" href="#home-section">Search</a></li>
-                <li><a class="nav-link" href="#topics-section">Topics</a></li>
-                <li><a class="nav-link" href="#addtopic-section">Add topic</a></li>
+                <li><a class="sidenav-close nav-link nav-highlight" href="#home-section">Search</a></li>
+                <li><a class="sidenav-close nav-link" href="#topics-section">Topics</a></li>
+                <li><a class="sidenav-close nav-link" href="#addtopic-section">Add topic</a></li>
             </ul>
         </header>
         {% block content %}{% endblock %}
@@ -47,6 +47,7 @@
         <script type="text/javascript">
 
             $(document).ready(function () {
+                $("#dbupdate-progress").removeClass("hide-progress");
                 baseUrl = "{{ url_for('get_topics') }}";
                 commitAjax(baseUrl);
             });
@@ -85,12 +86,11 @@
             }
             
             function commitAjax(baseUrl) {
-            req = $.ajax(baseUrl)
-            req.done(function(data){
-               $("#dbupdate-progress").addClass("hide-progress");
-               $('#topics-table').html(data);
-               
-            });
+                req = $.ajax(baseUrl)
+                req.done(function(data){
+                    $("#dbupdate-progress").addClass("hide-progress");
+                    $('#topics-table').html(data);
+                });
             }
 
             // pagination
@@ -106,7 +106,12 @@
                 commitAjax(baseUrl);
             }
 
-
+            function pageRandom(value) {
+                $("#dbupdate-progress").removeClass("hide-progress");
+                urlTemplate = "{{ url_for('pagination_random', value='v1') }}";
+                baseUrl = urlTemplate.replace(/v1/, value);
+                commitAjax(baseUrl);
+            }
 
 
             // Add rating functionality (thumbs up/down)
