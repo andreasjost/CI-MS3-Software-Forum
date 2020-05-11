@@ -15,7 +15,7 @@
         <header>
             <div class="navbar-fixed">
                 <nav class="nav-wrapper">
-                    <a href="{{url_for('get_topics')}}" class="brand-logo">SoftPursuit</a>
+                    <a href="{{url_for('home')}}" class="brand-logo">SoftPursuit</a>
                     <a href="" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a class="nav-link nav-highlight" href="#home-section">Search</a></li>
@@ -43,8 +43,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-        <!-- js function containing  url...  (they don't work in external js file) -->
+        <!-- js function containing a flask url (they don't work in external js file) -->
         <script type="text/javascript">
+
+            $(document).ready(function () {
+                baseUrl = "{{ url_for('get_topics') }}";
+                commitAjax(baseUrl);
+            });
+
+
             function commitSearch(keyword, items) {
             urlTemplate0 = "{{ url_for('search_topics', search_keyword='v1', search_scope='v2') }}";
             urlTemplate1 = urlTemplate0.replace(/v1/, keyword);
@@ -82,8 +89,25 @@
             req.done(function(data){
                $("#dbupdate-progress").addClass("hide-progress");
                $('#topics-table').html(data);
+               
             });
             }
+
+            // pagination
+            function pageUp() {     
+                $("#dbupdate-progress").removeClass("hide-progress");           
+                baseUrl = "{{ url_for('pagination_plus') }}";
+                commitAjax(baseUrl);
+            }
+
+            function pageDown() { 
+                $("#dbupdate-progress").removeClass("hide-progress");               
+                baseUrl = "{{ url_for('pagination_minus') }}";
+                commitAjax(baseUrl);
+            }
+
+
+
 
             // Add rating functionality (thumbs up/down)
     $(".thumb-up").on('click', function () {
@@ -109,6 +133,7 @@
             $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
         })
     });
+    
             
         </script>
     </body>
