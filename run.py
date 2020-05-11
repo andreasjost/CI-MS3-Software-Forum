@@ -28,12 +28,6 @@ class SearchFilters:
     platform = ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other']
     cost = ".*"
     answers = "All"
-    # pagination:
-    p_limit = 5
-    p_offset = 0
-    num_results = 0
-    num_pages = 0
-    active_page = 0
 
     def resetFilters(self):
         self.searchKeyword = ".*"
@@ -42,7 +36,16 @@ class SearchFilters:
         self.platform = ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other']
         self.cost = ".*"
         self.answers = "All"
-        # pagination
+
+
+class PaginationSettings:
+    p_limit = 5
+    p_offset = 0
+    num_results = 0
+    num_pages = 0
+    active_page = 0
+
+    def resetSettings(self):
         self.p_limit = 5
         self.p_offset = 0
         self.num_results = mongo.db.topics.find().count()
@@ -51,12 +54,14 @@ class SearchFilters:
 
 
 searchFilters = SearchFilters()
+pagination = PaginationSettings()
 
 
 @app.route('/')
 @app.route('/home')
 def home():
     searchFilters.resetFilters()
+    pagination.resetSettings()
     return render_template("topics.html")
 
 
@@ -85,41 +90,29 @@ def get_topics():
     starting_id = topic.find().sort('_id', pymongo.DESCENDING)
     last_id = starting_id[offset]['_id']
     topics = topic.find({'_id': {'$lte': last_id}}).sort('_id', pymongo.DESCENDING).limit(limit)
-    '''
-    args = {
-        "p_limit": limit,
-        "p_offset": offset,
-        "num_results": num_results,
-        "num_pages": math.ceil(num_results / limit) + 1,
-        "active_page": offset / limit + 1,
-
-        "next_url": f"{{{{ url_for('get_topics?limit={str(limit)}&offset={str(offset + limit)}') }}}}",
-        "prev_url": f"/get_topics?limit={str(limit)}&offset={str(offset - limit)}",
-    }
-    '''
 
     return render_template(
-        "topicstable.html", topics=topics, filterOptions=searchFilters)
-
-
-@app.route('/pagination_choose/<value>')
-def pagination_choose():
-    # make sure the number is not too low
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+        "topicstable.html", topics=topics, paginationOpt=pagination)
 
 
 @app.route('/pagination_plus')
 def pagination_plus():
-    searchFilters.p_offset += searchFilters.p_limit
+    pagination.p_offset += pagination.p_limit
     # make sure the number is not too high
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/pagination_minus')
 def pagination_minus():
-    searchFilters.p_offset -= searchFilters.p_limit
+    pagination.p_offset -= pagination.p_limit
     # make sure the number is not too high
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+
+
+@app.route('/pagination_random/<value>')
+def pagination_random(value):
+    pagination.p_offset = pagination.p_limit * value
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/rate_pos/<topic_id>/<index>')
@@ -138,20 +131,20 @@ def rate_neg(topic_id, index):
 def search_topics(search_keyword, search_scope):
     searchFilters.searchKeyword = search_keyword
     searchFilters.searchScope = search_scope.split(",")
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/sort_topics_date/<date_order>')
 def sort_topics_date(date_order):
     searchFilters.dateOrder = int(date_order)
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/filter_topics_platform/<platform_filter>')
 def filter_topics_platform(platform_filter):
     filter_list = platform_filter.split(",")
     searchFilters.platform = filter_list
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/filter_topics_cost/<cost_filter>')
@@ -159,13 +152,13 @@ def filter_topics_cost(cost_filter):
     if cost_filter == "All":
         cost_filter = ".*"
     searchFilters.cost = cost_filter
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/filter_topics_answer/<answer_filter>')
 def filter_topics_answer(answer_filter):
     searchFilters.answers = answer_filter
-    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/reset_filters')
@@ -311,19 +304,16 @@ def apply_filters():
     topics = mongo.db.topics
 
     search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
-    searchFilters.num_results = search_total.count()
-    searchFilters.num_pages = math.ceil(searchFilters.num_results / searchFilters.p_limit) + 1
-    searchFilters.active_page = int(searchFilters.p_offset / searchFilters.p_limit + 1)
+    pagination.num_results = search_total.count()
+    pagination.num_pages = math.ceil(pagination.num_results / pagination.p_limit) + 1
+    pagination.active_page = int(pagination.p_offset / pagination.p_limit + 1)
 
-    last_date = search_total[searchFilters.p_offset]['publish_date']
+    last_date = search_total[pagination.p_offset]['publish_date']
 
-    if searchFilters.dateOrder == -1:
-        allFilters.append({'publish_date': {'$lte': last_date}})
-    
-    else:
-        # this needs to be fixed: pagination for ascending date!
+    # if searchFilters.dateOrder == -1:
+    allFilters.append({'publish_date': {'$lte': last_date}})
 
-    search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(searchFilters.p_limit)
+    search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
 
     return search_result
 

@@ -183,7 +183,7 @@ nav {
 
 /* --------------------------------------------------- home section */
 #home-section {
-    background-image: url("/static/images/bg-home.jpg");
+    background-image: url("/static/images/bg-table.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -378,7 +378,7 @@ label {
 /*------------------------------------------------------- new topic section    */
 
 #addtopic-section {
-    background-image: url("/static/images/bg-table.jpg");
+    background-image: url("/static/images/bg-home.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }

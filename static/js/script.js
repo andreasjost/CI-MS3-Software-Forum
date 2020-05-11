@@ -98,6 +98,8 @@ function searchFunction() {
     commitSearch(keyword, items);
 }
 
+
+
 // Defensive programming: User must select at least one item if <select> is multiple
 function checkSelection(element) {
     if (element.val().length === 0) {
