@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <ul class="collapsible" data-collapsible="accordion">
     {% for topic in topics %}
-    {% if loop.index < 11 %}
     <li>
         <div class="collapsible-header">
             <div class="row">
@@ -35,7 +34,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="comment-wrapper">
+                <div class="details-wrapper flat-corner">
                     <p>{{ topic.details }}</p>
                     <p class="right-align topic-author"><em>{{ topic.author }}</em></p>
                 </div>
@@ -54,7 +53,7 @@
             </div>
             {% for object in topic.comments %}
             <div class="row">
-                <div class="comment-wrapper">
+                <div class="details-wrapper">
                     <div class="comment-text">
                         {% if object.expired %}
                         <p><span class="em-red">Expired: </span>{{ object.comment_text }}</p>
@@ -79,38 +78,64 @@
             <!-- Input form for comments/answers -->
             <form action="{{ url_for('insert_comment', topic_id=topic._id) }}" method="POST">
                 <div class="comment-form">
+                    <div class=".comment-error">
+                    </div>
                     <div class="row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">edit</i>
-                            <textarea class="comment-input materialize-textarea" maxlength="400"></textarea>
-                            <label for="comment-input">Write your comment here</label>
+                        <div class="col s12">
+                            <label for="comment-input">
+                                <h6>Write your comment here</h6>
+                            </label>
+                            <textarea class="comment-input" maxlength="400" name="comment_text"></textarea>
                         </div>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">account_circle</i>
+                        <div class="col s12">
+                            <label for="comment-author">
+                                <h6>Your name</h6>
+                            </label>
                             <input type="text" class="comment-author" name="comment_author" maxlength="40">
-                            <label for="comment-author">Your name</label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <button class="btn cancel-comment" type="button">Cancel              
+                    <button class="btn blue darken-2 cancel-comment" type="button">Cancel              
                     </button>
-                    <button class="btn submit-comment" name="action">Submit             
+                    <button class="btn blue darken-2 submit-comment" name="action">Save             
                     </button>
-                    <button class="btn add-comment" type="button">New comment              
+                    <button class="btn blue darken-2 add-comment" type="button">New comment              
                     </button>
                 </div>
             </form>
         </div>
     </li>
-    {% else %}
-    The filtered results contain more tha 10 items. Please specify your search to get less results.
-    {% endif %}
     {% endfor %}
 </ul>
-Total results: {{ topics.count() }}
-<a class="btn"
-    href="{{url_for('reset_filters')}}">
-Reset filters
-</a>
-<script>$('.collapsible').collapsible();</script>
+
+
+Displaying {{ filterOptions.p_limit }} of {{ filterOptions.num_results }} topics in total
+<!-- pagination -->
+{% if filterOptions.num_results > filterOptions.p_limit %}
+<ul class="pagination">
+    {% if filterOptions.p_offset > 0 %}
+    <li><a href="javascript:pageDown();"><i class="material-icons">chevron_left</i></a></li>
+    {% else %}
+    <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+    {% for page in range (1, filterOptions.num_pages) %}
+    {% if filterOptions.active_page == page %}
+    <li class="active"><a href="#">{{ page }}</a></li>
+    {% else %}
+    <li><a href="#!">{{ page }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if filterOptions.p_offset + filterOptions.p_limit < filterOptions.num_results  %}
+    <li><a href="javascript:pageUp();"><i class="material-icons">chevron_right</i></a>
+    </li>
+    {% else %}
+    <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+</ul>
+{% endif %}
+
+<script>
+    $('.collapsible').collapsible();
+    
+</script>
