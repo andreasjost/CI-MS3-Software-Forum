@@ -28,6 +28,12 @@ class SearchFilters:
     platform = ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other']
     cost = ".*"
     answers = "All"
+    # pagination:
+    p_limit = 5
+    p_offset = 0
+    num_results = 0
+    num_pages = 0
+    active_page = 0
 
     def resetFilters(self):
         self.searchKeyword = ".*"
@@ -36,12 +42,24 @@ class SearchFilters:
         self.platform = ['Windows', 'MacOS', 'Linux', 'Android', 'iOS', 'Other']
         self.cost = ".*"
         self.answers = "All"
+        # pagination
+        self.p_limit = 5
+        self.p_offset = 0
+        self.num_results = mongo.db.topics.find().count()
+        self.num_pages = math.ceil(self.num_results / self.p_limit) + 1
+        self.active_page = int(self.p_offset / self.p_limit + 1)
 
 
 searchFilters = SearchFilters()
 
 
 @app.route('/')
+@app.route('/home')
+def home():
+    searchFilters.resetFilters()
+    return render_template("topics.html")
+
+
 @app.route('/get_topics')
 def get_topics():
     topic = mongo.db.topics
@@ -67,38 +85,73 @@ def get_topics():
     starting_id = topic.find().sort('_id', pymongo.DESCENDING)
     last_id = starting_id[offset]['_id']
     topics = topic.find({'_id': {'$lte': last_id}}).sort('_id', pymongo.DESCENDING).limit(limit)
+    '''
     args = {
         "p_limit": limit,
         "p_offset": offset,
         "num_results": num_results,
         "num_pages": math.ceil(num_results / limit) + 1,
         "active_page": offset / limit + 1,
-        "next_url": f"/get_topics?limit={str(limit)}&offset={str(offset + limit)}",
+
+        "next_url": f"{{{{ url_for('get_topics?limit={str(limit)}&offset={str(offset + limit)}') }}}}",
         "prev_url": f"/get_topics?limit={str(limit)}&offset={str(offset - limit)}",
     }
+    '''
 
     return render_template(
-        "topics.html", topics=topics, args=args)
+        "topicstable.html", topics=topics, filterOptions=searchFilters)
+
+
+@app.route('/pagination_choose/<value>')
+def pagination_choose():
+    # make sure the number is not too low
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+
+
+@app.route('/pagination_plus')
+def pagination_plus():
+    searchFilters.p_offset += searchFilters.p_limit
+    # make sure the number is not too high
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+
+
+@app.route('/pagination_minus')
+def pagination_minus():
+    searchFilters.p_offset -= searchFilters.p_limit
+    # make sure the number is not too high
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
+
+
+@app.route('/rate_pos/<topic_id>/<index>')
+def rate_pos(topic_id, index):
+    thumbs_number = comment_rating(topic_id, int(index), 1, 0)
+    return jsonify({'totalThumbs': thumbs_number})
+
+
+@app.route('/rate_neg/<topic_id>/<index>')
+def rate_neg(topic_id, index):
+    thumbs_number = comment_rating(topic_id, int(index), 0, 1)
+    return jsonify({'totalThumbs': thumbs_number})
 
 
 @app.route('/search_topics/<search_keyword>/<search_scope>')
 def search_topics(search_keyword, search_scope):
     searchFilters.searchKeyword = search_keyword
     searchFilters.searchScope = search_scope.split(",")
-    return render_template('topicstable.html', topics=apply_filters())
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
 
 
 @app.route('/sort_topics_date/<date_order>')
 def sort_topics_date(date_order):
     searchFilters.dateOrder = int(date_order)
-    return render_template('topicstable.html', topics=apply_filters())
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
 
 
 @app.route('/filter_topics_platform/<platform_filter>')
 def filter_topics_platform(platform_filter):
     filter_list = platform_filter.split(",")
     searchFilters.platform = filter_list
-    return render_template('topicstable.html', topics=apply_filters())
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
 
 
 @app.route('/filter_topics_cost/<cost_filter>')
@@ -106,24 +159,19 @@ def filter_topics_cost(cost_filter):
     if cost_filter == "All":
         cost_filter = ".*"
     searchFilters.cost = cost_filter
-    return render_template('topicstable.html', topics=apply_filters())
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
 
 
 @app.route('/filter_topics_answer/<answer_filter>')
 def filter_topics_answer(answer_filter):
-    searchFilters.answers = answer_filter    
-    return render_template('topicstable.html', topics=apply_filters())
+    searchFilters.answers = answer_filter
+    return render_template('topicstable.html', topics=apply_filters(), filterOptions=searchFilters)
 
 
 @app.route('/reset_filters')
 def reset_filters():
     searchFilters.resetFilters()
     return render_template('topics.html', topics=apply_filters())
-
-
-@app.route('/add_topic')
-def add_topic():
-    return render_template('addtopic.html')
 
 
 @app.route('/insert_topic', methods=['POST'])
@@ -172,27 +220,47 @@ def delete_topic(topic_id):
 @app.route('/insert_comment/<topic_id>', methods=['POST'])
 def insert_comment(topic_id):
     topics = mongo.db.topics
-    one_object = {
-        'comment_text': request.form.get('comment_text'),
-        'comment_author': request.form.get('comment_author'),
-        'comment_pos': 0,
-        'comment_neg': 0,
-        'popularity': 0,
-        'expired': False
-    }
-    topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
-    return redirect(url_for('get_topics'))
 
+    comment_text = request.form.get('comment_text')
+    comment_author = request.form.get('comment_author')
 
-@app.route('/rate_pos/<topic_id>/<index>')
-def rate_pos(topic_id, index):
-    thumbs_number = comment_rating(topic_id, int(index), 1, 0)
-    return jsonify({'totalThumbs': thumbs_number})
+    commentExist = False
+    commentOver = True
+    authorExist = False
+    authorOver = True
 
-@app.route('/rate_neg/<topic_id>/<index>')
-def rate_neg(topic_id, index):
-    thumbs_number = comment_rating(topic_id, int(index), 0, 1)
-    return jsonify({'totalThumbs': thumbs_number})
+    if comment_text:
+        commentExist = True
+        if len(comment_text) > 400:
+            commentOver = False
+
+    if comment_author:
+        authorExist = True
+        if len(comment_author) > 40:
+            authorOver = False
+
+    if commentExist and commentOver and authorExist and authorOver:
+        one_object = {
+            'comment_text': comment_text,
+            'comment_author': comment_author,
+            'comment_pos': 0,
+            'comment_neg': 0,
+            'popularity': 0,
+            'expired': False
+        }
+
+        topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
+        return redirect(url_for('get_topics'))
+
+    else:
+        args = {
+            "commentExist": commentExist,
+            "commentOver": commentOver,
+            "authorExist": authorExist,
+            "authorOver": authorOver,
+        }
+
+        return render_template("error.html", args=args)
 
 
 def comment_rating(topic_id, index, positive, negative):
@@ -228,7 +296,7 @@ def apply_filters():
     searchInclude = []
     for item in searchFilters.searchScope:
         searchInclude.append({item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
-    
+
     allFilters = [
         {"$or": searchInclude},
         {"os": {"$in": searchFilters.platform}},
@@ -240,8 +308,22 @@ def apply_filters():
     elif searchFilters.answers == "Unanswered":
         allFilters.append({"comments": {"$exists": False}})
 
-    #.limit is new
-    search_result = mongo.db.topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(11)
+    topics = mongo.db.topics
+
+    search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
+    searchFilters.num_results = search_total.count()
+    searchFilters.num_pages = math.ceil(searchFilters.num_results / searchFilters.p_limit) + 1
+    searchFilters.active_page = int(searchFilters.p_offset / searchFilters.p_limit + 1)
+
+    last_date = search_total[searchFilters.p_offset]['publish_date']
+
+    if searchFilters.dateOrder == -1:
+        allFilters.append({'publish_date': {'$lte': last_date}})
+    
+    else:
+        # this needs to be fixed: pagination for ascending date!
+
+    search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(searchFilters.p_limit)
 
     return search_result
 
