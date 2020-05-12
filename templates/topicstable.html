@@ -64,13 +64,13 @@
                     </div>
                 </div>
                 <div class="thumbs-field">
-                    <div class="thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
+                    <a href="#!" class="thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
                         <i class="fas fa-thumbs-up"></i>
-                    </div>
+                    </a>
                     <p>{{ object.comment_pos }}</p>
-                    <div class="thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
+                    <a href="#!" class="thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
                         <i class="fas fa-thumbs-down"></i>
-                    </div>
+                    </a>
                     <p>{{ object.comment_neg }}</p>
                 </div>
             </div>
@@ -136,6 +136,32 @@ Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics
 {% endif %}
 
 <script>
+
+    // Materialize collapsible doesn't work in the table if not initialized here again
     $('.collapsible').collapsible();
-    
+
+    // Add rating functionality (thumbs up/down). Does not work in any other file than here.
+    $(".thumb-up").on('click', function () {
+        urlTemplate = "{{ url_for('rate_pos', topic_id='v1', index='v2') }}";
+        urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
+        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index'));
+        thumbsCountDisplay = $(this).next();
+        req = $.ajax(baseUrl)
+        req.done(function (data) {
+            let result = JSON.parse(req.responseText)
+            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
+        });
+
+    });
+    $(".thumb-down").on('click', function () {
+        urlTemplate = "{{ url_for('rate_neg', topic_id='v1', index='v2') }}";
+        urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
+        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index'));
+        thumbsCountDisplay = $(this).next();
+        req = $.ajax(baseUrl)
+        req.done(function (data) {
+            let result = JSON.parse(req.responseText)
+            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
+        })
+    });
 </script>

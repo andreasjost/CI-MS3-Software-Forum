@@ -112,32 +112,6 @@
                 baseUrl = urlTemplate.replace(/v1/, value);
                 commitAjax(baseUrl);
             }
-
-
-            // Add rating functionality (thumbs up/down)
-    $(".thumb-up").on('click', function () {
-        urlTemplate = "{{ url_for('rate_pos', topic_id='v1', index='v2') }}";
-        urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
-        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index'));
-        thumbsCountDisplay = $(this).next();
-        req = $.ajax(baseUrl)
-        req.done(function (data) {
-            let result = JSON.parse(req.responseText)
-            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
-        });
-
-    });
-    $(".thumb-down").on('click', function () {
-        urlTemplate = "{{ url_for('rate_neg', topic_id='v1', index='v2') }}";
-        urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
-        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index'));
-        thumbsCountDisplay = $(this).next();
-        req = $.ajax(baseUrl)
-        req.done(function (data) {
-            let result = JSON.parse(req.responseText)
-            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
-        })
-    });
     
             
         </script>
