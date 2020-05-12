@@ -64,11 +64,11 @@
                     </div>
                 </div>
                 <div class="thumbs-field">
-                    <a href="#!" class="thumb-up" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
+                    <a href="#!" class="thumb-up" topic_id="{{ topic._id }}" comment_id="{{ object.comment_id }}">
                         <i class="fas fa-thumbs-up"></i>
                     </a>
                     <p>{{ object.comment_pos }}</p>
-                    <a href="#!" class="thumb-down" topic_id="{{ topic._id }}" loop_index="{{ loop.index }}">
+                    <a href="#!" class="thumb-down" topic_id="{{ topic._id }}" comment_id="{{ object.comment_id }}">
                         <i class="fas fa-thumbs-down"></i>
                     </a>
                     <p>{{ object.comment_neg }}</p>
@@ -140,11 +140,23 @@ Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics
     // Materialize collapsible doesn't work in the table if not initialized here again
     $('.collapsible').collapsible();
 
+    // Add commenting functionality
+    $(".add-comment").click(function () {
+        $(".comment-form").animate({ height: "200px" });
+        $(".cancel-comment, .submit-comment, .comment-form").show();
+        $(".add-comment, .topic-options").hide();
+    });
+    $(".cancel-comment").click(function () {
+        $(".comment-form").animate({ height: "0px" }, function () { $(".comment-form").hide() });
+        $(".cancel-comment, .submit-comment").hide();
+        $(".add-comment, .topic-options").show();
+    });
+
     // Add rating functionality (thumbs up/down). Does not work in any other file than here.
     $(".thumb-up").on('click', function () {
-        urlTemplate = "{{ url_for('rate_pos', topic_id='v1', index='v2') }}";
+        urlTemplate = "{{ url_for('rate_pos', topic_id='v1', comment_id='v2') }}";
         urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
-        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index'));
+        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('comment_id'));
         thumbsCountDisplay = $(this).next();
         req = $.ajax(baseUrl)
         req.done(function (data) {
@@ -154,9 +166,9 @@ Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics
 
     });
     $(".thumb-down").on('click', function () {
-        urlTemplate = "{{ url_for('rate_neg', topic_id='v1', index='v2') }}";
+        urlTemplate = "{{ url_for('rate_neg', topic_id='v1', comment_id='v2') }}";
         urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
-        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('loop_index'));
+        baseUrl = urlTemplateId.replace(/v2/, $(this).attr('comment_id'));
         thumbsCountDisplay = $(this).next();
         req = $.ajax(baseUrl)
         req.done(function (data) {

@@ -6,19 +6,6 @@ $(document).ready(function () {
     $('.modal').modal();
     $('.sidenav').sidenav();
 
-    // Add commenting functionality
-    $(".add-comment").click(function () {
-        $(".comment-form").animate({ height: "200px" });
-        $(".cancel-comment, .submit-comment, .comment-form").show();
-        $(".add-comment, .topic-options").hide();
-    });
-    $(".cancel-comment").click(function () {
-        $(".comment-form").animate({ height: "0px" }, function () { $(".comment-form").hide() });
-        $(".cancel-comment, .submit-comment").hide();
-        $(".add-comment, .topic-options").show();
-    });
-
-
     // user input in the search field
     $('#searchfield').on("input", function () {
         if (checkTextLength($(this))) {

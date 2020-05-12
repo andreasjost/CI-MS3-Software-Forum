@@ -2,6 +2,7 @@ import os
 import datetime
 import pymongo
 import math
+import uuid
 from flask import Flask, render_template, redirect, request, url_for, jsonify, make_response
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -20,7 +21,9 @@ app.config["MONGO_DBNAME"] = 'software_forum'
 
 mongo = PyMongo(app)
 
-
+"""
+Class used to save filter settings in the back end
+"""
 class SearchFilters:
     searchKeyword = ".*"
     searchScope = ["titles", "details", "comments.comment_text"]
@@ -38,6 +41,10 @@ class SearchFilters:
         self.answers = "All"
 
 
+"""
+Class used for pagination. Data is used in the front end for
+the pagination functionality (below the topics table)
+"""
 class PaginationSettings:
     p_limit = 5
     p_offset = 0
@@ -111,19 +118,19 @@ def pagination_minus():
 
 @app.route('/pagination_random/<value>')
 def pagination_random(value):
-    pagination.p_offset = pagination.p_limit * value
+    pagination.p_offset = pagination.p_limit * (int(value) - 1)
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
-@app.route('/rate_pos/<topic_id>/<index>')
-def rate_pos(topic_id, index):
-    thumbs_number = comment_rating(topic_id, int(index), 1, 0)
+@app.route('/rate_pos/<topic_id>/<comment_id>')
+def rate_pos(topic_id, comment_id):
+    thumbs_number = comment_rating(topic_id, comment_id, 1, 0)
     return jsonify({'totalThumbs': thumbs_number})
 
 
-@app.route('/rate_neg/<topic_id>/<index>')
-def rate_neg(topic_id, index):
-    thumbs_number = comment_rating(topic_id, int(index), 0, 1)
+@app.route('/rate_neg/<topic_id>/<comment_id>')
+def rate_neg(topic_id, comment_id):
+    thumbs_number = comment_rating(topic_id, comment_id, 0, 1)
     return jsonify({'totalThumbs': thumbs_number})
 
 
@@ -164,6 +171,7 @@ def filter_topics_answer(answer_filter):
 @app.route('/reset_filters')
 def reset_filters():
     searchFilters.resetFilters()
+    pagination.resetSettings()
     return render_template('topics.html', topics=apply_filters())
 
 
@@ -239,7 +247,8 @@ def insert_comment(topic_id):
             'comment_pos': 0,
             'comment_neg': 0,
             'popularity': 0,
-            'expired': False
+            'expired': False,
+            'comment_id': str(uuid.uuid4())
         }
 
         topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
@@ -256,17 +265,24 @@ def insert_comment(topic_id):
         return render_template("error.html", args=args)
 
 
-def comment_rating(topic_id, index, positive, negative):
+def comment_rating(topic_id, comment_id, positive, negative):
     topics = mongo.db.topics
     topic = topics.find_one({'_id': ObjectId(topic_id)})
     all_comments = topic['comments']
-    thumbs_up = all_comments[index-1]['comment_pos']
-    thumbs_down = all_comments[index-1]['comment_neg']
+    for i, item in enumerate(all_comments):
+        if item['comment_id'] == comment_id:
+            one_comment = item
+            index = i
+            break
+
+    thumbs_up = one_comment['comment_pos']
+    thumbs_down = one_comment['comment_neg']
     thumbs_up += positive
     thumbs_down += negative
-    all_comments[index-1]['comment_pos'] = thumbs_up
-    all_comments[index-1]['comment_neg'] = thumbs_down
-    all_comments[index-1]['popularity'] = thumbs_up - thumbs_down
+    one_comment['comment_pos'] = thumbs_up
+    one_comment['comment_neg'] = thumbs_down
+    one_comment['popularity'] = thumbs_up - thumbs_down
+    all_comments[index] = one_comment
     all_comments.sort(reverse=True, key=get_key)
     topics.update_one({'_id': ObjectId(topic_id)}, {
         '$set': {'comments': all_comments}
