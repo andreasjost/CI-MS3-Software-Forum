@@ -171,6 +171,7 @@ def insert_topic():
     received_dict = request.form.to_dict()
     received_dict.update({'os': request.form.getlist('os')})
     received_dict['publish_date'] = datetime.datetime.utcnow()
+    received_dict['comments'] = []
     topics = mongo.db.topics
     topics.insert_one(received_dict)
     return redirect(url_for('get_topics'))
