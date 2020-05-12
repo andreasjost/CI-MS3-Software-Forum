@@ -60,6 +60,7 @@ class PaginationSettings:
         self.num_pages = math.ceil(self.num_results / self.p_limit) + 1
         self.active_page = int(self.p_offset / self.p_limit + 1)
 
+
 """
 Used to check if the user has rated a comment or not (to avoid
 multiple ratings for 1 comment)
@@ -75,6 +76,9 @@ pagination = PaginationSettings()
 @app.route('/')
 @app.route('/home')
 def home():
+    """
+    entry point
+    """
     searchFilters.resetFilters()
     pagination.resetSettings()
     return render_template("topics.html")
@@ -82,32 +86,11 @@ def home():
 
 @app.route('/get_topics')
 def get_topics():
-    topic = mongo.db.topics
-    num_results = topic.find().count()
-
-    # Check if args for pagination already exist
-    if request.args:
-        # get args
-        limit = int(request.args['limit'])
-        offset = int(request.args['offset'])
-
-        # Prevent errors from manual user input in the URL
-        if offset < 0:
-            offset = 0
-
-        if offset > num_results:
-            offset = num_results
-
-    else:
-        limit = 5
-        offset = 0
-
-    starting_id = topic.find().sort('_id', pymongo.DESCENDING)
-    last_id = starting_id[offset]['_id']
-    topics = topic.find({'_id': {'$lte': last_id}}).sort('_id', pymongo.DESCENDING).limit(limit)
-
+    """
+    render the main page
+    """
     return render_template(
-        "topicstable.html", topics=topics, paginationOpt=pagination)
+        "topicstable.html", topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/pagination_plus')
@@ -120,7 +103,7 @@ def pagination_plus():
 @app.route('/pagination_minus')
 def pagination_minus():
     pagination.p_offset -= pagination.p_limit
-    # make sure the number is not too high
+    # make sure the number is not too low
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
@@ -354,6 +337,9 @@ def check_rating_neg(comment):
 
 
 def apply_filters():
+    """
+    get all Topics with search, filters and pagination applied
+    """
     searchInclude = []
     for item in searchFilters.searchScope:
         searchInclude.append({item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
@@ -369,18 +355,22 @@ def apply_filters():
     elif searchFilters.answers == "Unanswered":
         allFilters.append({"comments": {"$exists": False}})
 
+    # 1. Apply filters the first time: Get all topics
     topics = mongo.db.topics
-
     search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
     pagination.num_results = search_total.count()
     pagination.num_pages = math.ceil(pagination.num_results / pagination.p_limit) + 1
     pagination.active_page = int(pagination.p_offset / pagination.p_limit + 1)
-
     last_date = search_total[pagination.p_offset]['publish_date']
 
-    # if searchFilters.dateOrder == -1:
-    allFilters.append({'publish_date': {'$lte': last_date}})
+    # Making sure pagination works correctily with the ascending/descending order of the date
+    if searchFilters.dateOrder == -1:
+        allFilters.append({'publish_date': {'$lte': last_date}})
 
+    else:
+        allFilters.append({'publish_date': {'$gte': last_date}})
+
+    # 2. Apply filters the second time: because of pagination
     search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
 
     return search_result
