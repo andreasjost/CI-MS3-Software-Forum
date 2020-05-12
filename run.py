@@ -21,10 +21,11 @@ app.config["MONGO_DBNAME"] = 'software_forum'
 
 mongo = PyMongo(app)
 
-"""
-Class used to save filter settings in the back end
-"""
+
 class SearchFilters:
+    """
+    Class used to save filter settings in the back end
+    """
     searchKeyword = ".*"
     searchScope = ["titles", "details", "comments.comment_text"]
     dateOrder = -1
@@ -41,11 +42,11 @@ class SearchFilters:
         self.answers = "All"
 
 
-"""
-Class used for pagination. Data is used in the front end for
-the pagination functionality (below the topics table)
-"""
 class PaginationSettings:
+    """
+    Class used for pagination. Data is used in the front end for
+    the pagination functionality (below the topics table)
+    """
     p_limit = 5
     p_offset = 0
     num_results = 0
@@ -58,6 +59,13 @@ class PaginationSettings:
         self.num_results = mongo.db.topics.find().count()
         self.num_pages = math.ceil(self.num_results / self.p_limit) + 1
         self.active_page = int(self.p_offset / self.p_limit + 1)
+
+"""
+Used to check if the user has rated a comment or not (to avoid
+multiple ratings for 1 comment)
+"""
+rated_comments_neg = ["0"]
+rated_comments_pos = ["0"]
 
 
 searchFilters = SearchFilters()
@@ -266,6 +274,10 @@ def insert_comment(topic_id):
 
 
 def comment_rating(topic_id, comment_id, positive, negative):
+    """
+    Get comment rating, add (+1 / -1) to the rating, sort comments according
+    to popularity and update the topic with the sorted + updated comments
+    """
     topics = mongo.db.topics
     topic = topics.find_one({'_id': ObjectId(topic_id)})
     all_comments = topic['comments']
@@ -274,6 +286,12 @@ def comment_rating(topic_id, comment_id, positive, negative):
             one_comment = item
             index = i
             break
+
+    if positive == 1 and check_rating_pos(one_comment['comment_id']):
+        positive = -1
+
+    if negative == 1 and check_rating_neg(one_comment['comment_id']):
+        negative = -1
 
     thumbs_up = one_comment['comment_pos']
     thumbs_down = one_comment['comment_neg']
@@ -287,7 +305,7 @@ def comment_rating(topic_id, comment_id, positive, negative):
     topics.update_one({'_id': ObjectId(topic_id)}, {
         '$set': {'comments': all_comments}
     })
-    if positive == 1:
+    if negative == 0:
         return thumbs_up
     else:
         return thumbs_down
@@ -296,9 +314,43 @@ def comment_rating(topic_id, comment_id, positive, negative):
 def get_key(e):
     """
     used in the comment_rating definition in order to sort the comments
-    according to the popularity
+    according to its popularity
     """
     return e['popularity']
+
+
+def check_rating_pos(comment):
+    """
+    making sure the user doesn't rate the same comment more than once positive
+    """
+    value = False
+    for item in rated_comments_pos:
+        if comment == item:
+            value = True
+            rated_comments_pos.remove(comment)
+            break
+
+    if not value:
+        rated_comments_pos.append(comment)
+
+    return value
+
+
+def check_rating_neg(comment):
+    """
+    making sure the user doesn't rate the same comment more than once positive
+    """
+    value = False
+    for item in rated_comments_neg:
+        if comment == item:
+            value = True
+            rated_comments_neg.remove(comment)
+            break
+
+    if not value:
+        rated_comments_neg.append(comment)
+
+    return value
 
 
 def apply_filters():
