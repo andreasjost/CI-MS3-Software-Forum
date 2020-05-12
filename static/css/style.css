@@ -161,11 +161,11 @@ nav {
 }
 
 .nav-passiv {
-    color: yellow;
+    color: #fff;
 }
 
 .nav-highlight {
-    color: #1976D2;
+    color: #ffc34d;
 }
 
 .navbar-button {
@@ -323,7 +323,7 @@ label {
     border: 1px solid transparent;
     border-radius: 10px;
     box-shadow: 1px 1px 4px #aaa;
-    background-color: #e6f0ff;
+    background-color: #cce6ff;
     padding-left: 5px;
     padding-right: 5px;
     margin: 0 10px 0 10px;
@@ -338,19 +338,17 @@ label {
 }
 
 .thumbs-field {
-
     border-radius: 0 0 10px 10px;
     box-shadow: 1px 1px 4px #aaa;
-    background-color: #e6f0ff;
+    background-color: #cce6ff;
     width: 120px;
     margin: 0 auto 15px auto;
-    
 }
 
 .topic-btn-wrapper {
     border-radius: 0 0 10px 10px;
     box-shadow: 1px 1px 4px #aaa;
-    background-color: #e6f0ff;
+    background-color: #cce6ff;
     margin: 0 10px 5px auto;
     float: right;
     width: 250px;
@@ -367,7 +365,11 @@ label {
 }
 
 .collapsible li.active {
-    background-color: #eee;
+    background-color: #e6f2ff;
+}
+
+.collapsible li.active .collapsible-header {
+    background-color: #e6f2ff;
 }
 
 .pagination {
@@ -443,5 +445,5 @@ footer > p {
 /*------------------------------------------------------- Selectors    */
 
 .collapsible-header:hover {
-  background-color: #ffc299;
+  background-color: #e6f2ff;
 }
