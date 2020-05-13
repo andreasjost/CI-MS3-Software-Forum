@@ -1,154 +1,177 @@
 <!DOCTYPE html>
-{% extends 'base.html'%}
-{% block content %}
-<div class="container">
-    <h2>Edit topic</h2>
-    <div class="inputform-wrapper">
-        <form action="{{ url_for('update_topic', topic_id=topic._id) }}" method="POST" class="col s12">
-            <div class="row">
-                <div class="col s12 m6">
-                    <label for="title">
-                        <h6>Topic title:</h6>
-                    </label>
-                    <input id="topic-title" type="text" name="title" value="{{ topic.title }}" maxlength="40">
-                </div>
-                <div class="col s12 m6">
-                    <label for="author">
-                        <h6>Your name:</h6>
-                    </label>
-                    <input id="topic-author" type="text" name="author" value="{{ topic.author }}" maxlength="40">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@300;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
+        <title>SoftPursuit - Edit topic</title>
+    </head>
+    <body>
+        <header>
+            <nav class="nav-wrapper">
+                <a href="{{url_for('home')}}" class="brand-logo">SoftPursuit</a>
+            </nav>
+        </header>
+        <section id="edit-topics">
+            <div class="container">
+                <h2>Edit topic</h2>
+                <div class="inputform-wrapper">
+                    <form action="{{ url_for('update_topic', topic_id=topic._id) }}" method="POST" class="col s12">
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <label for="title">
+                                    <h6>Topic title:</h6>
+                                </label>
+                                <input id="topic-title" type="text" name="title" value="{{ topic.title }}" maxlength="40">
+                            </div>
+                            <div class="col s12 m6">
+                                <label for="author">
+                                    <h6>Your name:</h6>
+                                </label>
+                                <input id="topic-author" type="text" name="author" value="{{ topic.author }}" maxlength="40">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <label for="topic-description">
+                                    <h6>Detail description of what you want to achieve</h6>
+                                </label>
+                                <textarea id="topic-description" name="details" maxlength="400">{{ topic.details }}</textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <h4>Select one or more platforms</h4>
+                                <div class="platform-select">
+                                    <label>
+                                        {% if "Windows" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Windows" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Windows">
+                                        {% endif %}
+                                        <span>
+                                            <div class="platform-icons"><i class="fab fa-windows"></i></div>
+                                            Windows
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="platform-select">
+                                    <label>
+                                        {% if "MacOS" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="MacOS" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
+                                        {% endif %}
+                                        <span>
+                                        <div class="platform-icons"><span><i class="fab fa-apple"></i></div>
+                                        MacOS
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="platform-select">
+                                    <label>
+                                        {% if "Linux" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Linux" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Linux"/>
+                                        {% endif %}
+                                        <span>
+                                        <div class="platform-icons"><span><i class="fab fa-linux"></i></div>
+                                        Linux
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="platform-select">
+                                    <label>
+                                        {% if "Android" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Android" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Android"/>
+                                        {% endif %}
+                                        <span>
+                                            <div class="platform-icons"><i class="fab fa-android"></i></div>
+                                            Android
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="platform-select">
+                                    <label>
+                                        {% if "iOS" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="iOS" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="iOS"/>
+                                        {% endif %}
+                                        <span>
+                                            <div class="platform-icons"><i class="fas fa-mobile-alt"></i></div>
+                                            iOS
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="platform-select">
+                                    <label>
+                                        {% if "Other" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Other" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Other"/>
+                                        {% endif %}
+                                        <span>
+                                            <div class="platform-icons"><i class="fas fa-desktop"></i></div>
+                                            Other
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <h4>Purchase or subscription costs </h4>
+                                <div class="platform-select">
+                                    <label>
+                                    {% if topic.cost == "Any" %}
+                                    <input type="radio" name="cost" value="Any" checked>
+                                    {% else %}
+                                    <input type="radio" name="cost" value="Any"/>
+                                    {% endif %}
+                                    <span>Any</span>
+                                    </label>
+                                </div>
+                                <div class="platform-select">
+                                    <label>
+                                    {% if topic.cost == "Free" %}
+                                    <input type="radio" name="cost" value="Free" checked>
+                                    {% else %}
+                                    <input type="radio" name="cost" value="Free"/>
+                                    {% endif %}
+                                    <span>Free</span>
+                                    </label>
+                                </div>
+                                <div class="platform-select">
+                                    <label>
+                                    {% if topic.cost == "Paid" %}
+                                    <input type="radio" name="cost" value="Paid" checked>
+                                    {% else %}
+                                    <input type="radio" name="cost" value="Paid"/>
+                                    {% endif %}
+                                    <span>Paid</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row buttons-row">
+                            <button class="btn blue darken-2 float-left" type="submit" name="action">Update</button>
+                            <button class="btn blue darken-2 float-right" onclick="cancelEdit();" >Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="row">
-                <div class="col s12">
-                    <label for="topic-description">
-                        <h6>Detail description of what you want to achieve</h6>
-                    </label>
-                    <textarea id="topic-description" name="details" maxlength="400">{{ topic.details }}</textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12 m6">
-                    <h4>Select one or more platforms</h4>
-                    <div class="platform-select">
-                        <label>
-                            {% if "Windows" in topic.os %}
-                            <input type="checkbox" class="filled-in" name="os" value="Windows" checked>
-                            {% else %}
-                            <input type="checkbox" class="filled-in" name="os" value="Windows">
-                            {% endif %}
-                            <span>
-                                <div class="platform-icons"><i class="fab fa-windows"></i></div>
-                                Windows
-                            </span>
-                        </label>
-                    </div>
-                    <div class="platform-select">
-                        <label>
-                            {% if "MacOS" in topic.os %}
-                            <input type="checkbox" class="filled-in" name="os" value="MacOS" checked>
-                            {% else %}
-                            <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
-                            {% endif %}
-                            <span>
-                            <div class="platform-icons"><span><i class="fab fa-apple"></i></div>
-                            MacOS
-                            </span>
-                        </label>
-                    </div>
-                    <div class="platform-select">
-                        <label>
-                            {% if "Linux" in topic.os %}
-                            <input type="checkbox" class="filled-in" name="os" value="Linux" checked>
-                            {% else %}
-                            <input type="checkbox" class="filled-in" name="os" value="Linux"/>
-                            {% endif %}
-                            <span>
-                            <div class="platform-icons"><span><i class="fab fa-linux"></i></div>
-                            Linux
-                            </span>
-                        </label>
-                    </div>
-                    <div class="platform-select">
-                        <label>
-                            {% if "Android" in topic.os %}
-                            <input type="checkbox" class="filled-in" name="os" value="Android" checked>
-                            {% else %}
-                            <input type="checkbox" class="filled-in" name="os" value="Android"/>
-                            {% endif %}
-                            <span>
-                                <div class="platform-icons"><i class="fab fa-android"></i></div>
-                                Android
-                            </span>
-                        </label>
-                    </div>
-                    <div class="platform-select">
-                        <label>
-                            {% if "iOS" in topic.os %}
-                            <input type="checkbox" class="filled-in" name="os" value="iOS" checked>
-                            {% else %}
-                            <input type="checkbox" class="filled-in" name="os" value="iOS"/>
-                            {% endif %}
-                            <span>
-                                <div class="platform-icons"><i class="fas fa-mobile-alt"></i></div>
-                                iOS
-                            </span>
-                        </label>
-                    </div>
-                    <div class="platform-select">
-                        <label>
-                            {% if "Other" in topic.os %}
-                            <input type="checkbox" class="filled-in" name="os" value="Other" checked>
-                            {% else %}
-                            <input type="checkbox" class="filled-in" name="os" value="Other"/>
-                            {% endif %}
-                            <span>
-                                <div class="platform-icons"><i class="fas fa-desktop"></i></div>
-                                Other
-                            </span>
-                        </label>
-                    </div>
-                </div>
-                <div class="col s12 m6">
-                    <h4>Purchase or subscription costs </h4>
-                    <div class="platform-select">
-                        <label>
-                        {% if topic.cost == "Any" %}
-                        <input type="radio" name="cost" value="Any" checked>
-                        {% else %}
-                        <input type="radio" name="cost" value="Any"/>
-                        {% endif %}
-                        <span>Any</span>
-                        </label>
-                    </div>
-                    <div class="platform-select">
-                        <label>
-                        {% if topic.cost == "Free" %}
-                        <input type="radio" name="cost" value="Free" checked>
-                        {% else %}
-                        <input type="radio" name="cost" value="Free"/>
-                        {% endif %}
-                        <span>Free</span>
-                        </label>
-                    </div>
-                    <div class="platform-select">
-                        <label>
-                        {% if topic.cost == "Paid" %}
-                        <input type="radio" name="cost" value="Paid" checked>
-                        {% else %}
-                        <input type="radio" name="cost" value="Paid"/>
-                        {% endif %}
-                        <span>Paid</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="save-btn-wrapper">
-                    <button class="btn blue darken-2" type="submit" name="action"><i class="fas fa-file-download"></i>Save</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-{% endblock %}
+        </section>
+        <script>
+            function cancelEdit() {
+                history.go(-1);
+            }
+        </script>
+    </body>
+</html>
