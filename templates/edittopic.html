@@ -162,16 +162,11 @@
                         </div>
                         <div class="row buttons-row">
                             <button class="btn blue darken-2 float-left" type="submit" name="action">Update</button>
-                            <button class="btn blue darken-2 float-right" onclick="cancelEdit();" >Cancel</button>
+                            <a class="btn blue darken-2 float-right" href="{{ url_for('home')}}" >Back</a>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
-        <script>
-            function cancelEdit() {
-                history.go(-1);
-            }
-        </script>
     </body>
 </html>

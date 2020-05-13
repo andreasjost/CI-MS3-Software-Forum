@@ -43,15 +43,11 @@
                     {% endif %}
                     <div class="row">
                         <div class="save-btn-wrapper">
-                            <button class="btn blue darken-2" onclick="backButton();" >Back</button>
+                            <a class="btn blue darken-2" href="{{ url_for('home')}}" >Back</a>
+                            
                         </div>
                     </div>
             </div>
         </section>
-        <script>
-            function backButton() {
-                history.go(-1);
-            }
-        </script>
     </body>
 </html>
