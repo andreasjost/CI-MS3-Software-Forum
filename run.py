@@ -174,7 +174,6 @@ def insert_topic():
     received_dict = request.form.to_dict()
     received_dict.update({'os': request.form.getlist('os')})
     received_dict['publish_date'] = datetime.datetime.utcnow()
-    
 
     # defensive programming: check user input
     titleExist = False
@@ -234,28 +233,74 @@ def update_topic(topic_id):
     """
     Called when saving a changed topic
     """
-    topics = mongo.db.topics
-    active_topic = topics.find_one({"_id": ObjectId(topic_id)}, {'publish_date': 1, 'comments': 1})
-    timestamp = active_topic['publish_date']
-    all_fields = {
-        'title': request.form.get('title'),
-        'details': request.form.get('details'),
-        'author': request.form.get('author'),
-        'os': request.form.getlist('os'),
-        'cost': request.form.get('cost'),
-        'publish_date': timestamp
-    }
+    received_dict = request.form.to_dict()
 
-    # check if comments exist. If yes, make them expired
-    if 'comments' in active_topic:
-        comments = active_topic['comments']
-        for item in comments:
-            comments[comments.index(item)]['expired'] = True
+    # defensive programming: check user input
+    # !!! put this in as eparate defnition, double code !!!
+    titleExist = False
+    authorExist = False
+    detailsExist = False
+    titleOver = True
+    authorOver = True
+    detailsOver = True
+    platformSelected = False
 
-        all_fields['comments'] = comments
+    if received_dict['title']:
+        titleExist = True
+        if len(received_dict['title']) > 40:
+            titleOver = False
 
-    topics.update({'_id': ObjectId(topic_id)}, all_fields)
-    return redirect(url_for('home'))
+    if received_dict['author']:
+        authorExist = True
+        if len(received_dict['author']) > 40:
+            authorOver = False
+
+    if received_dict['details']:
+        detailsExist = True
+        if len(received_dict['details']) > 400:
+            detailsOver = False
+
+    if received_dict['os']:
+        platformSelected = True
+
+    # save comment if validation passed
+    if titleExist and authorExist and detailsExist and titleOver and authorOver and detailsOver and platformSelected:
+        topics = mongo.db.topics
+        active_topic = topics.find_one({"_id": ObjectId(topic_id)}, {'publish_date': 1, 'comments': 1})
+        timestamp = active_topic['publish_date']
+        all_fields = {
+            'title': request.form.get('title'),
+            'details': request.form.get('details'),
+            'author': request.form.get('author'),
+            'os': request.form.getlist('os'),
+            'cost': request.form.get('cost'),
+            'publish_date': timestamp
+        }
+
+        # check if comments exist. If yes, make them expired
+        if 'comments' in active_topic:
+            comments = active_topic['comments']
+            for item in comments:
+                comments[comments.index(item)]['expired'] = True
+
+            all_fields['comments'] = comments
+
+        topics.update({'_id': ObjectId(topic_id)}, all_fields)
+        return redirect(url_for('home'))
+
+    # open the page error.html if validation didn't pass
+    else:
+        args = {
+            "titleExist": titleExist,
+            "authorExist": authorExist,
+            "detailsExist": detailsExist,
+            "titleOver": titleOver,
+            "authorOver": authorOver,
+            "detialsOver": detailsOver,
+            "platformSelected": platformSelected
+        }
+
+        return render_template("errortopic.html", args=args)
 
 
 @app.route('/delete_topic/<topic_id>')
