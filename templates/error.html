@@ -1,8 +1,52 @@
 <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@300;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
+        <title>SoftPursuit - Edit topic</title>
+    </head>
+    <body>
+        <header>
+            <nav class="nav-wrapper">
+                <a href="{{url_for('home')}}" class="brand-logo">SoftPursuit</a>
+            </nav>
+        </header>
+        <section id="error-section">
+            <div class="container">
+                <h2>Sorry, an error occured</h2>
 
-<div class=".comment-error">
-HALLOOOOOO!
-
-</div>
-
-<script>$('.collapsible').collapsible();</script>
+                    {% if args.commentExist == False %}
+                        <p>- The comment field is empty</p>
+                    {% endif %}
+                    {% if args.authorExist == False %}
+                        <p>- You have to enter a name</p>
+                    {% endif %}
+                    {% if args.commentOver == False %}
+                        <p>- The comment cannot contain more than 400 characters</p>
+                    {% endif %}
+                    {% if args.authorOver == False %}
+                        <p>- The name cannot be longer than 40 characters</p>
+                    {% endif %}
+            
+                        <div class="row">
+                        <div class="save-btn-wrapper">
+                            <button class="btn blue darken-2" onclick="backButton();" >Back</button>
+                        </div>
+                        </div>
+                    
+                
+            </div>
+        </section>
+        <script>
+            function backButton() {
+                history.go(-1);
+            }
+        </script>
+    </body>
+</html>
