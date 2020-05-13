@@ -61,6 +61,15 @@ class PaginationSettings:
         self.active_page = int(self.p_offset / self.p_limit + 1)
 
 
+newtopic_form = {
+    "pre_title": "",
+    "pre_name": "",
+    "pre_details": "",
+    "pre_platform": [],
+    "pre_cost": "Any"
+}
+
+
 """
 Used to check if the user has rated a comment or not (to avoid
 multiple ratings for 1 comment)
@@ -81,7 +90,7 @@ def home():
     """
     searchFilters.resetFilters()
     pagination.resetSettings()
-    return render_template("topics.html")
+    return render_template("topics.html", args=newtopic_form)
 
 
 @app.route('/get_topics')
@@ -245,6 +254,14 @@ def insert_topic():
     if titleExist and authorExist and detailsExist and titleOver and authorOver and detailsOver and platformSelected:
         topics = mongo.db.topics
         topics.insert_one(received_dict)
+        global newtopic_form
+        newtopic_form = {
+            "pre_title": "",
+            "pre_name": "",
+            "pre_details": "",
+            "pre_platform": [],
+            "pre_cost": "Any"
+        }
         return redirect(url_for('home'))
 
     # open the page error.html if validation didn't pass
@@ -258,6 +275,12 @@ def insert_topic():
             "detialsOver": detailsOver,
             "platformSelected": platformSelected
         }
+
+        newtopic_form["pre_title"] = received_dict['title']
+        newtopic_form["pre_name"] = received_dict['author']
+        newtopic_form["pre_details"] = received_dict['details']
+        newtopic_form["pre_platform"] = received_dict['os']
+        newtopic_form["pre_cost"] = received_dict['cost']
 
         return render_template("errortopic.html", args=args)
 
@@ -507,7 +530,7 @@ def apply_filters():
 
     elif searchFilters.answers == "Unanswered":
         allFilters.append({"comments": {"$exists": False}})  
-
+    
     # 1. Apply filters the first time: Get all topics
     topics = mongo.db.topics
     search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
