@@ -114,7 +114,7 @@
     </div>
     <div class="col s12 m6">
 
-<a href="{{url_for('reset_filters')}}">Reset filters</a>
+<a href="{{url_for('reset_filters')}}" class="float-right">Reset search options</a>
 </div>
 </div>
 
@@ -147,6 +147,8 @@
 
     // Materialize collapsible doesn't work in the table if not initialized here again
     $('.collapsible').collapsible();
+
+    // the following functions are here because they are not called in the external file
 
      // Add commenting functionality
     $(".add-comment").click(function () {
@@ -188,4 +190,21 @@
             $("#dbupdate-progress").addClass("hide-progress");
         })
     });
+
+    // Defensive programming: Checking the length of text entered
+    $('textarea, input').on("input", function () {
+        checkTextLength($(this))
+    });
+
+    // Defensive programming: User cannot enter more than 'maxlength'-digits
+    function checkTextLength(element) {
+    if (element.val().length > element.attr('maxlength') - 1) {
+            limit = String(element.attr('maxlength'));
+            $('#character-limit').text(limit);
+            $('#maxlength40-modal').modal('open');
+            return false;
+        } else {
+            return true;
+        }
+}
 </script>
