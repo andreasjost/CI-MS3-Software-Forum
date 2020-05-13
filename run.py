@@ -95,6 +95,9 @@ def get_topics():
 
 @app.route('/pagination_plus')
 def pagination_plus():
+    """
+    One page further - User selects arrow-right in pagination
+    """
     pagination.p_offset += pagination.p_limit
     # make sure the number is not too high
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
@@ -102,6 +105,9 @@ def pagination_plus():
 
 @app.route('/pagination_minus')
 def pagination_minus():
+    """
+    One page back - User selects arrow-left in pagination
+    """
     pagination.p_offset -= pagination.p_limit
     # make sure the number is not too low
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
@@ -109,24 +115,41 @@ def pagination_minus():
 
 @app.route('/pagination_random/<value>')
 def pagination_random(value):
+    """
+    Go to page x - User selects a random page-number in pagination
+    """
     pagination.p_offset = pagination.p_limit * (int(value) - 1)
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/rate_pos/<topic_id>/<comment_id>')
 def rate_pos(topic_id, comment_id):
+    """
+    User rates a comment positive (selects thumbs-up)
+    Receiving the topic _id (unique id of the topic inside the collection)
+    and the comment _id (unique id of the comment inside the topic)
+    """
     thumbs_number = comment_rating(topic_id, comment_id, 1, 0)
     return jsonify({'totalThumbs': thumbs_number})
 
 
 @app.route('/rate_neg/<topic_id>/<comment_id>')
 def rate_neg(topic_id, comment_id):
+    """
+    User rates a comment negative (selects thumbs-down)
+    Receiving the topic _id (unique id of the topic inside the collection)
+    and the comment _id (unique id of the comment inside the topic)
+    """
     thumbs_number = comment_rating(topic_id, comment_id, 0, 1)
     return jsonify({'totalThumbs': thumbs_number})
 
 
 @app.route('/search_topics/<search_keyword>/<search_scope>')
 def search_topics(search_keyword, search_scope):
+    """
+    Called when user enters a search keyword or changes the search scope.
+    Definition is called after every keystroke + a short delay defined in js
+    """
     searchFilters.searchKeyword = search_keyword
     searchFilters.searchScope = search_scope.split(",")
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
@@ -134,12 +157,19 @@ def search_topics(search_keyword, search_scope):
 
 @app.route('/sort_topics_date/<date_order>')
 def sort_topics_date(date_order):
+    """
+    User changes the order of the topics according to the date stamp in the document.
+    Either from ascending (1) --> descending (-1), or from descending --> ascending
+    """
     searchFilters.dateOrder = int(date_order)
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/filter_topics_platform/<platform_filter>')
 def filter_topics_platform(platform_filter):
+    """
+    User selects/deselects certain os/platforms in the search
+    """
     filter_list = platform_filter.split(",")
     searchFilters.platform = filter_list
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
@@ -147,6 +177,9 @@ def filter_topics_platform(platform_filter):
 
 @app.route('/filter_topics_cost/<cost_filter>')
 def filter_topics_cost(cost_filter):
+    """
+    User changes the cost radio-button in the search: Free / Paid / All
+    """
     if cost_filter == "All":
         cost_filter = ".*"
     searchFilters.cost = cost_filter
@@ -155,12 +188,18 @@ def filter_topics_cost(cost_filter):
 
 @app.route('/filter_topics_answer/<answer_filter>')
 def filter_topics_answer(answer_filter):
+    """
+    User changes the answer search (filter if the topics are answered or not)
+    """
     searchFilters.answers = answer_filter
     return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/reset_filters')
 def reset_filters():
+    """
+    User clicks on the link 'reset search options' below the table
+    """
     searchFilters.resetFilters()
     pagination.resetSettings()
     return redirect(url_for('home'))
@@ -222,8 +261,13 @@ def insert_topic():
 
         return render_template("errortopic.html", args=args)
 
+
 @app.route('/edit_topic/<topic_id>')
 def edit_topic(topic_id):
+    """
+    opens the page 'edittopic.html" with a pre-filled form
+    to change the fields of a topic
+    """
     active_topic = mongo.db.topics.find_one({"_id": ObjectId(topic_id)})
     return render_template('edittopic.html', topic=active_topic)
 
@@ -231,7 +275,7 @@ def edit_topic(topic_id):
 @app.route('/update_topic/<topic_id>', methods=["POST"])
 def update_topic(topic_id):
     """
-    Called when saving a changed topic
+    Called when saving the form with the topic which was changed
     """
     received_dict = request.form.to_dict()
 
@@ -305,6 +349,9 @@ def update_topic(topic_id):
 
 @app.route('/delete_topic/<topic_id>')
 def delete_topic(topic_id):
+    """
+    called when the user clicks on 'delete topic'
+    """
     mongo.db.topics.remove({'_id': ObjectId(topic_id)})
     return redirect(url_for('home'))
 
@@ -459,7 +506,7 @@ def apply_filters():
         allFilters.append({"comments": {"$exists": True, "$ne": None}})
 
     elif searchFilters.answers == "Unanswered":
-        allFilters.append({"comments": {"$exists": False}})
+        allFilters.append({"comments": {"$exists": False}})  
 
     # 1. Apply filters the first time: Get all topics
     topics = mongo.db.topics
@@ -485,4 +532,4 @@ def apply_filters():
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
         port=int(os.environ.get('PORT')),
-        debug=False)
+        debug=True)
