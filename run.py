@@ -174,7 +174,7 @@ def insert_topic():
     received_dict = request.form.to_dict()
     received_dict.update({'os': request.form.getlist('os')})
     received_dict['publish_date'] = datetime.datetime.utcnow()
-    received_dict['comments'] = []
+    
 
     # defensive programming: check user input
     titleExist = False
@@ -231,22 +231,30 @@ def edit_topic(topic_id):
 
 @app.route('/update_topic/<topic_id>', methods=["POST"])
 def update_topic(topic_id):
+    """
+    Called when saving a changed topic
+    """
     topics = mongo.db.topics
     active_topic = topics.find_one({"_id": ObjectId(topic_id)}, {'publish_date': 1, 'comments': 1})
     timestamp = active_topic['publish_date']
-    comments = active_topic['comments']
-    for item in comments:
-        comments[comments.index(item)]['expired'] = True
-
-    topics.update({'_id': ObjectId(topic_id)}, {
+    all_fields = {
         'title': request.form.get('title'),
         'details': request.form.get('details'),
         'author': request.form.get('author'),
         'os': request.form.getlist('os'),
         'cost': request.form.get('cost'),
-        'publish_date': timestamp,
-        'comments': comments
-    })
+        'publish_date': timestamp
+    }
+
+    # check if comments exist. If yes, make them expired
+    if 'comments' in active_topic:
+        comments = active_topic['comments']
+        for item in comments:
+            comments[comments.index(item)]['expired'] = True
+
+        all_fields['comments'] = comments
+
+    topics.update({'_id': ObjectId(topic_id)}, all_fields)
     return redirect(url_for('home'))
 
 
