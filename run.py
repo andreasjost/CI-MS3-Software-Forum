@@ -163,19 +163,65 @@ def filter_topics_answer(answer_filter):
 def reset_filters():
     searchFilters.resetFilters()
     pagination.resetSettings()
-    return render_template('topics.html', topics=apply_filters())
+    return redirect(url_for('home'))
 
 
 @app.route('/insert_topic', methods=['POST'])
 def insert_topic():
+    """
+    Called when the user saves a new topic
+    """
     received_dict = request.form.to_dict()
     received_dict.update({'os': request.form.getlist('os')})
     received_dict['publish_date'] = datetime.datetime.utcnow()
     received_dict['comments'] = []
-    topics = mongo.db.topics
-    topics.insert_one(received_dict)
-    return redirect(url_for('get_topics'))
 
+    # defensive programming: check user input
+    titleExist = False
+    authorExist = False
+    detailsExist = False
+    titleOver = True
+    authorOver = True
+    detailsOver = True
+    platformSelected = False
+
+    if received_dict['title']:
+        titleExist = True
+        if len(received_dict['title']) > 40:
+            titleOver = False
+
+    if received_dict['author']:
+        authorExist = True
+        if len(received_dict['author']) > 40:
+            authorOver = False
+
+    if received_dict['details']:
+        detailsExist = True
+        if len(received_dict['details']) > 400:
+            detailsOver = False
+
+    if received_dict['os']:
+        platformSelected = True
+
+    # save comment if validation passed
+    if titleExist and authorExist and detailsExist and titleOver and authorOver and detailsOver and platformSelected:
+        topics = mongo.db.topics
+        topics.insert_one(received_dict)
+        return redirect(url_for('home'))
+
+    # open the page error.html if validation didn't pass
+    else:
+        args = {
+            "titleExist": titleExist,
+            "authorExist": authorExist,
+            "detailsExist": detailsExist,
+            "titleOver": titleOver,
+            "authorOver": authorOver,
+            "detialsOver": detailsOver,
+            "platformSelected": platformSelected
+        }
+
+        return render_template("errortopic.html", args=args)
 
 @app.route('/edit_topic/<topic_id>')
 def edit_topic(topic_id):
@@ -201,22 +247,26 @@ def update_topic(topic_id):
         'publish_date': timestamp,
         'comments': comments
     })
-    return redirect(url_for('get_topics'))
+    return redirect(url_for('home'))
 
 
 @app.route('/delete_topic/<topic_id>')
 def delete_topic(topic_id):
     mongo.db.topics.remove({'_id': ObjectId(topic_id)})
-    return redirect(url_for('get_topics'))
+    return redirect(url_for('home'))
 
 
 @app.route('/insert_comment/<topic_id>', methods=['POST'])
 def insert_comment(topic_id):
+    """
+    Called when user saves a comment
+    """
     topics = mongo.db.topics
 
     comment_text = request.form.get('comment_text')
     comment_author = request.form.get('comment_author')
 
+    # defensive programming: check user input
     commentExist = False
     commentOver = True
     authorExist = False
@@ -232,6 +282,7 @@ def insert_comment(topic_id):
         if len(comment_author) > 40:
             authorOver = False
 
+    # save comment if validation passed
     if commentExist and commentOver and authorExist and authorOver:
         one_object = {
             'comment_text': comment_text,
@@ -244,8 +295,9 @@ def insert_comment(topic_id):
         }
 
         topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
-        return redirect(url_for('get_topics'))
+        return redirect(url_for('home'))
 
+    # open the page error.html if validation didn't pass
     else:
         args = {
             "commentExist": commentExist,
@@ -254,7 +306,7 @@ def insert_comment(topic_id):
             "authorOver": authorOver,
         }
 
-        return render_template("error.html", args=args)
+        return render_template("errorcomment.html", args=args)
 
 
 def comment_rating(topic_id, comment_id, positive, negative):
