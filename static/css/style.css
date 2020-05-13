@@ -103,7 +103,6 @@ h1 {
     font-size: 2.5rem;
     text-align: center;
     color: #fff;
-    
 }
 
 h2 {
@@ -118,7 +117,7 @@ h2 {
 h3 {
     font-weight: 300;
     font-size: 1.5rem;
-    color: #fff;
+    color: #fff0e6;
 }
 
 h4 {
@@ -147,11 +146,8 @@ h6 {
     margin-bottom: 0;
 }
 
-
 .btn {
-    
     border-radius: 10px;
-    
 }
 
 /* --------------------------------------------------- header */
@@ -179,11 +175,12 @@ nav {
 .brand-logo {
     font-family: 'Blinker', sans-serif;
     margin-left: 15px;
+    color: #ffc34d;
 }
 
-/* --------------------------------------------------- home section */
+/* --------------------------------------------------- search section */
 #home-section {
-    background-image: url("/static/images/bg-table.jpg");
+    background-image: url("/static/images/bg-home.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -251,6 +248,16 @@ nav {
 
 #topics-section .btn {
     margin: 10px;
+}
+
+li.active .collapsible-header i {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.collapsible-header i {
+    color: #1976d2;
 }
 
 input[type=search]:not(.browser-default) {
@@ -380,7 +387,7 @@ label {
 /*------------------------------------------------------- new topic section    */
 
 #addtopic-section {
-    background-image: url("/static/images/bg-home.jpg");
+    background-image: url("/static/images/bg-table.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -412,6 +419,13 @@ label {
 .platform-select {
     padding-top: 10px;
     
+}
+
+/*------------------------------------------------------- edit topic section    */
+
+.buttons-row {
+    padding-left: 10px;
+    margin-top: 15px;
 }
 
 /*------------------------------------------------------- Footer    */
