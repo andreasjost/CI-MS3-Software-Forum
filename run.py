@@ -223,37 +223,15 @@ def insert_topic():
     received_dict.update({'os': request.form.getlist('os')})
     received_dict['publish_date'] = datetime.datetime.utcnow()
 
-    # defensive programming: check user input
-    titleExist = False
-    authorExist = False
-    detailsExist = False
-    titleOver = True
-    authorOver = True
-    detailsOver = True
-    platformSelected = False
-
-    if received_dict['title']:
-        titleExist = True
-        if len(received_dict['title']) > 40:
-            titleOver = False
-
-    if received_dict['author']:
-        authorExist = True
-        if len(received_dict['author']) > 40:
-            authorOver = False
-
-    if received_dict['details']:
-        detailsExist = True
-        if len(received_dict['details']) > 400:
-            detailsOver = False
-
-    if received_dict['os']:
-        platformSelected = True
+    # check for empty fields or selection
+    check_result = check_inputform(received_dict)
 
     # save comment if validation passed
-    if titleExist and authorExist and detailsExist and titleOver and authorOver and detailsOver and platformSelected:
+    if check_result[0]:
         topics = mongo.db.topics
         topics.insert_one(received_dict)
+
+        # making sure the input form is empty when reloading the page
         global newtopic_form
         newtopic_form = {
             "pre_title": "",
@@ -266,16 +244,10 @@ def insert_topic():
 
     # open the page error.html if validation didn't pass
     else:
-        args = {
-            "titleExist": titleExist,
-            "authorExist": authorExist,
-            "detailsExist": detailsExist,
-            "titleOver": titleOver,
-            "authorOver": authorOver,
-            "detialsOver": detailsOver,
-            "platformSelected": platformSelected
-        }
+        # pass the faulty fields to the error page
+        args = check_result[1]
 
+        # Make sure the input is still there when returning from error page
         newtopic_form["pre_title"] = received_dict['title']
         newtopic_form["pre_name"] = received_dict['author']
         newtopic_form["pre_details"] = received_dict['details']
@@ -302,36 +274,11 @@ def update_topic(topic_id):
     """
     received_dict = request.form.to_dict()
 
-    # defensive programming: check user input
-    # !!! put this in as eparate defnition, double code !!!
-    titleExist = False
-    authorExist = False
-    detailsExist = False
-    titleOver = True
-    authorOver = True
-    detailsOver = True
-    platformSelected = False
-
-    if received_dict['title']:
-        titleExist = True
-        if len(received_dict['title']) > 40:
-            titleOver = False
-
-    if received_dict['author']:
-        authorExist = True
-        if len(received_dict['author']) > 40:
-            authorOver = False
-
-    if received_dict['details']:
-        detailsExist = True
-        if len(received_dict['details']) > 400:
-            detailsOver = False
-
-    if received_dict['os']:
-        platformSelected = True
+    # check for empty fields or selection
+    check_result = check_inputform(received_dict)
 
     # save comment if validation passed
-    if titleExist and authorExist and detailsExist and titleOver and authorOver and detailsOver and platformSelected:
+    if check_result[0]:
         topics = mongo.db.topics
         active_topic = topics.find_one({"_id": ObjectId(topic_id)}, {'publish_date': 1, 'comments': 1})
         timestamp = active_topic['publish_date']
@@ -357,15 +304,8 @@ def update_topic(topic_id):
 
     # open the page error.html if validation didn't pass
     else:
-        args = {
-            "titleExist": titleExist,
-            "authorExist": authorExist,
-            "detailsExist": detailsExist,
-            "titleOver": titleOver,
-            "authorOver": authorOver,
-            "detialsOver": detailsOver,
-            "platformSelected": platformSelected
-        }
+        # pass the faulty fields to the error page
+        args = check_result[1]
 
         return render_template("errortopic.html", args=args)
 
@@ -550,6 +490,53 @@ def apply_filters():
     search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
 
     return search_result
+
+
+def check_inputform(received_dict):
+    """
+    Check user input on forms for a new topic and to change a topic
+    (defensive programming)
+    """
+    titleExist = False
+    authorExist = False
+    detailsExist = False
+    titleOver = True
+    authorOver = True
+    detailsOver = True
+    platformSelected = False
+
+    if received_dict['title']:
+        titleExist = True
+        if len(received_dict['title']) > 40:
+            titleOver = False
+
+    if received_dict['author']:
+        authorExist = True
+        if len(received_dict['author']) > 40:
+            authorOver = False
+
+    if received_dict['details']:
+        detailsExist = True
+        if len(received_dict['details']) > 400:
+            detailsOver = False
+
+    if received_dict['os']:
+        platformSelected = True
+
+    if titleExist and authorExist and detailsExist and titleOver and authorOver and detailsOver and platformSelected:
+        return True, None
+
+    else:
+        args = {
+            "titleExist": titleExist,
+            "authorExist": authorExist,
+            "detailsExist": detailsExist,
+            "titleOver": titleOver,
+            "authorOver": authorOver,
+            "detialsOver": detailsOver,
+            "platformSelected": platformSelected
+        }
+        return False, args
 
 
 if __name__ == '__main__':
