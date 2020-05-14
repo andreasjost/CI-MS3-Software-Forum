@@ -44,27 +44,27 @@ section {
 /* changing the color of Materialize elements */
 
 .select-wrapper input.select-dropdown:focus {
-    border: 1px solid #1976D2;
+    border: 1px solid #1976d2;
 }
 
 [type="checkbox"]:checked+span:not(.lever):before {
-    border-right-color: #1976D2;
-    border-bottom-color: #1976D2;
+    border-right-color: #1976d2;
+    border-bottom-color: #1976d2;
 }
 
 .dropdown-content li>a, .dropdown-content li>span {
-    color: #1976D2;
+    color: #1976d2;
 }
 
 [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after,
 [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after,
 [type="checkbox"].filled-in:checked+span:not(.lever):after {
-    background-color: #1976D2;
-    border-color: #1976D2;
+    background-color: #1976d2;
+    border-color: #1976d2;
 }
 
 .pagination li.active {
-    background-color: #1976D2;
+    background-color: #1976d2;
     border-radius: 50%;
 }
 
@@ -84,8 +84,8 @@ textarea {
 }
 
 .input[type=text]:focus {
-    border: 1px solid #1976D2;
-    color: #1976D2;
+    border: 1px solid #1976d2;
+    color: #1976d2;
 }
 
 .progress {
@@ -93,6 +93,20 @@ textarea {
 }
 .indeterminate {
     background-color: blue;
+}
+
+/* error popup dialog */
+
+.error-i {
+    font-size: 3rem;
+    padding-bottom: 1rem;
+    color: #1976d2;
+}
+
+.error-dialog {
+    max-width: 500px;
+    border: 1px solid #1976d2;
+    border-radius: 5px;
 }
 
 /* --------------------------------------------------- headers */
@@ -164,18 +178,21 @@ nav {
     color: #ffc34d;
 }
 
-.navbar-button {
-    background-color: red;
-    margin: 13px;
-    font-family: 'Blinker', sans-serif;
-    font-weight: 600;
-
-}
-
 .brand-logo {
     font-family: 'Blinker', sans-serif;
     margin-left: 15px;
     color: #ffc34d;
+}
+
+.nav-wrapper i {
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+#mobile-menu {
+    height: 11rem;
+    background-color: #cce6ff;
+    width: 200px;
 }
 
 /* --------------------------------------------------- search section */
@@ -318,7 +335,9 @@ label {
     color: #000;
 }
 
-.thumb-up, .thumb-down, .thumbs-field p {
+.thumb-up,
+.thumb-down,
+.thumbs-field p {
     display: inline-block;
 }
 
@@ -377,6 +396,11 @@ label {
 
 .collapsible li.active .collapsible-header {
     background-color: #e6f2ff;
+}
+
+.empty-table {
+    border-top: 0.5px solid #aaa;
+    padding: 15px 0 15px 0;
 }
 
 .pagination {
