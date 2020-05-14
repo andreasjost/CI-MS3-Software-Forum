@@ -270,6 +270,7 @@ def update_topic(topic_id):
     Called when saving the form with the topic which was changed
     """
     received_dict = request.form.to_dict()
+    received_dict.update({'os': request.form.getlist('os')})
 
     # check for empty fields or selection
     check_result = check_inputform(received_dict)
