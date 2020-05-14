@@ -511,23 +511,27 @@ def apply_filters():
     elif searchFilters.answers == "Unanswered":
         allFilters.append({"comments": {"$exists": False}})
 
-    # 1. Apply filters the first time: Get all topics
-    topics = mongo.db.topics
-    search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
-    pagination.num_results = search_total.count()
-    pagination.num_pages = math.ceil(pagination.num_results / pagination.p_limit) + 1
-    pagination.active_page = int(pagination.p_offset / pagination.p_limit + 1)
-    last_date = search_total[pagination.p_offset]['publish_date']
+    try:
+        # 1. Apply filters the first time: Get all topics
+        topics = mongo.db.topics
+        search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
+        pagination.num_results = search_total.count()
+        pagination.num_pages = math.ceil(pagination.num_results / pagination.p_limit) + 1
+        pagination.active_page = int(pagination.p_offset / pagination.p_limit + 1)
+        last_date = search_total[pagination.p_offset]['publish_date']
 
-    # Making sure pagination works correctily with the ascending/descending order of the date
-    if searchFilters.dateOrder == -1:
-        allFilters.append({'publish_date': {'$lte': last_date}})
+        # Making sure pagination works correctily with the ascending/descending order of the date
+        if searchFilters.dateOrder == -1:
+            allFilters.append({'publish_date': {'$lte': last_date}})
 
-    else:
-        allFilters.append({'publish_date': {'$gte': last_date}})
+        else:
+            allFilters.append({'publish_date': {'$gte': last_date}})
 
-    # 2. Apply filters the second time: because of pagination
-    search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
+        # 2. Apply filters the second time: because of pagination
+        search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
+
+    except IndexError:
+        search_result = None
 
     return search_result
 
