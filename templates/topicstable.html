@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% if topics %}
 <ul class="collapsible" data-collapsible="accordion">
     {% for topic in topics %}
     <li>
@@ -65,11 +66,11 @@
                 </div>
                 <div class="thumbs-field">
                     <a href="#!" class="thumb-up" topic_id="{{ topic._id }}" comment_id="{{ object.comment_id }}">
-                        <i class="fas fa-thumbs-up"></i>
+                    <i class="fas fa-thumbs-up"></i>
                     </a>
                     <p>{{ object.comment_pos }}</p>
                     <a href="#!" class="thumb-down" topic_id="{{ topic._id }}" comment_id="{{ object.comment_id }}">
-                        <i class="fas fa-thumbs-down"></i>
+                    <i class="fas fa-thumbs-down"></i>
                     </a>
                     <p>{{ object.comment_neg }}</p>
                 </div>
@@ -110,14 +111,22 @@
 </ul>
 <div class="row">
     <div class="col s12 m6">
-<p>Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics in total</p>
+        <p>Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics in total</p>
     </div>
     <div class="col s12 m6">
-
-<a href="{{url_for('reset_filters')}}" class="float-right">Reset search options</a>
+        <a href="{{url_for('reset_filters')}}" class="float-right">Reset search options</a>
+    </div>
 </div>
+{% else %}
+<div class="row empty-table">
+    <div class="col s12 m6">
+        <p class="em-red">No topics found. Please adjust your search.</p>
+    </div>
+    <div class="col s12 m6">
+        <a href="{{url_for('reset_filters')}}" class="float-right">Reset search options</a>
+    </div>
 </div>
-
+{% endif %}
 <!-- pagination -->
 {% if paginationOpt.num_results > paginationOpt.p_limit %}
 <ul class="pagination">
@@ -141,15 +150,12 @@
     {% endif %}
 </ul>
 {% endif %}
-
-
 <script>
-
     // Materialize collapsible doesn't work in the table if not initialized here again
     $('.collapsible').collapsible();
-
+    
     // the following functions are here because they are not called in the external file
-
+    
      // Add commenting functionality
     $(".add-comment").click(function () {
         $(".comment-form").animate({ height: "200px" });
@@ -161,7 +167,7 @@
         $(".cancel-comment, .submit-comment").hide();
         $(".add-comment, .topic-options").show();
     });
-
+    
     // Add rating functionality (thumbs up/down). Does not work in any other file than here.
     $(".thumb-up").on('click', function () {
         $("#dbupdate-progress").removeClass("hide-progress");
@@ -175,7 +181,7 @@
             $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
             $("#dbupdate-progress").addClass("hide-progress");
         });
-
+    
     });
     $(".thumb-down").on('click', function () {
         $("#dbupdate-progress").removeClass("hide-progress");
@@ -190,12 +196,12 @@
             $("#dbupdate-progress").addClass("hide-progress");
         })
     });
-
+    
     // Defensive programming: Checking the length of text entered
     $('textarea, input').on("input", function () {
         checkTextLength($(this))
     });
-
+    
     // Defensive programming: User cannot enter more than 'maxlength'-digits
     function checkTextLength(element) {
     if (element.val().length > element.attr('maxlength') - 1) {
@@ -206,5 +212,5 @@
         } else {
             return true;
         }
-}
+    }
 </script>
