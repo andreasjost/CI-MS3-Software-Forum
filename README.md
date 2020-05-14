@@ -45,41 +45,77 @@ Cookie: To save filters, and to check if people rated a comment (prevent repeate
 # Features
 
 ### Current Features
+- Show topics from a database, display them with pagination
 - Adding, edditing and deleting a topic
-- sorting topics accoring to:
+- sorting/filtering topics accoring to:
     - date (ascending and descending)
     - Platform
     - cost
-    - Answered / unanswered
-- Searching for a topic according to the title
-- Fulltext search of title, details and comments
+    - Answered / unanswered (Did anyone comment the topic)
+- Searching for a topic with keyword(s) in title, details and comments
 - Adding comments to a topic
-- rating comments
-    - automatically sorting comments according to their popularity
+- rating comments, and sort comments according to their popularity (most popular first)
 
 
 ### Planned Features
-- User authentication
+- Important: User authentication, so that users can edit and delete only their own topics
+- Search for author names (in comments and topics)
+- Fixing the issues addressed in the 'Testing'-chapter
 
 # Technologies used
 - HTML
 - CSS
 - JavaScript
 - Python
-- pymongo
-- flask
+- Pymongo
+- Flask
 - Materialize
 - (jQuery 3.4.1 (jQuery.com) to access DOM elements quicker, and react to user input)
 - Google Fonts (fonts.google.com) for 2 fonts
-- fontawesome
+- fontawesome for icons
 - GitPod (gitpod.io) IDE
 - GitHub (github.com) for sharing
 - Git (for version control)
 - MongoDB
 - Heroku
 
-
 # Testing
+
+I ran the code through validation services
+(https://validator.w3.org/, http://jigsaw.w3.org/css-validator/ and https://jshint.com/).
+Please refer to the separate document testing.md for all the details
+
+# Challenges
+
+### Jinja/Flask/Javascript
+
+Sometimes the behavior of the different languages was unexpected. For example:
+- I had to quit the habit of putting code containing Jinja in comments in the html file, because a comment containing
+{{ or }} is being read as code, and not as a comment
+- Not all JavaScript is being read when it's in a separate file. Therefore, I had to add JavaScript to the html files
+directly in some cases, otherwise it would never get called. Overall, that makes the code less readable 
+
+
+### Structure
+
+The project was a challenging learning experience to show the importance of careful planning at the beginning.
+For every functionality, it's important to know which approach would work better after access to the database
+in Python:
+
+1. Refreshing the page (with html form action and arguments)
+2. Update the page without refreshing (with the help of JavaScript)
+
+The project is now a mix of both, which serves me as a reference for future projects. But, it makes the code more
+difficult to read and it was extremely time consuming to change functions from one approach to the other. The UX
+could be more consistent with careful planning, but it would have consumed too much time to change the code (which
+in many cases would mean to change a lot of the basic structure)
+
+### Materialize
+
+I've used Materialize to get familiar with it. But I realized that Materialize is not as mature yet as Bootstrap,
+which probably would have been a better choice. There was a lot of unexpected behavior (certain
+margins and padding, the icons, 'hidden' color in forms, etc). In addition, it's much more difficult to find
+specific solutions when searching on the internet, Bootstrap seems to have a bigger user base.
 
 # Deployment
 
@@ -98,3 +134,5 @@ Besides the Code Institute Walkthrough projects, I often consulted the following
 - stackoverflow.com (for many general issues)
 - w3schools.com (mainly to refresh python syntax)
 - mongodb documentation, mainly: https://docs.mongodb.com/manual/tutorial/query-array-of-documents/ in order to work with arrays
+- Youtube tutorial https://www.youtube.com/watch?v=Kcka5WBMktw (part 1) and https://www.youtube.com/watch?v=A291yJ92154 (part 2)
+by "Pretty Printed": learning how to update the page without refreshing
