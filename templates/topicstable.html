@@ -51,7 +51,7 @@
                         <p class="error-msg center-align">Do you really want to delete the topic '{{ topic.title }}' ?</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close btn-flat">Cancel</a>
+                        <a href="javascript:hideDeleteWarning();" class="modal-action modal-close btn-flat">Cancel</a>
                         <a href="{{ url_for('delete_topic', topic_id=topic._id) }}"
                             class="modal-action modal-close btn-flat">Yes</a>
                     </div>
@@ -166,25 +166,29 @@
     $('.collapsible').collapsible();
     $('.modal').modal();
     
-    // open Materialize modal in js because it has a class, and not an id
+    /* custom open and close Materialize modal in js because it has a class, and not
+    an id as required in the documentation */
     function showDeleteWarning() {
         $(".delete-warning").modal('open');
     }
+    function hideDeleteWarning() {
+        $(".delete-warning").modal('close');
+    }
     
      // Add commenting functionality
-    $(".add-comment").click(function () {
+    $(".add-comment").click(function() {
         $(".comment-form").animate({ height: "200px" });
         $(".cancel-comment, .submit-comment, .comment-form").show();
         $(".add-comment, .topic-options").hide();
     });
-    $(".cancel-comment").click(function () {
+    $(".cancel-comment").click(function() {
         $(".comment-form").animate({ height: "0px" }, function () { $(".comment-form").hide() });
         $(".cancel-comment, .submit-comment").hide();
         $(".add-comment, .topic-options").show();
     });
     
     // Add rating functionality (thumbs up/down). Does not work in any other file than here.
-    $(".thumb-up").on('click', function () {
+    $(".thumb-up").on('click', function() {
         $("#dbupdate-progress").removeClass("hide-progress");
         urlTemplate = "{{ url_for('rate_pos', topic_id='v1', comment_id='v2') }}";
         urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
@@ -198,7 +202,7 @@
         });
     
     });
-    $(".thumb-down").on('click', function () {
+    $(".thumb-down").on('click', function() {
         $("#dbupdate-progress").removeClass("hide-progress");
         urlTemplate = "{{ url_for('rate_neg', topic_id='v1', comment_id='v2') }}";
         urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
@@ -213,7 +217,7 @@
     });
     
     // Defensive programming: Checking the length of text entered
-    $('textarea, input').on("input", function () {
+    $('textarea, input').on("input", function() {
         checkTextLength($(this))
     });
     
