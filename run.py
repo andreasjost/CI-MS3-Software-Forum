@@ -48,10 +48,7 @@ class PaginationSettings:
     the pagination functionality (below the topics table)
     """
     p_limit = 5
-    p_offset = 0
-    num_results = 0
-    num_pages = 0
-    active_page = 0
+    p_offset = num_results = num_pages = active_page = 0
 
     def resetSettings(self):
         self.p_limit = 5
@@ -242,7 +239,7 @@ def insert_topic():
         }
         return redirect(url_for('home'))
 
-    # open the page error.html if validation didn't pass
+    # go to errortopic.html if validation didn't pass
     else:
         # pass the faulty fields to the error page
         args = check_result[1]
@@ -302,7 +299,7 @@ def update_topic(topic_id):
         topics.update({'_id': ObjectId(topic_id)}, all_fields)
         return redirect(url_for('home'))
 
-    # open the page error.html if validation didn't pass
+    # go to errortopic.html if validation didn't pass
     else:
         # pass the faulty fields to the error page
         args = check_result[1]
@@ -360,7 +357,7 @@ def insert_comment(topic_id):
         topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
         return redirect(url_for('home'))
 
-    # open the page error.html if validation didn't pass
+    # go to errorcomment.html if validation didn't pass
     else:
         args = {
             "commentExist": commentExist,
@@ -452,57 +449,13 @@ def check_rating_neg(comment):
     return value
 
 
-def apply_filters():
-    """
-    get all Topics with search, filters and pagination applied
-    """
-    searchInclude = []
-    for item in searchFilters.searchScope:
-        searchInclude.append({item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
-
-    allFilters = [
-        {"$or": searchInclude},
-        {"os": {"$in": searchFilters.platform}},
-        {"cost": {"$regex": searchFilters.cost}}]
-
-    if searchFilters.answers == "Answered":
-        allFilters.append({"comments": {"$exists": True, "$ne": None}})
-
-    elif searchFilters.answers == "Unanswered":
-        allFilters.append({"comments": {"$exists": False}})  
-    
-    # 1. Apply filters the first time: Get all topics
-    topics = mongo.db.topics
-    search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
-    pagination.num_results = search_total.count()
-    pagination.num_pages = math.ceil(pagination.num_results / pagination.p_limit) + 1
-    pagination.active_page = int(pagination.p_offset / pagination.p_limit + 1)
-    last_date = search_total[pagination.p_offset]['publish_date']
-
-    # Making sure pagination works correctily with the ascending/descending order of the date
-    if searchFilters.dateOrder == -1:
-        allFilters.append({'publish_date': {'$lte': last_date}})
-
-    else:
-        allFilters.append({'publish_date': {'$gte': last_date}})
-
-    # 2. Apply filters the second time: because of pagination
-    search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
-
-    return search_result
-
-
 def check_inputform(received_dict):
     """
     Check user input on forms for a new topic and to change a topic
     (defensive programming)
     """
-    titleExist = False
-    authorExist = False
-    detailsExist = False
-    titleOver = True
-    authorOver = True
-    detailsOver = True
+    titleExist = authorExist = detailsExist = False
+    titleOver = authorOver = detailsOver = True
     platformSelected = False
 
     if received_dict['title']:
@@ -537,6 +490,46 @@ def check_inputform(received_dict):
             "platformSelected": platformSelected
         }
         return False, args
+
+
+def apply_filters():
+    """
+    get all Topics with search, filters and pagination applied
+    """
+    searchInclude = []
+    for item in searchFilters.searchScope:
+        searchInclude.append({item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
+
+    allFilters = [
+        {"$or": searchInclude},
+        {"os": {"$in": searchFilters.platform}},
+        {"cost": {"$regex": searchFilters.cost}}]
+
+    if searchFilters.answers == "Answered":
+        allFilters.append({"comments": {"$exists": True, "$ne": None}})
+
+    elif searchFilters.answers == "Unanswered":
+        allFilters.append({"comments": {"$exists": False}})
+
+    # 1. Apply filters the first time: Get all topics
+    topics = mongo.db.topics
+    search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
+    pagination.num_results = search_total.count()
+    pagination.num_pages = math.ceil(pagination.num_results / pagination.p_limit) + 1
+    pagination.active_page = int(pagination.p_offset / pagination.p_limit + 1)
+    last_date = search_total[pagination.p_offset]['publish_date']
+
+    # Making sure pagination works correctily with the ascending/descending order of the date
+    if searchFilters.dateOrder == -1:
+        allFilters.append({'publish_date': {'$lte': last_date}})
+
+    else:
+        allFilters.append({'publish_date': {'$gte': last_date}})
+
+    # 2. Apply filters the second time: because of pagination
+    search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
+
+    return search_result
 
 
 if __name__ == '__main__':
