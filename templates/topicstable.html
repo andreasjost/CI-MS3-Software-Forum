@@ -40,10 +40,21 @@
                     <p class="right-align topic-author"><em>{{ topic.author }}</em></p>
                 </div>
                 <div class="topic-btn-wrapper">
-                    <a href="{{ url_for('delete_topic', topic_id=topic._id) }}"
-                        class="topic-action"><i class="material-icons">delete</i>Delete Topic</a>
+                    <a href="javascript:showDeleteWarning()"
+                        class="topic-action"><i class="material-icons">delete</i>Delete topic</a>
                     <a href="{{ url_for('edit_topic', topic_id=topic._id) }}"
-                        class="topic-action"><i class="material-icons">edit</i>Edit Topic</a>
+                        class="topic-action"><i class="material-icons">edit</i>Edit topic</a>
+                </div>
+                <div class="modal error-dialog delete-warning">
+                    <div class="modal-content">
+                        <p class="center-align"><span class="material-icons error-i">error</span></p>
+                        <p class="error-msg center-align">Do you really want to delete the topic '{{ topic.title }}' ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close btn-flat">Cancel</a>
+                        <a href="{{ url_for('delete_topic', topic_id=topic._id) }}"
+                            class="modal-action modal-close btn-flat">Yes</a>
+                    </div>
                 </div>
             </div>
             <!-- Display the comment(s) -->
@@ -151,10 +162,14 @@
 </ul>
 {% endif %}
 <script>
-    // Materialize collapsible doesn't work in the table if not initialized here again
+    // the js functions are here because they are not called in the external js file
     $('.collapsible').collapsible();
+    $('.modal').modal();
     
-    // the following functions are here because they are not called in the external file
+    // open Materialize modal in js because it has a class, and not an id
+    function showDeleteWarning() {
+        $(".delete-warning").modal('open');
+    }
     
      // Add commenting functionality
     $(".add-comment").click(function () {
