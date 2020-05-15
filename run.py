@@ -47,11 +47,11 @@ class PaginationSettings:
     Class used for pagination. Data is used in the front end for
     the pagination functionality (below the topics table)
     """
-    p_limit = 5
+    p_limit = 10
     p_offset = num_results = num_pages = active_page = 0
 
     def resetSettings(self):
-        self.p_limit = 5
+        self.p_limit = 10
         self.p_offset = 0
         self.num_results = mongo.db.topics.find().count()
         self.num_pages = math.ceil(self.num_results / self.p_limit) + 1
