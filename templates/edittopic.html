@@ -8,13 +8,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
         <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@300;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
         <title>SoftPursuit - Edit topic</title>
     </head>
     <body>
         <header>
             <nav class="nav-wrapper">
-                <a href="{{url_for('home')}}" class="brand-logo">SoftPursuit</a>
+                <a href="{{ url_for('home') }}" class="brand-logo">SoftPursuit</a>
             </nav>
         </header>
         <section id="edit-topics">
@@ -24,24 +24,20 @@
                     <form action="{{ url_for('update_topic', topic_id=topic._id) }}" method="POST" class="col s12">
                         <div class="row">
                             <div class="col s12 m6">
-                                <label for="title">
-                                    <h6>Topic title:</h6>
-                                </label>
+                                <h6>Topic title:</h6>
                                 <input id="topic-title" type="text" name="title" value="{{ topic.title }}" maxlength="40">
                             </div>
                             <div class="col s12 m6">
-                                <label for="author">
-                                    <h6>Your name:</h6>
-                                </label>
+                                <h6>Your name:</h6>
                                 <input id="topic-author" type="text" name="author" value="{{ topic.author }}" maxlength="40">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12">
-                                <label for="topic-description">
-                                    <h6>Detail description of what you want to achieve</h6>
-                                </label>
-                                <textarea id="topic-description" name="details" maxlength="400">{{ topic.details }}</textarea>
+                                <h6>Detail description of what you want to achieve</h6>
+                                <div class="textarea-wrapper">
+                                    <textarea id="topic-description" name="details" maxlength="400">{{ topic.details }}</textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -68,8 +64,8 @@
                                         <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
                                         {% endif %}
                                         <span>
-                                        <div class="platform-icons"><span><i class="fab fa-apple"></i></div>
-                                        MacOS
+                                            <div class="platform-icons"><i class="fab fa-apple"></i></div>
+                                            MacOS
                                         </span>
                                     </label>
                                 </div>
@@ -81,8 +77,8 @@
                                         <input type="checkbox" class="filled-in" name="os" value="Linux"/>
                                         {% endif %}
                                         <span>
-                                        <div class="platform-icons"><span><i class="fab fa-linux"></i></div>
-                                        Linux
+                                            <div class="platform-icons"><i class="fab fa-linux"></i></div>
+                                            Linux
                                         </span>
                                     </label>
                                 </div>
