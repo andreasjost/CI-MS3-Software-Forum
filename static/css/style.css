@@ -1,27 +1,16 @@
-/* --------------------------------------------------- box and color special */
-
-.right-align {
-    text-align: right;
+body {
+    font-family: 'Mukta', sans-serif;
 }
+
+
+/* --------------------------------------------------- box and color special */
 
 p {
     margin: 0;
 }
 
-.float-left {
-    float: left;
-}
-
-.float-right {
-    float: right;
-}
-
 .row {
     width: 100%;
-}
-
-.white-text {
-    color: white;
 }
 
 section {
@@ -43,6 +32,10 @@ section {
     border: 1px solid #fff;
     padding-left: 5px;
     border-radius: 5px;
+}
+
+label {
+    color: #000;
 }
 
 /* changing the color of Materialize elements */
@@ -67,9 +60,8 @@ section {
     border-color: #1976d2;
 }
 
-.pagination li.active {
-    background-color: #1976d2;
-    border-radius: 50%;
+input {
+    font-family: 'Mukta', sans-serif;
 }
 
 input[type=text]:not(.browser-default) {
@@ -85,6 +77,7 @@ textarea {
     padding: 5px;
     height: 3.5rem;
     background-color: #fff;
+    font-family: 'Mukta', sans-serif;
 }
 
 .textarea-wrapper {
@@ -97,34 +90,20 @@ textarea {
 }
 
 .progress {
-    background-color: cyan;
-}
-.indeterminate {
-    background-color: blue;
+    background-color: #fff;
 }
 
 a.modal-action {
     color: #1976d2;
 }
 
-/* error popup dialog */
-
-/* removing overlay because selecting it doesn't hide it when choosing another topic.
-Using 'width' because 'display: none' doesn't work in this context */
-.modal-overlay {
-    width: 0;
+.collapsible-body {
+    padding: 0;
+    background-color: #e6f2ff;
 }
 
-.error-i {
-    font-size: 3rem;
-    padding-bottom: 1rem;
-    color: #1976d2;
-}
-
-.error-dialog {
-    max-width: 500px;
-    border: 1px solid #1976d2;
-    border-radius: 5px;
+.collapsible li.active .collapsible-header {
+    background-color: #e6f2ff;
 }
 
 /* --------------------------------------------------- headers */
@@ -146,10 +125,15 @@ h2 {
     text-align: center;
 }
 
+h2.dark-background {
+    color: #fff;
+    text-shadow: 0 0 3px #333;
+}
+
 h3 {
     font-weight: 300;
     font-size: 1.5rem;
-    color: #fff0e6;
+    color: #cce6ff;
 }
 
 h4 {
@@ -183,76 +167,6 @@ h6 {
 }
 
 /* --------------------------------------------------- header */
-nav {
-    background-color: #000;
-    top: 0px;
-}
-
-.nav-passiv {
-    color: #fff;
-}
-
-.nav-highlight {
-    color: #ffc34d;
-}
-
-.brand-logo {
-    font-family: 'Blinker', sans-serif;
-    margin-left: 15px;
-    color: #ffc34d;
-}
-
-.nav-wrapper i {
-    margin-right: 10px;
-    font-size: 1rem;
-}
-
-#mobile-menu {
-    height: 11rem;
-    background-color: #cce6ff;
-    width: 200px;
-}
-
-/* --------------------------------------------------- search section */
-#home-section {
-    background-image: url("/static/images/bg-home.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-#home-section .collapsible {
-    background-color: #fff;
-    border: 1px solid #fff;
-    margin-bottom: 0;
-}
-
-#home-section .collapsible-header {
-    border: 0;
-}
-
-#home-section .collapsible li.active {
-    background-color: #eeeeee;
-}
-
-.filteroptions-wrapper {
-    padding-bottom: 15px;
-    border: 3px solid #333;
-    border-radius: 15px;
-    background-color: rgba(255,255,255,0.8);
-}
-
-#searchfield {
-    margin: 0;
-}
-
-#home-section .collapsible {
-    margin-right: 15px;
-    margin-left: 15px;
-    border-radius: 0 0 5px 5px;
-}
-
-
-/* --------------------------------------------------- topics section */
 
 .hide-progress {
     display: none;
@@ -269,11 +183,88 @@ nav {
     margin: 0;
     height: 5px;
     position: absolute;
-   
 }
 
+nav {
+    background-color: #000;
+    top: 0px;
+}
+
+.nav-passiv {
+    color: #fff;
+}
+
+.nav-highlight {
+    color: #cce6ff;
+}
+
+.logo {
+    font-family: 'Blinker', sans-serif;
+    font-weight: 600;
+    margin: 0 15px;
+    font-size: 3rem;
+    color: #cce6ff;
+}
+
+.tagline {
+    font-family: 'Blinker', sans-serif;
+    font-size: 1.2rem;
+}
+
+.nav-wrapper i {
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+#mobile-menu {
+    height: 11rem;
+    background-color: #cce6ff;
+    width: 200px;
+}
+
+.sidenav {
+    padding: 0;
+}
+
+/* --------------------------------------------------- search section */
+
+#home-section {
+    background-image: url("/static/images/bg-home.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#home-section .collapsible {
+    background-color: #fff;
+    border: 1px solid #fff;
+    margin: 0 15px;
+    border-radius: 0 0 5px 5px;
+}
+
+#home-section .collapsible-header {
+    border: 0;
+}
+
+.filteroptions-wrapper {
+    padding-bottom: 15px;
+    border: 3px solid #333;
+    border-radius: 15px;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.searchfield-wrapper {
+    margin-right: 15px;
+}
+
+#searchfield {
+    height: 2rem;
+    font-size: 1rem;
+}
+
+/* --------------------------------------------------- topics section */
+
 .topics-background {
-    background-image: radial-gradient(#fff, #fff, #ddd);   
+    background-image: radial-gradient(#fff, #fff, #cce6ff);   
 }
 
 #topics-section .material-icons {
@@ -282,6 +273,16 @@ nav {
 
 #topics-section .btn {
     margin: 10px;
+}
+
+.collapsible-header {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    border-bottom: 0;
+    border-top: 0.5px solid #aaa;
+    background-color: #fff;
 }
 
 li.active .collapsible-header i {
@@ -304,32 +305,23 @@ input[type=search]:not(.browser-default) {
     background-color: white;
 }
 
-
-[type="checkbox"]+span:not(.lever) { 
+input.[type="checkbox"]+span:not(.lever) { 
     padding-left: 23px;
     padding-right: 10px;
 }
 
-.collapsible-header {
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
-    border-bottom: 0;
-    border-top: 0.5px solid #aaa;
-    background-color: #fff;
-}
-
-.collapsible-body {
-    padding: 0;
-}
-
-label {
-    color: #000;
-}
-
 .topic-author {
     margin-bottom: 10px;
+}
+
+.details-wrapper {
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px #aaa;
+    background-color: #cce6ff;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0 10px 0 10px;
 }
 
 .comment-form {
@@ -340,6 +332,14 @@ label {
 
 .inputname-wrapper {
     margin-right: 11px;
+}
+
+.comment-text {
+    width: 100%;
+}
+
+.flat-corner {
+    border-radius: 10px 10px 0 10px;
 }
 
 .cancel-comment {
@@ -353,7 +353,7 @@ label {
 }
 
 .topic-action {
-    color: #000;
+    color: #1976d2;
 }
 
 .thumb-up,
@@ -364,24 +364,7 @@ label {
 
 .thumb-up, .thumb-down {
     margin-left: 20px;
-}
-
-.details-wrapper {
-    border: 1px solid transparent;
-    border-radius: 10px;
-    box-shadow: 1px 1px 4px #aaa;
-    background-color: #cce6ff;
-    padding-left: 5px;
-    padding-right: 5px;
-    margin: 0 10px 0 10px;
-}
-
-.flat-corner {
-    border-radius: 10px 10px 0 10px;
-}
-
-.comment-text {
-    width: 100%;
+    color: #1976d2;
 }
 
 .thumbs-field {
@@ -411,14 +394,6 @@ label {
     color: #f00;
 }
 
-.collapsible li.active {
-    background-color: #e6f2ff;
-}
-
-.collapsible li.active .collapsible-header {
-    background-color: #e6f2ff;
-}
-
 .empty-table {
     border-top: 0.5px solid #aaa;
     padding: 15px 0 15px 0;
@@ -427,6 +402,19 @@ label {
 .pagination {
     margin: 5px auto 15px auto;
     text-align: center;
+}
+
+.pagination li.active {
+    background-color: #1976d2;
+    border-radius: 50%;
+    width: 30px;
+    padding-top: 2px;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.blue-arrow {
+    color: #1976d2;
 }
 
 /*------------------------------------------------------- new topic section    */
@@ -475,12 +463,6 @@ label {
     background-size: cover;
 }
 
-#edit-topics h2 {
-    color: #fff;
-    text-shadow: 0 0 3px #333;
-}
-
-
 .buttons-row {
     padding-left: 10px;
     margin-top: 15px;
@@ -496,6 +478,26 @@ label {
 
 #error-section .inputform-wrapper {
     padding: 15px;
+}
+
+/* --------------------------------------------------- error modal */
+
+/* removing overlay because selecting it doesn't hide it when choosing another topic.
+Using 'width', because 'display: none' doesn't work in this context */
+.modal-overlay {
+    width: 0;
+}
+
+.error-i {
+    font-size: 3rem;
+    padding-bottom: 1rem;
+    color: #1976d2;
+}
+
+.error-dialog {
+    max-width: 500px;
+    border: 1px solid #1976d2;
+    border-radius: 5px;
 }
 
 /*------------------------------------------------------- Footer    */
@@ -519,7 +521,7 @@ footer > p {
     background-color: #fff;
     border-radius: 4px;
     font-size: 18px;
-    color: #A69D91;
+    color: #333;
     margin-top: 10px;
     margin-left: 10px;
     padding-top: 3px;
@@ -528,5 +530,5 @@ footer > p {
 /*------------------------------------------------------- Selectors    */
 
 .collapsible-header:hover {
-  background-color: #e6f2ff;
+    background-color: #e6f2ff;
 }
