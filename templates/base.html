@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
         <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@300;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
         <title>SoftPursuit</title>
     </head>
@@ -17,7 +18,7 @@
         <header>
             <div class="navbar-fixed">
                 <nav class="nav-wrapper">
-                    <a href="{{url_for('home')}}" class="logo">SoftPursuit</a><span class="tagline hide-on-small-only">Forum for finding software</span>
+                    <a href="{{url_for('home')}}" class="logo">SoftPursuit</a><span class="tagline hide-on-small-only">Software Forum</span>
                     <a href="" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a class="nav-link nav-highlight" href="#home-section"><i class="fas fa-search"></i>Search</a></li>
@@ -25,6 +26,11 @@
                         <li><a class="nav-link" href="#addtopic-section"><i class="fas fa-plus-circle"></i>Add topic</a></li>
                     </ul>
                 </nav>
+                <div id="progress-wrapper">
+                    <div class="progress hide-progress" id="dbupdate-progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
             </div>
             <ul class="sidenav" id="mobile-menu">
                 <li><a class="sidenav-close nav-link nav-highlight" href="#home-section"><i class="fas fa-search"></i>Search</a></li>
