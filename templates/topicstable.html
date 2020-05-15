@@ -120,7 +120,7 @@
 </ul>
 <div class="row">
     <div class="col s12 m6">
-        <p>Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics in total</p>
+        <p>Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics</p>
     </div>
     <div class="col s12 m6">
         <a href="{{url_for('reset_filters')}}" class="right">Reset search options</a>
@@ -140,19 +140,19 @@
 {% if paginationOpt.num_results > paginationOpt.p_limit %}
 <ul class="pagination">
     {% if paginationOpt.p_offset > 0 %}
-    <li><a href="javascript:pageDown();"><i class="material-icons">chevron_left</i></a></li>
+    <li><a href="javascript:pageDown();"><i class="material-icons blue-arrow">chevron_left</i></a></li>
     {% else %}
     <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
     {% endif %}
     {% for page in range (1, paginationOpt.num_pages) %}
     {% if paginationOpt.active_page == page %}
-    <li class="active"><a href="#">{{ page }}</a></li>
+    <li class="active">{{ page }}</li>
     {% else %}
     <li><a href="javascript:pageRandom({{ page }});">{{ page }}</a></li>
     {% endif %}
     {% endfor %}
     {% if paginationOpt.p_offset + paginationOpt.p_limit < paginationOpt.num_results  %}
-    <li><a href="javascript:pageUp();"><i class="material-icons">chevron_right</i></a>
+    <li><a href="javascript:pageUp();"><i class="material-icons blue-arrow">chevron_right</i></a>
     </li>
     {% else %}
     <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
