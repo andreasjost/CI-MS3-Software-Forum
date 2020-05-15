@@ -15,7 +15,7 @@
                     {% for getos in topic.os %}
                     {{ getos }}
                     {% if not loop.last %}
-                    ,
+                    -
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -94,16 +94,14 @@
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <label for="comment-input">
-                                <h6>Write your comment here</h6>
-                            </label>
+                            <h6>Write your comment here</h6>
                             <textarea class="comment-input" maxlength="400" name="comment_text"></textarea>
                         </div>
                         <div class="col s12">
-                            <label for="comment-author">
-                                <h6>Your name</h6>
-                            </label>
-                            <input type="text" class="comment-author" name="comment_author" maxlength="40">
+                            <h6>Your name</h6>
+                            <div class="inputname-wrapper">
+                                <input type="text" class="comment-author" name="comment_author" maxlength="40">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,7 +123,7 @@
         <p>Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics in total</p>
     </div>
     <div class="col s12 m6">
-        <a href="{{url_for('reset_filters')}}" class="float-right">Reset search options</a>
+        <a href="{{url_for('reset_filters')}}" class="right">Reset search options</a>
     </div>
 </div>
 {% else %}
@@ -134,7 +132,7 @@
         <p class="em-red">No topics found. Please adjust your search.</p>
     </div>
     <div class="col s12 m6">
-        <a href="{{url_for('reset_filters')}}" class="float-right">Reset search options</a>
+        <a href="{{url_for('reset_filters')}}" class="right">Reset search options</a>
     </div>
 </div>
 {% endif %}
