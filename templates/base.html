@@ -17,7 +17,7 @@
         <header>
             <div class="navbar-fixed">
                 <nav class="nav-wrapper">
-                    <a href="{{url_for('home')}}" class="brand-logo">SoftPursuit</a>
+                    <a href="{{url_for('home')}}" class="logo">SoftPursuit</a><span class="tagline hide-on-small-only">Forum for finding software</span>
                     <a href="" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a class="nav-link nav-highlight" href="#home-section"><i class="fas fa-search"></i>Search</a></li>
@@ -36,56 +36,53 @@
         <footer>
             <p>&#169; 2020 Andreas Jost</p>
             <a href="mailto:codefactory@gmx.ch">
-            <i class="far fa-envelope text-center social-icon"></i>
+                <i class="far fa-envelope text-center social-icon"></i>
             </a>
             <a href="https://www.linkedin.com/in/andreas-jost-1218a7107/" target="_blank">
-            <i class="fab fa-linkedin-in text-center social-icon"></i>
+                <i class="fab fa-linkedin-in text-center social-icon"></i>
             </a>
         </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
         <!-- js function containing a flask url (they don't work in external js file) -->
-        <script type="text/javascript">
-
+        <script>
             $(document).ready(function () {
                 $("#dbupdate-progress").removeClass("hide-progress");
                 baseUrl = "{{ url_for('get_topics') }}";
                 commitAjax(baseUrl);
             });
 
-
             function commitSearch(keyword, items) {
-                
-            urlTemplate0 = "{{ url_for('search_topics', search_keyword='v1', search_scope='v2') }}";
-            urlTemplate1 = urlTemplate0.replace(/v1/, keyword);
-            baseUrl = urlTemplate1.replace(/v2/, items);
-            commitAjax(baseUrl);
+                urlTemplate0 = "{{ url_for('search_topics', search_keyword='v1', search_scope='v2') }}";
+                urlTemplate1 = urlTemplate0.replace(/v1/, keyword);
+                baseUrl = urlTemplate1.replace(/v2/, items);
+                commitAjax(baseUrl);
             }
             
             $('#sortdate').change(function () {
-            $("#dbupdate-progress").removeClass("hide-progress");
-            urlTemplate = "{{ url_for('sort_topics_date', date_order='v1') }}";
-            baseUrl = urlTemplate.replace(/v1/, $(this).find('option:selected').attr('value'));
-            commitAjax(baseUrl);
+                $("#dbupdate-progress").removeClass("hide-progress");
+                urlTemplate = "{{ url_for('sort_topics_date', date_order='v1') }}";
+                baseUrl = urlTemplate.replace(/v1/, $(this).find('option:selected').attr('value'));
+                commitAjax(baseUrl);
             });
             
             function platformChosen(items) {
-            urlTemplate = "{{ url_for('filter_topics_platform', platform_filter='v1') }}";
-            baseUrl = urlTemplate.replace(/v1/, items);
-            commitAjax(baseUrl);
+                urlTemplate = "{{ url_for('filter_topics_platform', platform_filter='v1') }}";
+                baseUrl = urlTemplate.replace(/v1/, items);
+                commitAjax(baseUrl);
             }
             
             function costChosen(items) {
-            urlTemplate = "{{ url_for('filter_topics_cost', cost_filter='v1') }}";
-            baseUrl = urlTemplate.replace(/v1/, items);
-            commitAjax(baseUrl);
+                urlTemplate = "{{ url_for('filter_topics_cost', cost_filter='v1') }}";
+                baseUrl = urlTemplate.replace(/v1/, items);
+                commitAjax(baseUrl);
             }
             
             function answersChosen(items) {
-            urlTemplate = "{{ url_for('filter_topics_answer', answer_filter='v1') }}";
-            baseUrl = urlTemplate.replace(/v1/, items);
-            commitAjax(baseUrl);
+                urlTemplate = "{{ url_for('filter_topics_answer', answer_filter='v1') }}";
+                baseUrl = urlTemplate.replace(/v1/, items);
+                commitAjax(baseUrl);
             }
             
             function commitAjax(baseUrl) {
@@ -115,8 +112,7 @@
                 baseUrl = urlTemplate.replace(/v1/, value);
                 commitAjax(baseUrl);
             }
-    
-            
+
         </script>
     </body>
 </html>
