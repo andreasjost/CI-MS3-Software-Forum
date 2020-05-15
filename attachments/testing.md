@@ -1,10 +1,7 @@
 # Testing
 
-## Automated testing
-
-I ran the code through the W3 validators for HTML and CSS.
-
 ## Manual testing of functionality
+---
 
 ### Opening page:
 - Topics are fetched from monbodb and displayed in the 'topics-section'
@@ -19,6 +16,7 @@ I ran the code through the W3 validators for HTML and CSS.
 ### Navigation
 - The three navigation links 'Search', 'Topics', and 'Add topic' work, page jumps to the right section
 - Click on the logo jumps home ('Search'-section)
+- Social-links in the footer
 
 ### Search
 - Searching the database when entering one or more search keyword(s)
@@ -32,8 +30,6 @@ I ran the code through the W3 validators for HTML and CSS.
 - Pagination works correctly after every change in the search
 - If no items were found, an error appears
 - Materialize Preloader is displayed when the user has to wait for database feedback
-
-Found issue: Changed search command from $regex to $text, because with regex, the words had to be in the right order and next to each other.
 
 ### Topics-list
 
@@ -53,7 +49,7 @@ Found issue: Changed search command from $regex to $text, because with regex, th
     - 'Save'-button saves the comment top the corresponding topic
     - Error handling when an input is invalid (see chapter 'Defensive Programming' for details)
 
-Found issue: Topic is deleted without warning. Added a delete-warning
+Corrected issue: Topic is deleted without warning. Added a delete-warning
 
 >Issue for a future release: After the error handling in case of invalid input
 (comments and topics), the form disappears and the content is cleared. The error page should be a pop-up
@@ -65,12 +61,40 @@ rather than a separate html page
     - Error handling when an input is invalid (see chapter 'Defensive Programming' for details)
     - When returning from the error, the fields are still filled
 
+## Defensive Programming
+---
+
+The project contains different tools to catch invalid user input:
+
+### Frontend
+
+- Javascript alert popup when the user does the following:
+    - Enter more than 40 characters in a text fields
+    - Enter more than 400 characters in a textarea
+    - Nothing selected in the search os/platform-filter
+- Defined a maxlength attribute in HTML textareas and text input fields 
+
+### Backend
+- Python: A new html file opens, informing the user about the issue:
+    - Check that no input fields or text areas are empty
+    - Check that at least one platform/os is selected when adding/updating a topic
+    - Check the same character limits (40/400) as above
+
+
 ## Testing browsers and screen sizes
+---
 
+| Browser                 | Mobile (dev-tools) | Full-HD | 4K | changing size dinamically|
+| ----------------------- |------------------- | ------- | -- | ------------------------ |
+| Chrome (Win + Mac)      | x                  | x       | x  | x
+| Firefox (Win + Mac)     | x                  | x       | x  | x
+| Edge                    | x                  | x       | x  | x
+| Safari (Mac)            | x                  | x       | x  | x
+| Safari (iOS)            | x  (native)        | x       | x  | x
 
-| Browser       | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
+### corrected issues related to responsiveness:
+- Some of the input and select fields didn't align properly vertically. Due to time pressure, I solved the issue with
+additional wrappers.
+- the title "Answers" above the table with the topics was too long on mobile devices. I shortened it to 'Answ' on small screen
+sizes with the assistance of Materialize helpers
+- The background-image in edittopic.html only covers half the page on mobile devices.
