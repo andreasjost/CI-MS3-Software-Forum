@@ -20,7 +20,7 @@
         <section id="error-section">
             <div class="container">
                 <h2>Sorry, an error occured</h2>
-
+                    <div class="inputform-wrapper">
                     {% if args.commentExist == False %}
                         <p>- The comment field is empty</p>
                     {% endif %}
@@ -36,17 +36,12 @@
             
                         <div class="row">
                         <div class="save-btn-wrapper">
-                            <button class="btn blue darken-2" onclick="backButton();" >Back</button>
+                            <a class="btn blue darken-2" href="{{ url_for('home')}}">Home</a>
                         </div>
                         </div>
                     
-                
+                </div>
             </div>
         </section>
-        <script>
-            function backButton() {
-                history.go(-1);
-            }
-        </script>
     </body>
 </html>

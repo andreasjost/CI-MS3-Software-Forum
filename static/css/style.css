@@ -71,7 +71,7 @@ section {
 input[type=text]:not(.browser-default) {
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 0 5px 0 5px;
+    padding: 0 5px;
     height: 2rem;
     background-color: #fff;
 }
@@ -93,6 +93,10 @@ textarea {
 }
 .indeterminate {
     background-color: blue;
+}
+
+a.modal-action {
+    color: #1976d2;
 }
 
 /* error popup dialog */
@@ -318,7 +322,8 @@ label {
 .comment-form {
     display: none;
     height: 0px;
-    background-color: #eee;
+    background-color: #e6f2ff;
+
 }
 
 .cancel-comment {
@@ -445,11 +450,36 @@ label {
     
 }
 
-/*------------------------------------------------------- edit topic section    */
+/*------------------------------------------------------- edit topics section    */
+
+#edit-topics {
+    height: 100vh;
+    background-image: url("/static/images/bg-table.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#edit-topics h2 {
+    color: #fff;
+    text-shadow: 0 0 3px #333;
+}
+
 
 .buttons-row {
     padding-left: 10px;
     margin-top: 15px;
+}
+
+/*------------------------------------------------------- error section    */
+
+#error-section {
+    background-image: radial-gradient(#fff, #fff, #ddd);
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+#error-section .inputform-wrapper {
+    padding: 15px;
 }
 
 /*------------------------------------------------------- Footer    */
@@ -478,7 +508,6 @@ footer > p {
     margin-left: 10px;
     padding-top: 3px;
 }
-
 
 /*------------------------------------------------------- Selectors    */
 

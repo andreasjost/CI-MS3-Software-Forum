@@ -20,6 +20,7 @@
         <section id="error-section">
             <div class="container">
                 <h2>Sorry, an error occured</h2>
+                <div class="inputform-wrapper">
                     {% if args.titleExist == False %}
                         <p>- The title is missing</p>
                     {% endif %}
@@ -43,10 +44,10 @@
                     {% endif %}
                     <div class="row">
                         <div class="save-btn-wrapper">
-                            <a class="btn blue darken-2" href="{{ url_for('home')}}" >Back</a>
-                            
+                            <a class="btn blue darken-2" href="{{ url_for('home')}}">Home</a>
                         </div>
                     </div>
+                </div>
             </div>
         </section>
     </body>
