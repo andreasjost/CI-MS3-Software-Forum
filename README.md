@@ -1,8 +1,12 @@
 # SoftPursuit
 
+### A simple forum to choose the right software for your needs
+
 ![Multidevice-preview](attachments/multidevice-preview.png)
 
 Live website: https://ci-ms3-software-forum.herokuapp.com/
+
+This project is for educational use only.
 
 
 # UX
@@ -26,25 +30,26 @@ are more filter options:
 - pay/free
 - Answers (yes/no)
 
-The page is fully responsive to work on desktop and mobile
+Multiple filters can be applied at the same time. The page is fully responsive to work on desktop and mobile
 
 ## Structure
 
+### The page has the following html structure:
 1. Home page with 3 sections:
 
-- Search: With different search and filter options
-- Topics: Showing a table of topics (max. 10 per page with the use of pagination)
-- New Topic: Input form to create a new forum topic. Making it as easy as possible for people to add a topic by keeping the form on the home page
+    - Search: With different search and filter options
+    - Topics: Showing a table of topics (max. 10 per page with the use of pagination)
+    - New Topic: Input form to create a new forum topic. Making it as easy as possible for people to add a topic by keeping the form on the home page
 
 2. New page with a form for changing a topic
 
-3. 2 separate pages to display backend error messages
+3. Two separate pages to display backend error messages
 
-Fixed header, and a footer with social links
+Header with a logo and tagline (fixed), and a footer with social links
 
 ### Database: MongoDB
 
-#### Topics collection:
+#### One collection is used (topics):
 
 | Key in collection  | Data type   | Purpouse                                                |
 | ------------------ |-------------| ------------------------------------------------------- |
@@ -67,7 +72,7 @@ Fixed header, and a footer with social links
 | comment_neg        | int32       | Counting negative ratings (thumbs down)                 |
 | popularity         | int32       | comment-pos minus comment_neg (used for sorting)        |
 | expired            | bool        | Turns 'true' when topic gets changed                    |
-| comment_id         | string      | Unique identifier, used when sorting popularity         |
+| comment_id         | string      | Unique identifier, used when sorting by popularity      |
 
 
 ## Skeleton
@@ -179,8 +184,48 @@ button).
 
 ## Create a local repository
 
-## Deployment of project
+Make sure you have [Python 3](https://www.python.org/), [PIP](https://pip.pypa.io/en/stable/installing/) and [Git](https://git-scm.com/) installed before applying the following steps:
 
+1. Click on the green button 'Clone or download' above and unzip the downloaded zip-folder, or use the following terminal commant to paste the repository into your IDE:   
+`git clone https://github.com/andreasjost/CI-MS3-Software-Forum`  
+
+2. Create a new database in [MongoDB Atlas](https://www.mongodb.com/). 
+
+3. Set up environment variables:
+    - Create file: 'env.py' in your root directory.
+    - Add the command `import os` at the beginning of 'env.py' to set the environment variables.
+    - Connect your MongoDB database(MONGO_URI) by adding the following command to env.py:   
+    `os.environ["MONGO_URI"] = "<link to your MongoDB database>"`  
+
+4. Install all requirements from the 'requirements.txt' by using this terminal command:   
+`pip3 install -r requirements.txt` or `sudo pip3 install -r requirements.txt`, depending on your IDE   
+
+
+## Deployment of project
+The project is deployed on [Heroku](https://heroku.com/) following these steps:
+1. Create file: 'requirement.txt', containing a list of dependencies needed for the project, by typing the following terminal command:  
+`pip3 freeze > requirements.txt`
+2. Create file: 'Procfile' (mandatory for Heroku in order to define the starting point), with the command:   
+`echo web: python run.py > Procfile`
+3. Push the files to the GitHub repository with the commands:
+    - `git add .` (or type out the filenames instead of '.')
+    - `git commit -m "your message"`
+    - `git push`
+4. Open [Heroku](https://heroku.com/) and create a new app with a new unique name and the preferred region
+5. Login to Heroku in your IDE with the command
+`heroku login  -i`, the Heroku username and password are required
+6. Push the project to Heroku with the command:   
+`git push heroku master`
+
+7. To start the web process, put the following command into the terminal: `heroku ps:scale web=1` to scale dynos
+8. Go back to your app in Heroku in your browser, select the 'Settings'-tab, click on "Reveal Config Vars"
+and set the following config vars:
+    - IP: 0.0.0.0
+    - PORT: 5000
+    - MONGO_URI: `<link to your MongoDB database>` (must be the same as in your file env.py)
+    - DEBUG: FALSE 
+
+9. Click on the "Open app" button in Heroku to view the deployed app.   
 
 ## Credits
 
