@@ -76,7 +76,7 @@ The project contains different tools to catch invalid user input:
 
 - Defined a maxlength attribute in HTML textareas and text input fields
 
-Corrected issue: Show warning modal (frontent/js) when user enters too many charactes
+Corrected issue: Show warning modal (frontent/js) when user enters too many characters
 
 ><img src="warning-sign.png" alt="warning sign" width="20"/> After dismissing the error message when no os/platform was selected in the search-area, the select-popup closes. It needs to stay open.
 

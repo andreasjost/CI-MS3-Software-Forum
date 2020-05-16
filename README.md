@@ -16,7 +16,7 @@ This project is for educational use only.
 - I have tried different software and would like to share my experiences
 
 ## Strategy
-A formum-type web page where users can post a goal/use case what they want to achieve with software. Other users can write answers and rate the given answer.
+A forum-type web page where users can post a goal/use case what they want to achieve with software. Other users can write answers and rate the given answer.
 
 ## Scope
 
@@ -91,8 +91,8 @@ Header with a logo and tagline (fixed), and a footer with social links
 
 ### Current Features
 - Show topics from a database, display them with pagination
-- Adding, edditing and deleting a topic
-- sorting/filtering topics accoring to:
+- Adding, editing and deleting a topic
+- sorting/filtering topics according to:
     - date (ascending and descending)
     - Platform
     - cost
@@ -175,7 +175,7 @@ which probably would have been a better choice. There was a lot of unexpected be
 margins and padding, the icons, 'hidden' color in forms, etc). In addition, it's much more difficult to find
 specific solutions when searching on the internet, Bootstrap seems to have a bigger user base.
 
-Particularely for form elements, looking back, it probably would have been easier to build on the html defaults
+Particularly for form elements, looking back, it probably would have been easier to build on the html defaults
 rather than changing the Materialize styles, considering that I went a completely different way in styling than
 proposed by Materialize.
 
@@ -190,7 +190,7 @@ button).
 
 Make sure you have [Python 3](https://www.python.org/), [PIP](https://pip.pypa.io/en/stable/installing/) and [Git](https://git-scm.com/) installed before applying the following steps:
 
-1. Click on the green button 'Clone or download' above and unzip the downloaded zip-folder, or use the following terminal commant to paste the repository into your IDE:   
+1. Click on the green button 'Clone or download' above and unzip the downloaded zip-folder, or use the following terminal command to paste the repository into your IDE:   
 `git clone https://github.com/andreasjost/CI-MS3-Software-Forum`  
 
 2. Create a new database in [MongoDB Atlas](https://www.mongodb.com/). 
