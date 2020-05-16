@@ -1,7 +1,6 @@
 # Testing
 
 ## Manual testing of functionality
----
 
 ### Opening page:
 - Topics are fetched from monbodb and displayed in the 'topics-section'
@@ -9,7 +8,7 @@
 ### Pagination
 - Only a limited number of topics are displayed
 - On the first and last page, the arrow left and right ( < > ) respectively is not active
-- Arrows left and right ( < > ) work and render 1 page forward or backward
+- Active arrows left and right ( < > ) work and render 1 page forward or backward
 - Choosing an inactive page number jumps to the corresponding page
 - Pagination-links are hidden if the page number <= limit (checked by applying a search)
 
@@ -39,7 +38,7 @@ only works when clicking on text or the blue arrow, but not in the entire header
 - The details and comments are shown in an open (active) topic
 - Button 'Delete topic' deletes the topic from the database
 - Button 'Edit topic' opens a new page with the edit-from
-    - the 'Back'-button brings me back to the homepage
+    - the 'Home'-button brings me back to the homepage
     - the 'Update'-button saves the changes I made to the topic
     - Error handling when an input is invalid (see chapter 'Defensive Programming' for details)
 - Rating (Thumbs up and down) works
@@ -73,7 +72,8 @@ The project contains different tools to catch invalid user input:
     - Enter more than 40 characters in a text fields
     - Enter more than 20 characters in the search field
     - Enter more than 400 characters in a textarea
-    - Nothing selected in the search os/platform-filter
+    - Nothing selected in the search OS/platform-filter
+
 - Defined a maxlength attribute in HTML textareas and text input fields
 
 Corrected issue: Show warning modal (frontent/js) when user enters too many charactes
@@ -88,13 +88,13 @@ Corrected issue: Show warning modal (frontent/js) when user enters too many char
 
 ## Testing browsers and screen sizes
 
-| Browser                 | Mobile (dev-tools) | Full-HD | 4K | changing size dinamically|
+| Browser                 | Mobile             | Full-HD | 4K | Changing size dynamically|
 | ----------------------- |------------------- | ------- | -- | ------------------------ |
-| Chrome (Win + Mac)      | x                  | x       | x  | x
-| Firefox (Win + Mac)     | x                  | x       | x  | x
-| Edge                    | x                  | x       | x  | x
-| Safari (Mac)            | x                  | x       | x  | x
-| Safari (iOS)            | x  (native)        | x       | x  | x
+| Chrome (Win + Mac)      | x (dev-tools)      | x       | x  | x                        |
+| Firefox (Win + Mac)     |                    | x       | x  | x                        |
+| Edge                    |                    | x       | x  | x                        |
+| Safari (Mac)            |                    | x       | x  | x                        |
+| Safari (iOS)            | x                  |         |    |                          |
 
 ### corrected issues related to responsiveness:
 - Some of the input and select fields didn't align properly vertically. Fix: Due to time pressure, I solved the issue with
@@ -103,3 +103,15 @@ additional wrappers.
 sizes with the assistance of Materialize helpers
 - The background-image in edittopic.html only covers half the page on mobile devices. Fix: use
 'min-height 100vh' instead of 'height: 100vh' for the section
+
+### Other issues
+
+><img src="warning-sign.png" alt="iOS" width="20"/> There is an issue with the Safari browser, both on a Mac and on iOS:
+The v-alignment of the search and the 'select'-input fields is not correct, the text is not in the middle (see screenshot below)
+
+><img src="warning-sign.png" alt="warning sign" width="20"/> Favicon-issue: when the page 'edittopic.html' and 'errortopic.html'
+is rendered, it doesn't show the favicon 
+
+.
+
+<img src="iOS-safari-screenshot.png" alt="iOS">

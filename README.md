@@ -20,7 +20,7 @@ A formum-type web page where users can post a goal/use case what they want to ac
 
 ## Scope
 
-Besides posting a goal (split in a 'title' and 'details'), users can select the preferred platform/OS, and state if they are
+Besides posting a goal (split in 'title' and 'details'), users can select the preferred platform/OS, and state if they are
 willing to pay for software.
 
 Other users can add an answer, and/or rate other answers with a thumbs up/down system. The answers are sorted by popularity.
@@ -101,6 +101,7 @@ Header with a logo and tagline (fixed), and a footer with social links
 - Adding comments to a topic
 - Rating comments: They are being sorted according to their popularity (most popular first)
 - Comments are marked 'Expired' when the topic was edited after the comment was written
+- Show a progress bar (Materialize infinite preloader) at the top of the page when waiting for data
 
 
 ### Planned Features
@@ -120,7 +121,7 @@ Header with a logo and tagline (fixed), and a footer with social links
 - Materialize
 - (jQuery 3.4.1 (jQuery.com) to access DOM elements quicker, and react to user input)
 - Google Fonts (fonts.google.com) for 2 fonts
-- fontawesome for icons
+- Fontawesome for icons
 - GitPod (gitpod.io) IDE
 - GitHub (github.com) for sharing
 - Git (for version control)
@@ -128,6 +129,8 @@ Header with a logo and tagline (fixed), and a footer with social links
 - Heroku
 
 # Testing
+
+## Testing write-up
 
 I ran the code through validation services
 (https://validator.w3.org/, http://jigsaw.w3.org/css-validator/ and https://jshint.com/).
@@ -140,7 +143,7 @@ are boxed and marked with a warning-sign (<img src="attachments/warning-sign.png
 ### Jinja/Flask/Javascript
 
 Sometimes the behavior of the different languages was unexpected. For example:
-- I had to quit the habit of putting code in comments in the html files for testing, because a comment containing Jinja (
+- I had to quit the habit of putting code in comments in  html files for testing, because a comment containing Jinja (
 {{ or }} ) is being read as code, and not as a comment
 - Not all JavaScript is being read when it's in a separate file. Therefore, I had to add JavaScript to the html files
 directly in some cases, otherwise it would never get called. Overall, that makes the code less readable 
@@ -161,7 +164,8 @@ could be more consistent with careful planning, but it would have consumed too m
 in many cases would mean to change a lot of the basic structure)
 
 For the future: Even though the database used is not relational, it would have been helpful to create a flowchart
-to help with the structure.
+to help with the structure. With this project, it will be difficult to implement user validation in the future,
+because there need to be 2 MonboDB collections (one for topics, and one for comments), in order to work properly.
 
 
 ### Materialize
@@ -239,3 +243,5 @@ Besides the Code Institute Walkthrough projects, I often consulted the following
 - mongodb documentation, mainly: https://docs.mongodb.com/manual/tutorial/query-array-of-documents/ in order to work with arrays
 - Youtube tutorial https://www.youtube.com/watch?v=Kcka5WBMktw (part 1) and https://www.youtube.com/watch?v=A291yJ92154 (part 2)
 by "Pretty Printed": learning how to update the page without refreshing
+
+Thanks also to my Code Institute mentor for the helpful input.
