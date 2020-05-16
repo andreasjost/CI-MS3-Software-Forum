@@ -48,15 +48,14 @@ $(document).ready(function () {
 
     // Defensive programming: Checking the length of text entered
     $('textarea, input').on("input", function () {
-        checkTextLength($(this))
+        checkTextLength($(this));
     });
 
     $('.nav-link').on('click', function(event) {
         $('.nav-link').removeClass('nav-highlight').addClass('nav-passiv');
         $(this).removeClass('nav-passiv').addClass('nav-highlight');
     });
-
-})
+});
 
 // set a short delay after every keystroke in the search field
 let delay = {

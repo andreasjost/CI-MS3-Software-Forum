@@ -180,7 +180,7 @@
         $(".add-comment, .topic-options").hide();
     });
     $(".cancel-comment").click(function() {
-        $(".comment-form").animate({ height: "0px" }, function () { $(".comment-form").hide() });
+        $(".comment-form").animate({ height: "0px" }, function() { $(".comment-form").hide(); });
         $(".cancel-comment, .submit-comment").hide();
         $(".add-comment, .topic-options").show();
     });
@@ -194,8 +194,8 @@
         thumbsCountDisplay = $(this).next();
         req = $.ajax(baseUrl)
         req.done(function (data) {
-            let result = JSON.parse(req.responseText)
-            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
+            let result = JSON.parse(req.responseText);
+            $(thumbsCountDisplay).replaceWith(`<p>${result['totalThumbs']}</p>`);
             $("#dbupdate-progress").addClass("hide-progress");
         });
     
@@ -206,18 +206,18 @@
         urlTemplateId = urlTemplate.replace(/v1/, $(this).attr('topic_id'));
         baseUrl = urlTemplateId.replace(/v2/, $(this).attr('comment_id'));
         thumbsCountDisplay = $(this).next();
-        req = $.ajax(baseUrl)
+        req = $.ajax(baseUrl);
         req.done(function (data) {
             let result = JSON.parse(req.responseText)
-            $(thumbsCountDisplay).replaceWith(`<p>${result["totalThumbs"]}</p>`);
+            $(thumbsCountDisplay).replaceWith(`<p>${result['totalThumbs']}</p>`);
             $("#dbupdate-progress").addClass("hide-progress");
-        })
+        });
     });
     
     // Defensive programming: Checking the length of text entered
     // has to be repeated, not called in external js file when adding a comment
     $('textarea, input').on("input", function() {
-        checkTextLength($(this))
+        checkTextLength($(this));
     });
     
     // Defensive programming: User cannot enter more than 'maxlength'-digits

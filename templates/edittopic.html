@@ -183,7 +183,7 @@
             
             // Defensive programming: User cannot enter more than 'maxlength'-digits
             $('textarea, input').on("input", function () {
-                checkTextLength($(this))
+                checkTextLength($(this));
             });
                     
             function checkTextLength(element) {

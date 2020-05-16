@@ -93,7 +93,7 @@
             }
             
             function commitAjax(baseUrl) {
-                req = $.ajax(baseUrl)
+                req = $.ajax(baseUrl);
                 req.done(function(data){
                     $("#dbupdate-progress").addClass("hide-progress");
                     $('#topics-table').html(data);
