@@ -3,12 +3,16 @@
 {% block content %}
 <section id="home-section">
     <div class="container">
+
+        <!-- Short introduction -->
         <h1>We help achieve your goal with the right software.</h1>
         <h3 class="center-align">Create a new topic. Or use the search function to check if someone else placed
             a similar subject.
             Write a comment to contribute to a topic.
         </h3>
         <div class="filteroptions-wrapper">
+
+            <!-- Show search field -->
             <div class="row">
                 <div class="col s12 m6 extra-padding">
                     <h6>Enter a search keyword:</h6>
@@ -27,6 +31,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Show additional search filters only when clicking on the collapsible title -->
             <ul class="collapsible">
                 <li>
                     <div class="collapsible-header">
@@ -75,6 +81,7 @@
                 </li>
             </ul>
         </div>
+
         <!-- modal for defensive programming-->
         <div id="noselection-modal" class="modal error-dialog">
             <div class="modal-content">
@@ -103,6 +110,7 @@
         <div class="container">
             <h2>Topics</h2>
             <div id="topics-header">
+
                 <!-- table header -->
                 <div class="row">
                     <div class="col s12 l6">
@@ -122,9 +130,10 @@
                         <h4 class="center-align hide-on-med-and-up">Answ</h4>
                     </div>
                 </div>
+
                 <!-- creating the table with the data from the database -->
                 <div id="topics-table">
-                    <!-- the file topicstable.html is inserted here -->
+                    <!-- the file topicstable.html is rendered here -->
                 </div>
             </div>
         </div>
@@ -135,6 +144,8 @@
 <section id="addtopic-section">
     <div class="container">
         <h2 class="dark-background">Add a new topic</h2>
+
+        <!-- Show a form to add a new topic -->
         <div class="inputform-wrapper">
             <div class="row">
                 <form action="{{ url_for('insert_topic') }}" method="POST" class="col s12">
@@ -157,6 +168,8 @@
                         </div>
                     </div>
                     <div class="row">
+                    
+                        <!-- Use 'args' to populate the form in case the page is recovering from an error -->
                         <div class="col s12 m6">
                             <h6>Select one or more platforms</h6>
                             <div class="platform-select">

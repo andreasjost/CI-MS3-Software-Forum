@@ -16,6 +16,8 @@
     </head>
     <body>
         <header>
+
+            <!-- Fixed navbar at the top of the window -->
             <div class="navbar-fixed">
                 <nav class="nav-wrapper">
                     <a href="{{url_for('home')}}" class="logo">SoftPursuit</a><span class="tagline hide-on-small-only">Software Forum</span>
@@ -26,12 +28,16 @@
                         <li><a class="nav-link" href="#addtopic-section"><i class="fas fa-plus-circle"></i>Add topic</a></li>
                     </ul>
                 </nav>
+
+                <!-- Materialize preloader, shows when waiting for data -->
                 <div id="progress-wrapper">
                     <div class="progress hide-progress" id="dbupdate-progress">
                         <div class="indeterminate"></div>
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile hamburger menu -->
             <ul class="sidenav" id="mobile-menu">
                 <li><a class="sidenav-close nav-link nav-highlight" href="#home-section"><i class="fas fa-search"></i>Search</a></li>
                 <li><a class="sidenav-close nav-link" href="#topics-section"><i class="fas fa-th-list"></i>Topics</a></li>
@@ -39,6 +45,8 @@
             </ul>
         </header>
         {% block content %}{% endblock %}
+
+        <!-- footer with social icons -->
         <footer>
             <p>&#169; 2020 Andreas Jost</p>
             <a href="mailto:codefactory@gmx.ch">
@@ -52,7 +60,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-        <!-- js functions containing a flask url (they don't work in external js file) -->
+        <!-- js functions containing a flask url (they don't work in external js file)
+        most functions are called from script.js -->
         <script>
             $(document).ready(function () {
                 $("#dbupdate-progress").removeClass("hide-progress");

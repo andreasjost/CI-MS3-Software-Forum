@@ -13,6 +13,7 @@
     </head>
     <body>
         <header>
+        <!-- Show header with logo, without nav-links -->
             <nav class="nav-wrapper">
                 <a href="{{ url_for('home') }}" class="logo">SoftPursuit</a>
             </nav>
@@ -21,6 +22,8 @@
             <div class="container">
                 <h2 class="dark-background">Edit topic</h2>
                 <div class="inputform-wrapper">
+
+                    <!-- Populates the form with the values from the topic to change -->
                     <form action="{{ url_for('update_topic', topic_id=topic._id) }}" method="POST" class="col s12">
                         <div class="row">
                             <div class="col s12 m6">
@@ -162,6 +165,8 @@
                         </div>
                     </form>
                 </div>
+
+                <!-- Defensive programming: Show this Materialize Modal when an input is no valid -->
                 <div id="maxlength40-modal" class="modal error-dialog">
                     <div class="modal-content">
                         <p class="center-align"><span class="material-icons error-i">error</span></p>
