@@ -215,6 +215,7 @@
     });
     
     // Defensive programming: Checking the length of text entered
+    // has to be repeated, not called in external js file when adding a comment
     $('textarea, input').on("input", function() {
         checkTextLength($(this))
     });

@@ -20,24 +20,24 @@
         <section id="error-section">
             <div class="container">
                 <h2>Sorry, an error occured</h2>
-                    <div class="inputform-wrapper">
+                <div class="inputform-wrapper">
                     {% if args.commentExist == False %}
-                        <p>- The comment field is empty</p>
+                    <p>- The comment field is empty</p>
                     {% endif %}
                     {% if args.authorExist == False %}
-                        <p>- You have to enter a name</p>
+                    <p>- You have to enter a name</p>
                     {% endif %}
                     {% if args.commentOver == False %}
-                        <p>- The comment cannot contain more than 400 characters</p>
+                    <p>- The comment cannot contain more than 400 characters</p>
                     {% endif %}
                     {% if args.authorOver == False %}
-                        <p>- The name cannot be longer than 40 characters</p>
+                    <p>- The name cannot be longer than 40 characters</p>
                     {% endif %}
-                        <div class="row">
+                    <div class="row">
                         <div class="save-btn-wrapper">
                             <a class="btn blue darken-2" href="{{ url_for('home')}}">Home</a>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </section>

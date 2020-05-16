@@ -47,80 +47,80 @@
                                 <h4>Select one or more platforms</h4>
                                 <div class="platform-select">
                                     <label>
-                                    {% if "Windows" in topic.os %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Windows" checked>
-                                    {% else %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Windows">
-                                    {% endif %}
-                                    <span>
-                                    <span class="platform-icons"><i class="fab fa-windows"></i></span>
-                                    Windows
-                                    </span>
+                                        {% if "Windows" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Windows" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Windows">
+                                        {% endif %}
+                                        <span>
+                                            <span class="platform-icons"><i class="fab fa-windows"></i></span>
+                                            Windows
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                    {% if "MacOS" in topic.os %}
-                                    <input type="checkbox" class="filled-in" name="os" value="MacOS" checked>
-                                    {% else %}
-                                    <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
-                                    {% endif %}
-                                    <span>
-                                    <span class="platform-icons"><i class="fab fa-apple"></i></span>
-                                    MacOS
-                                    </span>
+                                        {% if "MacOS" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="MacOS" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
+                                        {% endif %}
+                                        <span>
+                                            <span class="platform-icons"><i class="fab fa-apple"></i></span>
+                                            MacOS
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                    {% if "Linux" in topic.os %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Linux" checked>
-                                    {% else %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Linux"/>
-                                    {% endif %}
-                                    <span>
-                                    <span class="platform-icons"><i class="fab fa-linux"></i></span>
-                                    Linux
-                                    </span>
+                                        {% if "Linux" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Linux" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Linux"/>
+                                        {% endif %}
+                                        <span>
+                                            <span class="platform-icons"><i class="fab fa-linux"></i></span>
+                                            Linux
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                    {% if "Android" in topic.os %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Android" checked>
-                                    {% else %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Android"/>
-                                    {% endif %}
-                                    <span>
-                                    <span class="platform-icons"><i class="fab fa-android"></i></span>
-                                    Android
-                                    </span>
+                                        {% if "Android" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Android" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Android"/>
+                                        {% endif %}
+                                        <span>
+                                            <span class="platform-icons"><i class="fab fa-android"></i></span>
+                                            Android
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                    {% if "iOS" in topic.os %}
-                                    <input type="checkbox" class="filled-in" name="os" value="iOS" checked>
-                                    {% else %}
-                                    <input type="checkbox" class="filled-in" name="os" value="iOS"/>
-                                    {% endif %}
-                                    <span>
-                                    <span class="platform-icons"><i class="fas fa-mobile-alt"></i></span>
-                                    iOS
-                                    </span>
+                                        {% if "iOS" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="iOS" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="iOS"/>
+                                        {% endif %}
+                                        <span>
+                                            <span class="platform-icons"><i class="fas fa-mobile-alt"></i></span>
+                                            iOS
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                    {% if "Other" in topic.os %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Other" checked>
-                                    {% else %}
-                                    <input type="checkbox" class="filled-in" name="os" value="Other"/>
-                                    {% endif %}
-                                    <span>
-                                    <span class="platform-icons"><i class="fas fa-desktop"></i></span>
-                                    Other
-                                    </span>
+                                        {% if "Other" in topic.os %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Other" checked>
+                                        {% else %}
+                                        <input type="checkbox" class="filled-in" name="os" value="Other"/>
+                                        {% endif %}
+                                        <span>
+                                            <span class="platform-icons"><i class="fas fa-desktop"></i></span>
+                                            Other
+                                        </span>
                                     </label>
                                 </div>
                             </div>
@@ -128,32 +128,32 @@
                                 <h4>Purchase or subscription costs </h4>
                                 <div class="platform-select">
                                     <label>
-                                    {% if topic.cost == "Any" %}
-                                    <input type="radio" name="cost" value="Any" checked>
-                                    {% else %}
-                                    <input type="radio" name="cost" value="Any"/>
-                                    {% endif %}
-                                    <span>Any</span>
+                                        {% if topic.cost == "Any" %}
+                                        <input type="radio" name="cost" value="Any" checked>
+                                        {% else %}
+                                        <input type="radio" name="cost" value="Any"/>
+                                        {% endif %}
+                                        <span>Any</span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                    {% if topic.cost == "Free" %}
-                                    <input type="radio" name="cost" value="Free" checked>
-                                    {% else %}
-                                    <input type="radio" name="cost" value="Free"/>
-                                    {% endif %}
-                                    <span>Free</span>
+                                        {% if topic.cost == "Free" %}
+                                        <input type="radio" name="cost" value="Free" checked>
+                                        {% else %}
+                                        <input type="radio" name="cost" value="Free"/>
+                                        {% endif %}
+                                        <span>Free</span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                    {% if topic.cost == "Paid" %}
-                                    <input type="radio" name="cost" value="Paid" checked>
-                                    {% else %}
-                                    <input type="radio" name="cost" value="Paid"/>
-                                    {% endif %}
-                                    <span>Paid</span>
+                                        {% if topic.cost == "Paid" %}
+                                        <input type="radio" name="cost" value="Paid" checked>
+                                        {% else %}
+                                        <input type="radio" name="cost" value="Paid"/>
+                                        {% endif %}
+                                        <span>Paid</span>
                                     </label>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
         <script>
             // initializing Materialize modal
             $('.modal').modal();
-
+            
             // Defensive programming: User cannot enter more than 'maxlength'-digits
             $('textarea, input').on("input", function () {
                 checkTextLength($(this))

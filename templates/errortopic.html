@@ -22,25 +22,25 @@
                 <h2>Sorry, an error occured</h2>
                 <div class="inputform-wrapper">
                     {% if args.titleExist == False %}
-                        <p>- The title is missing</p>
+                    <p>- The title is missing</p>
                     {% endif %}
                     {% if args.authorExist == False %}
-                        <p>- You have to enter a name</p>
+                    <p>- You have to enter a name</p>
                     {% endif %}
                     {% if args.detailsExist == False %}
-                        <p>- The details are missing</p>
+                    <p>- The details are missing</p>
                     {% endif %}
                     {% if args.titleOver == False %}
-                        <p>- The name cannot be longer than 40 characters</p>
+                    <p>- The name cannot be longer than 40 characters</p>
                     {% endif %}
                     {% if args.authorOver == False %}
-                        <p>- The name cannot be longer than 40 characters</p>
+                    <p>- The name cannot be longer than 40 characters</p>
                     {% endif %}
                     {% if args.detailsOver == False %}
-                        <p>- The details cannot contain more than 400 characters</p>
+                    <p>- The details cannot contain more than 400 characters</p>
                     {% endif %}
                     {% if args.platformSelected == False %}
-                        <p>- At least one platform/os has to be selected</p>
+                    <p>- At least one platform/os has to be selected</p>
                     {% endif %}
                     <div class="row">
                         <div class="save-btn-wrapper">
