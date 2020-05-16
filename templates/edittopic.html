@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="icon" type="image/png" sizes="32x32" href="static/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="static/images/favicon-16x16.png">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
@@ -45,80 +47,80 @@
                                 <h4>Select one or more platforms</h4>
                                 <div class="platform-select">
                                     <label>
-                                        {% if "Windows" in topic.os %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Windows" checked>
-                                        {% else %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Windows">
-                                        {% endif %}
-                                        <span>
-                                            <span class="platform-icons"><i class="fab fa-windows"></i></span>
-                                            Windows
-                                        </span>
+                                    {% if "Windows" in topic.os %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Windows" checked>
+                                    {% else %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Windows">
+                                    {% endif %}
+                                    <span>
+                                    <span class="platform-icons"><i class="fab fa-windows"></i></span>
+                                    Windows
+                                    </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                        {% if "MacOS" in topic.os %}
-                                        <input type="checkbox" class="filled-in" name="os" value="MacOS" checked>
-                                        {% else %}
-                                        <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
-                                        {% endif %}
-                                        <span>
-                                            <span class="platform-icons"><i class="fab fa-apple"></i></span>
-                                            MacOS
-                                        </span>
+                                    {% if "MacOS" in topic.os %}
+                                    <input type="checkbox" class="filled-in" name="os" value="MacOS" checked>
+                                    {% else %}
+                                    <input type="checkbox" class="filled-in" name="os" value="MacOS"/>
+                                    {% endif %}
+                                    <span>
+                                    <span class="platform-icons"><i class="fab fa-apple"></i></span>
+                                    MacOS
+                                    </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                        {% if "Linux" in topic.os %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Linux" checked>
-                                        {% else %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Linux"/>
-                                        {% endif %}
-                                        <span>
-                                            <span class="platform-icons"><i class="fab fa-linux"></i></span>
-                                            Linux
-                                        </span>
+                                    {% if "Linux" in topic.os %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Linux" checked>
+                                    {% else %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Linux"/>
+                                    {% endif %}
+                                    <span>
+                                    <span class="platform-icons"><i class="fab fa-linux"></i></span>
+                                    Linux
+                                    </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                        {% if "Android" in topic.os %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Android" checked>
-                                        {% else %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Android"/>
-                                        {% endif %}
-                                        <span>
-                                            <span class="platform-icons"><i class="fab fa-android"></i></span>
-                                            Android
-                                        </span>
+                                    {% if "Android" in topic.os %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Android" checked>
+                                    {% else %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Android"/>
+                                    {% endif %}
+                                    <span>
+                                    <span class="platform-icons"><i class="fab fa-android"></i></span>
+                                    Android
+                                    </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                        {% if "iOS" in topic.os %}
-                                        <input type="checkbox" class="filled-in" name="os" value="iOS" checked>
-                                        {% else %}
-                                        <input type="checkbox" class="filled-in" name="os" value="iOS"/>
-                                        {% endif %}
-                                        <span>
-                                            <span class="platform-icons"><i class="fas fa-mobile-alt"></i></span>
-                                            iOS
-                                        </span>
+                                    {% if "iOS" in topic.os %}
+                                    <input type="checkbox" class="filled-in" name="os" value="iOS" checked>
+                                    {% else %}
+                                    <input type="checkbox" class="filled-in" name="os" value="iOS"/>
+                                    {% endif %}
+                                    <span>
+                                    <span class="platform-icons"><i class="fas fa-mobile-alt"></i></span>
+                                    iOS
+                                    </span>
                                     </label>
                                 </div>
                                 <div class="platform-select">
                                     <label>
-                                        {% if "Other" in topic.os %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Other" checked>
-                                        {% else %}
-                                        <input type="checkbox" class="filled-in" name="os" value="Other"/>
-                                        {% endif %}
-                                        <span>
-                                            <span class="platform-icons"><i class="fas fa-desktop"></i></span>
-                                            Other
-                                        </span>
+                                    {% if "Other" in topic.os %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Other" checked>
+                                    {% else %}
+                                    <input type="checkbox" class="filled-in" name="os" value="Other"/>
+                                    {% endif %}
+                                    <span>
+                                    <span class="platform-icons"><i class="fas fa-desktop"></i></span>
+                                    Other
+                                    </span>
                                     </label>
                                 </div>
                             </div>
@@ -162,7 +164,39 @@
                         </div>
                     </form>
                 </div>
+                <div id="maxlength40-modal" class="modal error-dialog">
+                    <div class="modal-content">
+                        <p class="center-align"><span class="material-icons error-i">error</span></p>
+                        <p class="error-msg center-align">You have reached the limit of maximum <span id="character-limit">x</span> characters</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close btn-flat">OK</a>
+                    </div>
+                </div>
             </div>
         </section>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            // initializing Materialize modal
+            $('.modal').modal();
+
+            // Defensive programming: User cannot enter more than 'maxlength'-digits
+            $('textarea, input').on("input", function () {
+                checkTextLength($(this))
+            });
+                    
+            function checkTextLength(element) {
+                    
+            if (element.val().length > element.attr('maxlength') - 1) {
+                limit = String(element.attr('maxlength'));
+                    $('#character-limit').text(limit);
+                    $('#maxlength40-modal').modal('open');
+                        return false;
+                    } else {
+                        return true;
+                }
+            } 
+        </script>
     </body>
 </html>
