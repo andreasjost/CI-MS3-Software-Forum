@@ -87,7 +87,7 @@ def home():
     """
     searchFilters.resetFilters()
     pagination.resetSettings()
-    return render_template("topics.html", args=newtopic_form)
+    return render_template("index.html", args=newtopic_form)
 
 
 @app.route('/get_topics')
