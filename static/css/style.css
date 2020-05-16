@@ -264,7 +264,7 @@ nav {
 /* --------------------------------------------------- topics section */
 
 .topics-background {
-    background-image: radial-gradient(#fff, #fff, #cce6ff);   
+    background-image: radial-gradient(#fff, #fff, #ddd);   
 }
 
 #topics-section .material-icons {
@@ -457,7 +457,7 @@ input.[type="checkbox"]+span:not(.lever) {
 /*------------------------------------------------------- edit topics section    */
 
 #edit-topics {
-    height: 100vh;
+    min-height: 100vh;
     background-image: url("/static/images/bg-table.jpg");
     background-repeat: no-repeat;
     background-size: cover;

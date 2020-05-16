@@ -30,6 +30,8 @@
 - Pagination works correctly after every change in the search
 - If no items were found, an error appears
 - Materialize Preloader is displayed when the user has to wait for database feedback
+><img src="warning-sign.png" alt="warning sign" width="20"/> Selecting the collapsible header 'More search and sort options'
+only works when clicking on text or the blue arrow, but not in the entire header. Border issue.
 
 ### Topics-list
 
@@ -51,7 +53,7 @@
 
 Corrected issue: Topic is deleted without warning. Added a delete-warning
 
->Issue for a future release: After the error handling in case of invalid input
+><img src="warning-sign.png" alt="warning sign" width="20"/> After the error handling in case of invalid input
 (comments and topics), the form disappears and the content is cleared. The error page should be a pop-up
 rather than a separate html page
 
@@ -62,7 +64,6 @@ rather than a separate html page
     - When returning from the error, the fields are still filled
 
 ## Defensive Programming
----
 
 The project contains different tools to catch invalid user input:
 
@@ -70,9 +71,14 @@ The project contains different tools to catch invalid user input:
 
 - Javascript alert popup when the user does the following:
     - Enter more than 40 characters in a text fields
+    - Enter more than 20 characters in the search field
     - Enter more than 400 characters in a textarea
     - Nothing selected in the search os/platform-filter
-- Defined a maxlength attribute in HTML textareas and text input fields 
+- Defined a maxlength attribute in HTML textareas and text input fields
+
+Corrected issue: Show warning modal (frontent/js) when user enters too many charactes
+
+><img src="warning-sign.png" alt="warning sign" width="20"/> After dismissing the error message when no os/platform was selected in the search-area, the select-popup closes. It needs to stay open.
 
 ### Backend
 - Python: A new html file opens, informing the user about the issue:
@@ -80,9 +86,7 @@ The project contains different tools to catch invalid user input:
     - Check that at least one platform/os is selected when adding/updating a topic
     - Check the same character limits (40/400) as above
 
-
 ## Testing browsers and screen sizes
----
 
 | Browser                 | Mobile (dev-tools) | Full-HD | 4K | changing size dinamically|
 | ----------------------- |------------------- | ------- | -- | ------------------------ |
@@ -93,8 +97,9 @@ The project contains different tools to catch invalid user input:
 | Safari (iOS)            | x  (native)        | x       | x  | x
 
 ### corrected issues related to responsiveness:
-- Some of the input and select fields didn't align properly vertically. Due to time pressure, I solved the issue with
+- Some of the input and select fields didn't align properly vertically. Fix: Due to time pressure, I solved the issue with
 additional wrappers.
-- the title "Answers" above the table with the topics was too long on mobile devices. I shortened it to 'Answ' on small screen
+- the title "Answers" above the table with the topics was too long on mobile devices. Fix: shortened it to 'Answ' on small screen
 sizes with the assistance of Materialize helpers
-- The background-image in edittopic.html only covers half the page on mobile devices.
+- The background-image in edittopic.html only covers half the page on mobile devices. Fix: use
+'min-height 100vh' instead of 'height: 100vh' for the section

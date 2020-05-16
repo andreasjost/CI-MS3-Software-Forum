@@ -1,3 +1,10 @@
+# SoftPursuit
+
+![Multidevice-preview](attachments/multidevice-preview.png)
+
+Live website: https://ci-ms3-software-forum.herokuapp.com/
+
+
 # UX
 ## User stories:
 - I would like tips when choosing a new software
@@ -37,7 +44,7 @@ Fixed header, and a footer with social links
 
 ### Database: MongoDB
 
-_Topics collection:_
+#### Topics collection:
 
 | Key in collection  | Data type   | Purpouse                                                |
 | ------------------ |-------------| ------------------------------------------------------- |
@@ -50,7 +57,7 @@ _Topics collection:_
 | publish_date       | date        | Timestamp when user creates new topic                   |
 | comments           | array       | Containing the comments as objects (see following table)|
 
-_Comments array objects:_
+#### Comments array objects:
 
 | Key in object      | Data type   | Purpouse                                                |
 | ------------------ |-------------| ------------------------------------------------------- |
@@ -120,7 +127,8 @@ _Comments array objects:_
 I ran the code through validation services
 (https://validator.w3.org/, http://jigsaw.w3.org/css-validator/ and https://jshint.com/).
 Please refer to the separate document [testing](/attachments/testing.md) for more details regarding
-manual testing
+manual testing. Issues that need to be fixed in the future but don't affect the current main-functionality
+are boxed and marked with a warning-sign (<img src="attachments/warning-sign.png" alt="warning sign" width="20"/>)
 
 ## Challenges
 
@@ -146,6 +154,9 @@ The project is now a mix of both, which serves me as a reference for future proj
 difficult to read and it was extremely time consuming to change functions from one approach to the other. The UX
 could be more consistent with careful planning, but it would have consumed too much time to change the code (which
 in many cases would mean to change a lot of the basic structure)
+
+For the future: Even though the database used is not relational, it would have been helpful to create a flowchart
+to help with the structure.
 
 
 ### Materialize
