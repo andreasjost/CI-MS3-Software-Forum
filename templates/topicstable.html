@@ -3,6 +3,7 @@
 <ul class="collapsible" data-collapsible="accordion">
     {% for topic in topics %}
     <li>
+        <!-- Creating a Materialize collapsible header for every topic -->
         <div class="collapsible-header">
             <div class="row">
                 <div class="col s12 l6">
@@ -27,7 +28,8 @@
                 </div>
             </div>
         </div>
-        <!-- collapsible body -->
+
+        <!-- collapsible body to display topic details and comments -->
         <div class="collapsible-body">
             <div class="row">
                 <div class="col s12">
@@ -57,6 +59,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Display the comment(s) -->
             <div class="row">
                 <div class="col s12">
@@ -87,7 +90,8 @@
                 </div>
             </div>
             {% endfor %}
-            <!-- Input form for comments/answers -->
+
+            <!-- Input form for comments, is displayed when user clicks on button 'NEW COMMENT' -->
             <form action="{{ url_for('insert_comment', topic_id=topic._id) }}" method="POST">
                 <div class="comment-form">
                     <div class=".comment-error">
@@ -119,14 +123,20 @@
     {% endfor %}
 </ul>
 <div class="row">
+
+    <!-- Showing the total of topics -->
     <div class="col s12 m6">
         <p>Displaying {{ paginationOpt.p_limit }} of {{ paginationOpt.num_results }} topics</p>
     </div>
+
+    <!-- Link to reset all search filters -->
     <div class="col s12 m6">
         <a href="{{url_for('reset_filters')}}" class="right">Reset search options</a>
     </div>
 </div>
 {% else %}
+
+<!-- Info message when the search has no results -->
 <div class="row empty-table">
     <div class="col s12 m6">
         <p class="em-red">No topics found. Please adjust your search.</p>
@@ -136,6 +146,7 @@
     </div>
 </div>
 {% endif %}
+
 <!-- pagination -->
 {% if paginationOpt.num_results > paginationOpt.p_limit %}
 <ul class="pagination">
