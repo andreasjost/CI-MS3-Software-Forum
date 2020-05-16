@@ -78,7 +78,7 @@ Fixed header, and a footer with social links
 - All text input fields have a white background
 - Dark blue signalizes interaction (clickable) or a selection
 - Light blue is the background of an active topic
-- Use 2 fonts: Blinker for titles and logo, and xxx for everything else
+- Use 2 fonts: Blinker for titles and logo, and Mukta for everything else
 - Use fontawesome icons when appropriate
 - Use of pictures that fit the described color scheme
 

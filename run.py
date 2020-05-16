@@ -106,7 +106,8 @@ def pagination_plus():
     """
     pagination.p_offset += pagination.p_limit
     # make sure the number is not too high
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/pagination_minus')
@@ -116,7 +117,8 @@ def pagination_minus():
     """
     pagination.p_offset -= pagination.p_limit
     # make sure the number is not too low
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/pagination_random/<value>')
@@ -125,7 +127,8 @@ def pagination_random(value):
     Go to page x - User selects a random page-number in pagination
     """
     pagination.p_offset = pagination.p_limit * (int(value) - 1)
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/rate_pos/<topic_id>/<comment_id>')
@@ -158,7 +161,8 @@ def search_topics(search_keyword, search_scope):
     """
     searchFilters.searchKeyword = search_keyword
     searchFilters.searchScope = search_scope.split(",")
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/sort_topics_date/<date_order>')
@@ -168,7 +172,8 @@ def sort_topics_date(date_order):
     Either from ascending (1) --> descending (-1), or from descending --> ascending
     """
     searchFilters.dateOrder = int(date_order)
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/filter_topics_platform/<platform_filter>')
@@ -178,7 +183,8 @@ def filter_topics_platform(platform_filter):
     """
     filter_list = platform_filter.split(",")
     searchFilters.platform = filter_list
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/filter_topics_cost/<cost_filter>')
@@ -189,7 +195,8 @@ def filter_topics_cost(cost_filter):
     if cost_filter == "All":
         cost_filter = ".*"
     searchFilters.cost = cost_filter
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/filter_topics_answer/<answer_filter>')
@@ -198,7 +205,8 @@ def filter_topics_answer(answer_filter):
     User changes the answer search (filter if the topics are answered or not)
     """
     searchFilters.answers = answer_filter
-    return render_template('topicstable.html', topics=apply_filters(), paginationOpt=pagination)
+    return render_template(
+        'topicstable.html', topics=apply_filters(), paginationOpt=pagination)
 
 
 @app.route('/reset_filters')
@@ -278,7 +286,8 @@ def update_topic(topic_id):
     # save comment if validation passed
     if check_result[0]:
         topics = mongo.db.topics
-        active_topic = topics.find_one({"_id": ObjectId(topic_id)}, {'publish_date': 1, 'comments': 1})
+        active_topic = topics.find_one(
+            {"_id": ObjectId(topic_id)}, {'publish_date': 1, 'comments': 1})
         timestamp = active_topic['publish_date']
         all_fields = {
             'title': request.form.get('title'),
@@ -355,7 +364,8 @@ def insert_comment(topic_id):
             'comment_id': str(uuid.uuid4())
         }
 
-        topics.update({'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
+        topics.update(
+            {'_id': ObjectId(topic_id)}, {'$push': {'comments': one_object}})
         return redirect(url_for('home'))
 
     # go to errorcomment.html if validation didn't pass
@@ -499,7 +509,8 @@ def apply_filters():
     """
     searchInclude = []
     for item in searchFilters.searchScope:
-        searchInclude.append({item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
+        searchInclude.append(
+            {item: {'$regex': searchFilters.searchKeyword, '$options': 'i'}})
 
     allFilters = [
         {"$or": searchInclude},
@@ -515,7 +526,8 @@ def apply_filters():
     try:
         # 1. Apply filters the first time: Get all topics
         topics = mongo.db.topics
-        search_total = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
+        search_total = topics.find(
+            {"$and": allFilters}).sort('publish_date', searchFilters.dateOrder)
         pagination.num_results = search_total.count()
         pagination.num_pages = math.ceil(pagination.num_results / pagination.p_limit) + 1
         pagination.active_page = int(pagination.p_offset / pagination.p_limit + 1)
@@ -529,7 +541,8 @@ def apply_filters():
             allFilters.append({'publish_date': {'$gte': last_date}})
 
         # 2. Apply filters the second time: because of pagination
-        search_result = topics.find({"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
+        search_result = topics.find(
+            {"$and": allFilters}).sort('publish_date', searchFilters.dateOrder).limit(pagination.p_limit)
 
     except IndexError:
         search_result = None

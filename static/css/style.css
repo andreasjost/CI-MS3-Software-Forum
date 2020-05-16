@@ -2,7 +2,6 @@ body {
     font-family: 'Mukta', sans-serif;
 }
 
-
 /* --------------------------------------------------- box and color special */
 
 p {
@@ -106,6 +105,14 @@ a.modal-action {
     background-color: #e6f2ff;
 }
 
+.row {
+    margin-bottom: 0;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
 /* --------------------------------------------------- headers */
 
 h1 {
@@ -156,14 +163,6 @@ h6 {
     font-weight: 600;
     font-size: 1rem;
     padding: 2px 0px;
-}
-
-.row {
-    margin-bottom: 0;
-}
-
-.btn {
-    border-radius: 10px;
 }
 
 /* --------------------------------------------------- header */
